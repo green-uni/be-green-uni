@@ -1,7 +1,12 @@
 spring:
   application:
     name: green-uni
-
+  config:
+    import: "optional:file:.env[.properties]"
+  datasource:
+    url: ${DATASOURCE.DB_URL}
+    username: ${DATASOURCE.USERNAME}
+    password: ${DATASOURCE.PASSWORD}
 
 mybatis:
   configuration:
