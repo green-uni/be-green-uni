@@ -12,3 +12,21 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: mappers/**/*.xml
+
+constants:
+  jwt:
+    issuer: ${JWT.ISSUER}
+    bearer-format: JWT
+
+    claim-key: signedMember
+    secret-key: ${JWT.SECRET_KEY}
+
+    access-token-cookie-name: access-token
+    access-token-cookie-path: /
+    access-token-cookie-validity-seconds: 900 #15분
+    access-token-validity-milliseconds: 900_000 #15분
+
+    refresh-token-cookie-name: refresh-token
+    refresh-token-cookie-path: /api/member/reissue
+    refresh-token-cookie-validity-seconds: 1_296_000 #15일
+    refresh-token-validity-milliseconds: 1_296_000_000 #15일
