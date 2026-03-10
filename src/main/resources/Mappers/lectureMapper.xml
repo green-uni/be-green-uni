@@ -6,6 +6,7 @@
         ( member_id, major_id, semester, `name`, credit, `type`, ref_books, goal, weekly_plan, academic_year, max_std, start_date, end_date )
         VALUES (
         #{memberId},
+
         (SELECT major_id FROM major WHERE name LIKE CONCAT('%', #{majorName}, '%') LIMIT 1), #{semester}, #{name}, #{credit}, #{type}, #{refBooks}, #{goal}, #{weeklyPlan}, #{academicYear}, #{maxStd}, #{startDate}, #{endDate}
         )
     </insert>
