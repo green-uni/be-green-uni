@@ -1,5 +1,0 @@
-<mapper xmlns="http://mybatis.org/schema/mybatis-mapper">
-<insert id="aaccbb">
-
-</insert>
-</mapper>
