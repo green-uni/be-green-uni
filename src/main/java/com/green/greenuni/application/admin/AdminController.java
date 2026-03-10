@@ -2,6 +2,7 @@ package com.green.greenuni.application.admin;
 
 import com.green.greenuni.application.member.MemberService;
 import com.green.greenuni.application.member.model.MemberCreateReq;
+import com.green.greenuni.application.member.model.MemberCreateRes;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ public class AdminController {
     public ResultResponse createMember(@RequestPart MemberCreateReq req
             , @RequestPart(required = false) MultipartFile pic){
         log.info("createMember req: {}", req);
-//        int result = memberService.createMember(req);
-        return new ResultResponse("계정생성", null);
+        MemberCreateRes result = memberService.createMember(req);
+        return new ResultResponse("계정생성", result);
     }
 }

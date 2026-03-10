@@ -1,6 +1,7 @@
 package com.green.greenuni.application.member;
 
 import com.green.greenuni.application.member.model.MemberCreateReq;
+import com.green.greenuni.application.member.model.MemberCreateRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,33 +13,45 @@ import org.springframework.stereotype.Service;
 public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
+    MemberCreateRes res = new MemberCreateRes();
 
-    private int studentCode;
-    private int professorCode;
-    private int adminCode;
+    public MemberCreateRes createMember(MemberCreateReq req){
+        // member table insert
+        memberMapper.createMember(req);
 
-    public int createMember(MemberCreateReq req){
-        // req에서 받아온 입학연도와 role로 로그인 아이디 만들기
-        String memberRole;
-        String memberEntryYear = req.getEntryDate().substring(0,4);
+        // 멤버코드: 입학연도(4자리) + 구분코드(1자리) + 순번(3자리)
 
-        // role 값이 무엇인지에 따라
-        String role = req.getRole();
-        if(role.equals("student")){
-            memberRole = "1";
-        }else if(role.equals("professor")){
-            memberRole = "2";
-        }else if(role.equals("admin")){
-            memberRole = "3";
+        // 입학연도
+        String entryYear = req.getEntryDate().substring(0,4);
+
+        // role에 따른 구분코드
+        String roleNum;
+        switch (req.getRole()){
+            case "admin"     -> roleNum = "3";
+            case "professor" -> roleNum = "2";
+            default          -> roleNum = "1";
         }
 
+        // 멤버코드 생성
+        String code = entryYear + roleNum + String.format("%03d", req.getMemberId());
+        req.setCode(code);
 
+        // 생일을 초기 비밀번호
+        String rawPw = req.getBirth().replace("-", ""); //- 제거
+        String hashedPw = passwordEncoder.encode(rawPw);
+        req.setPassword(hashedPw);
 
-        // req에서 받아온 생일을 비밀번호 만들기
-        String hashedPw = passwordEncoder.encode(req.getBirth());
-        log.info("hashedPw:{}", hashedPw);
+        // 멤버코드와 비밀번호 삽입
+        memberMapper.updateMemberCodeAPw(req);
 
+        switch (req.getRole()){
+            case "admin"     -> memberMapper.createStaff(req);
+            case "professor" -> memberMapper.createProfessor(req);
+            default          -> memberMapper.createStudent(req);
+        }
 
-        return 0;
+        res.setMemberCode(req.getCode());
+        res.setMemberRole(req.getRole());
+        return res;
     }
 }

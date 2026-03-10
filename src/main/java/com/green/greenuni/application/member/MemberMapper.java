@@ -9,4 +9,5 @@ public interface MemberMapper {
     int createStudent(MemberCreateReq req);
     int createProfessor(MemberCreateReq req);
     int createStaff(MemberCreateReq req);
+    int updateMemberCodeAPw(MemberCreateReq req);
 }
