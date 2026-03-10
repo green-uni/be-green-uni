@@ -9,7 +9,6 @@
 
     <insert id="createMajor">
         INSERT INTO major (
-        major_id,
         name,
         active,
         college,
@@ -19,7 +18,6 @@
         capacity,
         start_date
         ) VALUES (
-        #{majorId},
         #{name},
         #{active},
         #{college},
