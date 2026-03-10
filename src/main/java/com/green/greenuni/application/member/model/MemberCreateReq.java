@@ -21,10 +21,10 @@ public class MemberCreateReq {
     private String pic;
     private String status;
 
-    private int majorId;
+    private Integer majorId;
 
-    private int academicYear;
-    private int semester;
+    private Integer academicYear;
+    private Integer semester;
 
     private String degree;
     private String position;
