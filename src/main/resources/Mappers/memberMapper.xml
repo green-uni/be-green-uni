@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.greenuni.application.member.MemberMapper">
-
+    <insert id="createMember" useGeneratedKeys="true" keyProperty="memberId">
+        INSERT INTO `member` (
+            `role`, `birth`, `name`, `entry_date`
+        ) VALUES (
+            #{ role }, #{ birth }, #{ name }, #{ entryDate }
+        )
+    </insert>
+    <insert id="createStudent">
+        INSERT INTO `student`(
+            `member_id`,`major_id`, `academic_year`, `semester`, `status`
+        ) VALUES (
+            #{ memberId }, #{ majorId }, #{ academicYear }, #{ semester },#{ status }
+        )
+    </insert>
+    <insert id="createProfessor">
+        INSERT INTO `professor`(
+            `member_id`,`major_id`, `degree`, `position`, `lab_room`, `lab_tel`, `status`
+        ) VALUES (
+            #{ memberId }, #{ majorId }, #{ degree }, #{ position }, #{ labRoom }, #{ labTel },#{ status }
+        )
+    </insert>
+    <insert id="createStaff">
+        INSERT INTO `staff`(
+            `member_id`, `status`
+        ) VALUES (
+            #{ memberId }, #{ status }
+        )
+    </insert>
+    <update id="updateMemberCodeAPw">
+        UPDATE `member`
+        SET
+        `code` = #{ code },
+        `password` = #{ password }
+        WHERE `member_id` = #{ memberId }
+    </update>
 </mapper>

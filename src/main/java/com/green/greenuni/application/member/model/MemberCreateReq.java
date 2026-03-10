@@ -30,4 +30,8 @@ public class MemberCreateReq {
     private String position;
     private String labRoom;
     private String labTel;
+
+    private Long memberId;
+    private String code;
+    private String password;
 }
