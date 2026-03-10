@@ -5,10 +5,8 @@ import com.green.greenuni.application.member.model.MemberCreateReq;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -18,9 +16,10 @@ public class AdminController {
     private final MemberService memberService;
 
     @PostMapping("/members")
-    public ResultResponse createMember(@RequestBody MemberCreateReq req){
-        log.info("create req: {}", req);
-        int result = memberService.createMember(req);
-        return new ResultResponse("계정생성", result);
+    public ResultResponse createMember(@RequestPart MemberCreateReq req
+            , @RequestPart(required = false) MultipartFile pic){
+        log.info("createMember req: {}", req);
+//        int result = memberService.createMember(req);
+        return new ResultResponse("계정생성", null);
     }
 }
