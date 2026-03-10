@@ -3,7 +3,7 @@ package com.green.greenuni.application.student;
 import lombok.Data;
 
 @Data
-public class GradeDto {
+public class GradeRes {
     private long studentCode; //학번
     private String studentName; //성명
     private int academicYear; //학년
