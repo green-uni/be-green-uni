@@ -11,7 +11,7 @@ import lombok.ToString;
 public class LectureCreateReq {
     private int proId;
     private String proName;
-    private year year;
+    private String year;
     private int semester;
     private String lectureName;
     private int targetGrade;
@@ -22,7 +22,7 @@ public class LectureCreateReq {
     private String day_of_week;
     private String start_period;
     private String end_period;
-    private String bilding;
+    private String building;
     private String roomNumber;
     private String refBooks;
     private String goal;
