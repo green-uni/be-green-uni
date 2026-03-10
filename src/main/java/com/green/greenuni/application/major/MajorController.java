@@ -1,12 +1,12 @@
 package com.green.greenuni.application.major;
 
+import com.green.greenuni.application.major.model.MajorCreateReq;
+import com.green.greenuni.application.major.model.MajorCreateRes;
 import com.green.greenuni.application.major.model.MajorListRes;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +21,17 @@ public class MajorController {
     public ResultResponse<?> ListUpMajor(){
         List<MajorListRes> list = majorService.ListUpMajor();
         return new ResultResponse<>("전공 목록 가나다순", list);
+    }
+
+    @GetMapping("/list")
+    public ResultResponse<?> getMajorList(){
+        List<MajorCreateRes> list = majorService.getMajorList();
+        return new ResultResponse<>("학과 리스트", list);
+    }
+
+    @PostMapping
+    public ResultResponse<Integer> createMajor(@RequestBody MajorCreateReq req){
+        int result = majorService.createMajor(req);
+        return new ResultResponse<>("학과 등록 완료", result);
     }
 }

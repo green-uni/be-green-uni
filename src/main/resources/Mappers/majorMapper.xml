@@ -6,4 +6,41 @@
         FROM `major`
         ORDER BY `name`
     </select>
+
+    <insert id="createMajor">
+        INSERT INTO major (
+        major_id,
+        name,
+        active,
+        college,
+        room,
+        tel,
+        chair_professor,
+        capacity,
+        start_date
+        ) VALUES (
+        #{majorId},
+        #{name},
+        #{active},
+        #{college},
+        #{room},
+        #{tel},
+        #{chairProfessor},
+        #{capacity},
+        #{startDate}
+        )
+    </insert>
+
+    <select id="getMajorList">
+        SELECT
+            m.major_id,
+            m.name,
+            m.capacity,
+            m.room,
+            m.tel,
+            m.chair_professor,
+            (SELECT COUNT(*) FROM professor p WHERE p.major_id = m.major_id) AS professorCount
+        FROM major m
+        ORDER BY m.name ASC
+    </select>
 </mapper>
