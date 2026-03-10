@@ -20,7 +20,7 @@ public class AdminController {
     public ResultResponse createMember(@RequestPart MemberCreateReq req
             , @RequestPart(required = false) MultipartFile pic){
         log.info("createMember req: {}", req);
-        MemberCreateRes result = memberService.createMember(req);
+        MemberCreateRes result = memberService.createMember(req, pic);
         return new ResultResponse("계정생성", result);
     }
 }

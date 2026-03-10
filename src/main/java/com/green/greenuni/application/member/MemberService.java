@@ -2,10 +2,15 @@ package com.green.greenuni.application.member;
 
 import com.green.greenuni.application.member.model.MemberCreateReq;
 import com.green.greenuni.application.member.model.MemberCreateRes;
+import com.green.greenuni.configuration.util.MyFileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Slf4j
 @Service
@@ -13,11 +18,33 @@ import org.springframework.stereotype.Service;
 public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
+    private final MyFileUtil myFileUtil;
     MemberCreateRes res = new MemberCreateRes();
 
-    public MemberCreateRes createMember(MemberCreateReq req){
+    @Transactional
+    public MemberCreateRes createMember(MemberCreateReq req, MultipartFile mf){
+
+        //파일 업로드가 되었으면 저장하는 파일명을 테이블에 저장
+        String savedPicFileName = mf == null ? null : myFileUtil.makeRandomFileName(mf);
+        req.setPic(savedPicFileName);
+
         // member table insert
         memberMapper.createMember(req);
+
+        // 프로파일 이미지 저장
+        if( mf != null ){ //이미지가 업로드 되었다면
+            long id = req.getMemberId();
+            String middlePath = "member/" + id;
+            // 디렉토리 생성
+            myFileUtil.makeFolders(middlePath);
+
+            String fullFilePath = String.format("%s/%s", middlePath, savedPicFileName);
+            try{
+                myFileUtil.transferTo(mf, fullFilePath);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
 
         // 멤버코드: 입학연도(4자리) + 구분코드(1자리) + 순번(3자리)
 

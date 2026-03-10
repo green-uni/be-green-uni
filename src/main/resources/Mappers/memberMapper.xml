@@ -3,9 +3,9 @@
 <mapper namespace="com.green.greenuni.application.member.MemberMapper">
     <insert id="createMember" useGeneratedKeys="true" keyProperty="memberId">
         INSERT INTO `member` (
-            `role`, `birth`, `name`, `entry_date`
+            `role`, `birth`, `name`, `entry_date`, `pic`
         ) VALUES (
-            #{ role }, #{ birth }, #{ name }, #{ entryDate }
+            #{ role }, #{ birth }, #{ name }, #{ entryDate }, #{ pic }
         )
     </insert>
     <insert id="createStudent">
