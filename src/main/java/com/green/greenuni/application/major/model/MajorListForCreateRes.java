@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MajorListRes {
+public class MajorListForCreateRes {
     private long majorId;
     private String name;
 }
