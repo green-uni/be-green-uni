@@ -15,5 +15,5 @@ public interface MemberMapper {
 
     List<MemberListRes> findAllMember(MemberListReq req);
 
-    MemberGetOneRes findById(String code);
+    MemberFindByCodeRes findByCode(String code);
 }

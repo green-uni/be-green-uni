@@ -62,8 +62,8 @@
         LIMIT #{startIdx}, #{size}
     </select>
 
-    <select id="findById">
-        SELECT `member_id`, `code`, `password`, `name`
+    <select id="findByCode">
+        SELECT `member_id`, `code`, `password`, `name`, `role`
         FROM `member`
         WHERE `code` = #{code}
     </select>

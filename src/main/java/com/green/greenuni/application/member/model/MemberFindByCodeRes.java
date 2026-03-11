@@ -7,9 +7,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberGetOneRes {
+public class MemberFindByCodeRes {
     private long memberId;
     private String code;
     private String password;
     private String name;
+    private String role;
 }
