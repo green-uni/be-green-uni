@@ -2,6 +2,8 @@ package com.green.greenuni.application.member;
 
 import com.green.greenuni.application.member.model.MemberCreateReq;
 import com.green.greenuni.application.member.model.MemberCreateRes;
+import com.green.greenuni.application.member.model.MemberListReq;
+import com.green.greenuni.application.member.model.MemberListRes;
 import com.green.greenuni.configuration.util.MyFileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -80,5 +83,9 @@ public class MemberService {
         res.setMemberCode(req.getCode());
         res.setMemberRole(req.getRole());
         return res;
+    }
+
+    public List<MemberListRes> findAllMember(MemberListReq req){
+        return memberMapper.findAllMember(req);
     }
 }

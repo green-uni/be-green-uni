@@ -36,4 +36,29 @@
         `password` = #{ password }
         WHERE `member_id` = #{ memberId }
     </update>
+
+    <select id="findAllMember">
+        SELECT m.`code`, m.`name`, m.entry_date, m.exit_date, m.email, m.tel,
+                sm.`name` AS std_major_name, s.`status` AS std_status,
+                pm.`name` AS prof_major_name, p.`status` AS prof_status,
+                a.`status` AS stf_status
+          FROM `member` m
+
+        LEFT JOIN `student` s
+               ON m.member_id = s.member_id
+        LEFT JOIN `major` sm
+               ON s.major_id = sm.major_id
+
+        LEFT JOIN `professor` p
+               ON m.member_id = p.member_id
+        LEFT JOIN `major` pm
+               ON p.major_id = pm.major_id
+
+        LEFT JOIN `staff` a
+            ON m.member_id = a.member_id
+
+        ORDER BY m.member_id DESC
+
+        LIMIT #{startIdx}, #{size}
+    </select>
 </mapper>
