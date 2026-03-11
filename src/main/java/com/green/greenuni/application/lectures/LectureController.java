@@ -7,11 +7,12 @@ import com.green.greenuni.application.lectures.model.MyLectureBeforeRes;
 import com.green.greenuni.configuration.model.ResultResponse;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/api/lectures")
 @RequiredArgsConstructor
@@ -39,7 +40,8 @@ public class LectureController {
 
     @GetMapping("/me/before")
     public ResultResponse<?> meBefore(@ModelAttribute MyLectureBeforeReq req) {
-        int result = lectureService.meBefore(req);
+        List<MyLectureBeforeRes> result = lectureService.meBefore(req);
+        System.out.println(">>> 강의 승인 전 목록 조회 요청이 들어왔습니다!");
         return new ResultResponse<>("성공", result);
     }
 }

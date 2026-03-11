@@ -13,14 +13,14 @@ public class MyLectureBeforeRes{
     private String lectureType;
     private String lectureName;
     private String proName;
-    private int credit;
+    private Integer credit;
     private String day_of_week;
     private String start_period;
     private String end_period;
     private String building;
     private String roomNumber;
-    private int academicYear;
-    private int maxStd;
+    private Integer academicYear;
+    private Integer maxStd;
     private String is_open;
 
 }
