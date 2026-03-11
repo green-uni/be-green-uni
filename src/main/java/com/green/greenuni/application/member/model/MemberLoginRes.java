@@ -9,4 +9,5 @@ public class MemberLoginRes {
     private long loginUserId;
     private String name;
     private String code;
+    private String role;
 }

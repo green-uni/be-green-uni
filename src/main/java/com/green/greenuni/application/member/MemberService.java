@@ -87,7 +87,7 @@ public class MemberService {
     }
 
     public MemberLoginRes logIn(MemberLoginReq req){
-        MemberGetOneRes res = memberMapper.findById( req.getCode() );
+        MemberFindByCodeRes res = memberMapper.findByCode( req.getCode() );
         if(!passwordEncoder.matches( req.getPassword(), res.getPassword() ) ){
             return null;
         }
@@ -95,6 +95,7 @@ public class MemberService {
                 .loginUserId( res.getMemberId() )
                 .code( res.getCode() )
                 .name( res.getName() )
+                .role( res.getRole() )
                 .build();
     }
 }
