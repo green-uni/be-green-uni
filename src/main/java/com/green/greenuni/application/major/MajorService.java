@@ -1,7 +1,7 @@
 package com.green.greenuni.application.major;
 
 import com.green.greenuni.application.major.model.MajorCreateReq;
-import com.green.greenuni.application.major.model.MajorCreateRes;
+import com.green.greenuni.application.major.model.MajorListRes;
 import com.green.greenuni.application.major.model.MajorListForCreateRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ public class MajorService {
 
     public List<MajorListForCreateRes> listForCreate(){ return majorMapper.listForCreate(); }
 
-    public List<MajorCreateRes> getMajorList(){
+    public List<MajorListRes> getMajorList(){
         return majorMapper.getMajorList();
     }
 
