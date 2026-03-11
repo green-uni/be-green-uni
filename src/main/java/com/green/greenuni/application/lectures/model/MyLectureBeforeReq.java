@@ -13,5 +13,4 @@ public class MyLectureBeforeReq {
     private int page;
     private int size;
     private int startIdx;
-
 }
