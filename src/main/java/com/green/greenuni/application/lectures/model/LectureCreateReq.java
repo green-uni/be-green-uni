@@ -28,8 +28,8 @@ public class LectureCreateReq {
     private String weeklyPlan;
 
     // 강의실 선택을 위한 필드
-    private int room_id;
-    private String building;
-    private String room_Number;
-
+//    private int room_id;
+//    private String building;
+//    private String room_Number;
+//
 }

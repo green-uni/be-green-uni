@@ -29,4 +29,7 @@
         WHERE building = #{building}
     </select>
 
+    <select id="meBefore">
+
+    </select>
 </mapper>
