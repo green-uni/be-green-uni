@@ -9,27 +9,25 @@ import lombok.ToString;
 @ToString
 
 public class LectureCreateReq {
-    private int memberId;
-    private String memberName;
-    private String year;
-    private int semester;
-    private String lectureName;
-    private int targetGrade;
-    private int maxStd;
-    private String lectureType;
+    private Integer memberId;    // int → Integer
+    private Integer majorId;
     private String majorName;
-    private int credit;
-    private String day_of_week;
-    private String start_period;
-    private String end_period;
-    private String roomNumber;
+    private String year;
+    private Integer semester;
+    private String lectureName;
+    private Integer credit;
+    private String lectureType;
     private String refBooks;
     private String goal;
     private String weeklyPlan;
+    private Integer academicYear;
+    private Integer maxStd;
+    private String startDate;
+    private String endDate;
+    private String roomNumber;
+    private String dayOfWeek;
+    private Integer startPeriod;
+    private Integer endPeriod;
+    private Integer lectureId;
 
-    // 강의실 선택을 위한 필드
-//    private int room_id;
-//    private String building;
-//    private String room_Number;
-//
 }

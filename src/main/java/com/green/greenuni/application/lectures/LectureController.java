@@ -3,10 +3,13 @@ package com.green.greenuni.application.lectures;
 
 import com.green.greenuni.application.lectures.model.LectureCreateReq;
 import com.green.greenuni.application.lectures.model.MyLectureBeforeReq;
+import com.green.greenuni.application.lectures.model.MyLectureBeforeRes;
 import com.green.greenuni.configuration.model.ResultResponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -35,8 +38,8 @@ public class LectureController {
     }
 
     @GetMapping("/me/before")
-    public ResultResponse<?> meBefore(@ModelAttribute MyLectureBeforeReq req){
-        int result=lectureService.meBefore(req);
-        return new ResultResponse<>("강의개설이 되었습니다.", result);
+    public ResultResponse<?> meBefore(@ModelAttribute MyLectureBeforeReq req) {
+        int result = lectureService.meBefore(req);
+        return new ResultResponse<>("성공", result);
     }
 }

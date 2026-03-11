@@ -3,10 +3,13 @@ package com.green.greenuni.application.lectures;
 import com.green.greenuni.application.lectures.model.LectureCreateReq;
 import com.green.greenuni.application.lectures.model.LectureRoom;
 import com.green.greenuni.application.lectures.model.MyLectureBeforeReq;
+import com.green.greenuni.application.lectures.model.MyLectureBeforeRes;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Transient;
 import java.util.List;
 
 
@@ -16,8 +19,12 @@ import java.util.List;
 public class LectureService {
     private final LectureMapper lectureMapper;
 
+    @Transactional
     public int postLecture(LectureCreateReq req){
-         return lectureMapper.createLecture(req);
+        lectureMapper.createLecture(req);       // lecture INSERT (lectureId 자동 세팅)
+        lectureMapper.createSchedule(req);      // lecture_schedule INSERT
+
+        return lectureMapper.createSchedule(req);
     }
 
     // 건물 목록 조회
