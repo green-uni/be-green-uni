@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.greenuni.application.major.MajorMapper">
-    <select id="findMajorAll">
+    <select id="listForCreate">
         SELECT `major_id`, `name`
         FROM `major`
         ORDER BY `name`
@@ -16,7 +16,8 @@
         tel,
         chair_professor,
         capacity,
-        start_date
+        start_date,
+        info
         ) VALUES (
         #{name},
         #{active},
@@ -25,7 +26,8 @@
         #{tel},
         #{chairProfessor},
         #{capacity},
-        #{startDate}
+        #{startDate},
+        #{info}
         )
     </insert>
 
@@ -36,9 +38,41 @@
             m.capacity,
             m.room,
             m.tel,
+            m.college,
+            m.active,
             m.chair_professor,
             (SELECT COUNT(*) FROM professor p WHERE p.major_id = m.major_id) AS professorCount
         FROM major m
         ORDER BY m.name ASC
+    </select>
+
+    <update id="modifyMajor">
+        UPDATE major
+        SET
+            name = #{name},
+            active = #{active},
+            college = #{college},
+            room = #{room},
+            tel = #{tel},
+            chair_professor = #{chairProfessor},
+            capacity = #{capacity},
+            start_date = #{startDate},
+            info = #{info}
+        WHERE major_id = #{majorId}
+    </update>
+
+    <select id="getMajor">
+        SELECT
+            name,
+            active,
+            college,
+            room,
+            tel,
+            chair_professor,
+            capacity,
+            start_date,
+            info
+        FROM major
+        WHERE major_id = #{majorId}
     </select>
 </mapper>

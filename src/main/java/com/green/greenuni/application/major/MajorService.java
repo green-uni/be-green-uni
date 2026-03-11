@@ -1,8 +1,6 @@
 package com.green.greenuni.application.major;
 
-import com.green.greenuni.application.major.model.MajorCreateReq;
-import com.green.greenuni.application.major.model.MajorListRes;
-import com.green.greenuni.application.major.model.MajorListForCreateRes;
+import com.green.greenuni.application.major.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,5 +21,13 @@ public class MajorService {
 
     public int createMajor(MajorCreateReq req){
         return majorMapper.createMajor(req);
+    }
+
+    public int modifyMajor(MajorModReq req){
+        return majorMapper.modifyMajor(req);
+    }
+
+    public MajorDetailRes getMajor(long majorId) {
+        return majorMapper.getMajor(majorId);
     }
 }
