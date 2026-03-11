@@ -1,7 +1,7 @@
 package com.green.greenuni.application.major;
 
 import com.green.greenuni.application.major.model.MajorCreateReq;
-import com.green.greenuni.application.major.model.MajorCreateRes;
+import com.green.greenuni.application.major.model.MajorListRes;
 import com.green.greenuni.application.major.model.MajorListForCreateRes;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +23,9 @@ public class MajorController {
         return new ResultResponse<>("학과 목록 가나다순", list);
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ResultResponse<?> getMajorList(){
-        List<MajorCreateRes> list = majorService.getMajorList();
+        List<MajorListRes> list = majorService.getMajorList();
         return new ResultResponse<>("학과 리스트", list);
     }
 
