@@ -23,8 +23,8 @@ constants:
 
     access-token-cookie-name: access-token
     access-token-cookie-path: /
-    access-token-cookie-validity-seconds: 900 #15분
-    access-token-validity-milliseconds: 900_000 #15분
+    access-token-cookie-validity-seconds: 86_400
+    access-token-validity-milliseconds: 86_400_000 # TODO: 배포 전 900_000(15분)으로 변경
 
     refresh-token-cookie-name: refresh-token
     refresh-token-cookie-path: /api/member/reissue
