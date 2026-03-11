@@ -41,4 +41,6 @@ out/
 #맥용뭔가.
 .DS_Store
 src/.DS_Store
+**/.DS_Store.DS_Store
+src/.DS_Store
 **/.DS_Store

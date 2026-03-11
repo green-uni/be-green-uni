@@ -3,11 +3,30 @@
 <mapper namespace="com.green.greenuni.application.lectures.LectureMapper">
     <insert id="createLecture">
         INSERT INTO lecture
-        ( member_id, major_id, semester, `name`, credit, `type`, ref_books, goal, weekly_plan, academic_year, max_std, start_date, end_date )
+        ( member_id, major_id, semester, `name`, credit, `type`, ref_books, goal, weekly_plan, academic_year, max_std, start_date, end_date, room_id )
         VALUES (
         #{memberId},
 
-        (SELECT major_id FROM major WHERE name LIKE CONCAT('%', #{majorName}, '%') LIMIT 1), #{semester}, #{name}, #{credit}, #{type}, #{refBooks}, #{goal}, #{weeklyPlan}, #{academicYear}, #{maxStd}, #{startDate}, #{endDate}
+        (SELECT major_id FROM major WHERE name LIKE CONCAT('%', #{majorName}, '%') LIMIT 1), #{semester}, #{name}, #{credit}, #{type}, #{refBooks}, #{goal}, #{weeklyPlan}, #{academicYear}, #{maxStd}, #{startDate}, #{endDate}, #{roomId}
         )
     </insert>
+
+
+    <select id="getBuildings" resultType="string">
+        SELECT DISTINCT building FROM lecture_room
+    </select>
+
+    <resultMap id="lectureRoomMap" type="com.green.greenuni.application.lectures.model.LectureRoom">
+        <id property="roomId" column="room_id"/>
+        <result property="roomNumber" column="room_number"/>
+        <result property="building" column="building"/>
+        <result property="capacity" column="capacity"/>
+    </resultMap>
+
+    <select id="getRoomsByBuilding" resultMap="lectureRoomMap">
+        SELECT room_id, building, room_number, capacity
+        FROM lecture_room
+        WHERE building = #{building}
+    </select>
+
 </mapper>
