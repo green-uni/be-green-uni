@@ -2,11 +2,11 @@ package com.green.greenuni.application.member.model;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class MemberLoginReq {
+@Builder
+public class MemberLoginRes {
+    private long loginUserId;
+    private String name;
     private String code;
-    private String password;
 }

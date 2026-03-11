@@ -1,9 +1,6 @@
 package com.green.greenuni.application.member;
 
-import com.green.greenuni.application.member.model.MemberCreateReq;
-import com.green.greenuni.application.member.model.MemberCreateRes;
-import com.green.greenuni.application.member.model.MemberListReq;
-import com.green.greenuni.application.member.model.MemberListRes;
+import com.green.greenuni.application.member.model.*;
 import com.green.greenuni.configuration.util.MyFileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -87,5 +84,17 @@ public class MemberService {
 
     public List<MemberListRes> findAllMember(MemberListReq req){
         return memberMapper.findAllMember(req);
+    }
+
+    public MemberLoginRes logIn(MemberLoginReq req){
+        MemberGetOneRes res = memberMapper.findById( req.getCode() );
+        if(!passwordEncoder.matches( req.getPassword(), res.getPassword() ) ){
+            return null;
+        }
+        return MemberLoginRes.builder()
+                .loginUserId( res.getMemberId() )
+                .code( res.getCode() )
+                .name( res.getName() )
+                .build();
     }
 }

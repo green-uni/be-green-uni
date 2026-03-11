@@ -1,8 +1,6 @@
 package com.green.greenuni.application.member;
 
-import com.green.greenuni.application.member.model.MemberCreateReq;
-import com.green.greenuni.application.member.model.MemberListReq;
-import com.green.greenuni.application.member.model.MemberListRes;
+import com.green.greenuni.application.member.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,4 +14,6 @@ public interface MemberMapper {
     int updateMemberCodeAPw(MemberCreateReq req);
 
     List<MemberListRes> findAllMember(MemberListReq req);
+
+    MemberGetOneRes findById(String code);
 }

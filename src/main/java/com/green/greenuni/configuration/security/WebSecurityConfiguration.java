@@ -22,6 +22,8 @@ public class WebSecurityConfiguration {
                 .httpBasic( hb -> hb.disable() )
                 .formLogin( fl -> fl.disable() )
                 .csrf(csrf -> csrf.disable())
+
+//                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
