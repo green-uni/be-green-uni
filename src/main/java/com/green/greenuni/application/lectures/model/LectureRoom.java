@@ -1,5 +1,6 @@
 package com.green.greenuni.application.lectures.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,8 +10,8 @@ import lombok.ToString;
 @ToString
 
 public class LectureRoom {
-    private int roomId;
-    private String building;
+    private Long roomId;
     private String roomNumber;
+    private String building;
     private int capacity;
 }

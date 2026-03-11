@@ -3,11 +3,12 @@
 <mapper namespace="com.green.greenuni.application.lectures.LectureMapper">
     <insert id="createLecture">
         INSERT INTO lecture
-        ( member_id, major_id, semester, `name`, credit, `type`, ref_books, goal, weekly_plan, academic_year, max_std, start_date, end_date, room_id )
+        ( member_id, member_name, major_id, semester, `name`, credit, `type`, ref_books, goal, weekly_plan, academic_year, max_std, start_date, end_date, room_id )
         VALUES (
         #{memberId},
-
-        (SELECT major_id FROM major WHERE name LIKE CONCAT('%', #{majorName}, '%') LIMIT 1), #{semester}, #{name}, #{credit}, #{type}, #{refBooks}, #{goal}, #{weeklyPlan}, #{academicYear}, #{maxStd}, #{startDate}, #{endDate}, #{roomId}
+        (SELECT name FROM member WHERE member_id = #{memberId}),
+        (SELECT major_id FROM major WHERE name LIKE CONCAT('%', #{majorName}, '%') LIMIT 1),
+        #{semester}, #{name}, #{credit}, #{type}, #{refBooks}, #{goal}, #{weeklyPlan}, #{academicYear}, #{maxStd}, #{startDate}, #{endDate}, #{roomId}
         )
     </insert>
 
@@ -30,6 +31,13 @@
     </select>
 
     <select id="meBefore">
-
+        select l.status, l.lectureType, l.lectureName, l.proName, l.credit, ls.day_of_week, lr.building, l.targetGrade,l.maxStd, l.is_open
+        from lecture l
+        left join lecture_schedule ls
+        on l.lecture_id=ls.lecture_id
+        left join lecture_room lr
+        on ls.room_id=lr.room_id
+        where l.status = 'before'
     </select>
+
 </mapper>

@@ -9,8 +9,8 @@ import lombok.ToString;
 @ToString
 
 public class LectureCreateReq {
-    private int proId;
-    private String proName;
+    private int memberId;
+    private String memberName;
     private String year;
     private int semester;
     private String lectureName;
