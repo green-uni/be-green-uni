@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.greenuni.application.lectures.LectureMapper">
-    <insert id="createLecture">
+    <!-- lecture INSERT 후 생성된 ID 반환 -->
+    <insert id="createLecture" useGeneratedKeys="true" keyProperty="lectureId">
         INSERT INTO lecture
-        ( member_id, member_name, major_id, semester, `name`, credit, `type`, ref_books, goal, weekly_plan, academic_year, max_std, start_date, end_date, room_id )
+        ( member_id, major_id, year, semester, name, credit, type, ref_books, goal, weekly_plan, academic_year, max_std, start_date, end_date )
         VALUES (
-        #{memberId},
-        (SELECT name FROM member WHERE member_id = #{memberId}),
-        (SELECT major_id FROM major WHERE name LIKE CONCAT('%', #{majorName}, '%') LIMIT 1),
-        #{semester}, #{name}, #{credit}, #{type}, #{refBooks}, #{goal}, #{weeklyPlan}, #{academicYear}, #{maxStd}, #{startDate}, #{endDate}, #{roomId}
+        #{memberId}, #{majorId}, #{year}, #{semester}, #{lectureName},
+        #{credit}, #{lectureType}, #{refBooks}, #{goal}, #{weeklyPlan},
+        #{academicYear}, #{maxStd}, #{startDate}, #{endDate}
+        )
+    </insert>
+
+    <!-- lecture_schedule INSERT -->
+    <insert id="createSchedule">
+        INSERT INTO lecture_schedule
+        ( lecture_id, room_id, day_of_week, start_period, end_period )
+        VALUES (
+        #{lectureId},
+        (SELECT room_id FROM lecture_room WHERE room_number = #{roomNumber} LIMIT 1),
+        #{dayOfWeek},
+        #{startPeriod},
+        #{endPeriod}
         )
     </insert>
 
@@ -31,7 +44,7 @@
     </select>
 
     <select id="meBefore">
-        select l.status, l.lectureType, l.lectureName, l.proName, l.credit, ls.day_of_week, lr.building, l.targetGrade,l.maxStd, l.is_open
+        select l.status, l.lectureType, l.lectureName, l.proName, l.credit, ls.day_of_week, lr.building, l.academicYear,l.maxStd, l.is_open
         from lecture l
         left join lecture_schedule ls
         on l.lecture_id=ls.lecture_id
