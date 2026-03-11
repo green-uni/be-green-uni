@@ -61,4 +61,10 @@
 
         LIMIT #{startIdx}, #{size}
     </select>
+
+    <select id="findById">
+        SELECT `member_id`, `code`, `password`, `name`
+        FROM `member`
+        WHERE `code` = #{code}
+    </select>
 </mapper>
