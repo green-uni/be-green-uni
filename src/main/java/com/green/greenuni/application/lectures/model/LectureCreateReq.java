@@ -22,9 +22,14 @@ public class LectureCreateReq {
     private String day_of_week;
     private String start_period;
     private String end_period;
-    private String building;
     private String roomNumber;
     private String refBooks;
     private String goal;
     private String weeklyPlan;
+
+    // 강의실 선택을 위한 필드
+    private int room_id;
+    private String building;
+    private String room_Number;
+
 }
