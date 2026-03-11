@@ -2,6 +2,7 @@ package com.green.greenuni.application.lectures;
 
 import com.green.greenuni.application.lectures.model.LectureCreateReq;
 import com.green.greenuni.application.lectures.model.LectureRoom;
+import com.green.greenuni.application.lectures.model.MyLectureBeforeReq;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface LectureMapper {
     List<String> getBuildings();
     List<LectureRoom> getRoomsByBuilding(String building);
 
+    int meBefore(MyLectureBeforeReq req);
 }
