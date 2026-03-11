@@ -16,5 +16,5 @@ public interface LectureMapper {
     List<String> getBuildings();
     List<LectureRoom> getRoomsByBuilding(String building);
 
-    int meBefore(MyLectureBeforeReq req);
+    List<MyLectureBeforeRes> meBefore(MyLectureBeforeReq req);
 }
