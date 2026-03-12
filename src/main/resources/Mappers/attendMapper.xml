@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.greenuni.application.attendance.AttendanceMapper">
    <insert id="setAttendList">
-      IGNORE INTO attendance(
+      INSERT IGNORE INTO attendance(
       lecture_id,
       attend_id,
       attend_date,
@@ -12,7 +12,7 @@
       FROM course c
       JOIN attendance a
       ON c.course_id = a.course_id
-      WHERE c.lecture_id = 2
+      WHERE c.lecture_id = #{lectureId}
    </insert>
 
    <select id="getStudentAttendList">
