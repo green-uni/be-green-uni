@@ -3,32 +3,39 @@
 <mapper namespace="com.green.greenuni.application.attendance.AttendanceMapper">
    <insert id="setAttendList">
       INSERT IGNORE INTO attendance(
-      lecture_id,
-      attend_id,
-      attend_date,
-      `status`
+         lecture_id,
+         course_id,
+         member_id,
+         attend_date,
+         `status`
       )
-      SELECT c.lecture_id, c.member_id, #{attendDate}, 'attend'
-      FROM course c
-      JOIN attendance a
-      ON c.course_id = a.course_id
+      SELECT c.lecture_id, c.course_id, c.member_id, #{attendDate}, 'attend'
+        FROM course c
       WHERE c.lecture_id = #{lectureId}
+        AND NOT EXISTS (
+      SELECT 1 FROM attendance a
+      WHERE a.lecture_id = c.lecture_id
+        AND a.course_id = c.course_id
+        AND a.attend_date = #{attendDate}
+      )
    </insert>
 
    <select id="getStudentAttendList">
-      SELECT a.attend_date AS attendDate, m.`code` AS `code`, m.`name` AS `name`, s.academic_year AS academicYear,
-      mj.`name` AS `major`, a.`status` AS `status`, a.reason AS reason
+      SELECT
+            a.attend_date AS attendDate, m.`code` AS `code`, m.`name` AS `name`,
+            s.academic_year AS academicYear, mj.`name` AS `major`,
+            a.`status` AS `status`, a.reason AS reason, a.lecture_id
       FROM attendance a
       LEFT JOIN student s
-      ON a.attend_id = s.member_id
+             ON a.member_id = s.member_id
       LEFT JOIN member m
-      ON s.member_id = m.member_id
+             ON s.member_id = m.member_id
       LEFT JOIN major mj
-      ON mj.major_id = s.major_id
-      LEFT JOIN lecture l
-      ON a.lecture_id = l.lecture_id
+             ON mj.major_id = s.major_id
+      JOIN lecture l
+             ON l.lecture_id = a.lecture_id
       WHERE a.lecture_id = #{lectureId}
-      AND a.attend_date = #{attendDate}
+        AND a.attend_date = #{attendDate}
       ORDER BY m.`name` ASC
    </select>
 </mapper>

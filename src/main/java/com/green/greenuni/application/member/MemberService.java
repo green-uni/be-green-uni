@@ -88,6 +88,9 @@ public class MemberService {
 
     public MemberLoginRes logIn(MemberLoginReq req){
         MemberFindByCodeRes res = memberMapper.findByCode( req.getCode() );
+        if (res == null) {
+            throw new RuntimeException("존재하지 않는 회원입니다.");
+        } // 로그인 id를 DB에서 조회 후 결과가 없으면 해당 문구 throw
         if(!passwordEncoder.matches( req.getPassword(), res.getPassword() ) ){
             return null;
         }
