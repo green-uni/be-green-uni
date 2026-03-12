@@ -23,4 +23,35 @@
         LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
         ORDER BY l.lecture_id DESC
     </select>
+
+    <select id="getTotalEnrolledCredits" resultType="int">
+        SELECT IFNULL(SUM(l.credit), 0)
+        FROM course c
+        JOIN lecture l ON c.lecture_id = l.lecture_id
+        WHERE c.member_id = #{memberId}
+    </select>
+
+    <select id="getMyCourseList">
+        SELECT
+            l.lecture_id AS lectureId,
+            l.type AS lectureType,
+            mj.name AS majorName,
+            l.name AS lectureName,
+            m.name AS proName,
+            l.credit,
+            ls.day_of_week AS dayOfWeek,
+            lr.building,
+            lr.room_number AS roomNumber,
+            l.academic_year AS academicYear,
+            l.max_std AS maxStd,
+            l.rem_std AS remStd
+        FROM course c
+        JOIN lecture l ON c.lecture_id = l.lecture_id
+        LEFT JOIN member m ON l.member_id = m.member_id
+        LEFT JOIN major mj ON l.major_id = mj.major_id
+        LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
+        LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
+        WHERE c.member_id = #{memberId}
+        ORDER BY l.lecture_id DESC
+    </select>
 </mapper>
