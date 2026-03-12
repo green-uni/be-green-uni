@@ -23,21 +23,24 @@ public class JwtTokenManager { //인증처리 총괄
     private final MyCookieUtil myCookieUtil;
     private final JwtTokenProvider jwtTokenProvider;
 
+    // 토큰을 쿠키에 담아 응답으로 내보내기
     public void issue(HttpServletResponse res, JwtMember jwtMember){
         setAccessTokenInCookie(res, jwtMember);
         setRefreshTokenInCookie(res, jwtMember);
     }
 
+    // AT를 새롭게 생성후 쿠키에 담기
     public void setAccessTokenInCookie(HttpServletResponse res, JwtMember jwtMember){
-        String accessToken = jwtTokenProvider.generateAccessToken(jwtMember);
-        setAccessTokenInCookie(res, accessToken);
+        String accessToken = jwtTokenProvider.generateAccessToken(jwtMember); // 토큰 생성
+        setAccessTokenInCookie(res, accessToken); // 만들어진 AT를 쿠키에 담는 메소드 호출
     }
+    // RT를 새롭게 생성후 쿠키에 담기
     public void setRefreshTokenInCookie(HttpServletResponse res, JwtMember jwtMember){
         String refreshToken = jwtTokenProvider.generateRefreshToken(jwtMember);
-        setRefreshTokenInCookie(res, refreshToken);
+        setRefreshTokenInCookie(res, refreshToken); // 만들어진 RT를 쿠키에 담는 메소드 호출
     }
 
-    // AT 쿠키 담기
+    // 만들어진 AT를 쿠키에 담기
     public void setAccessTokenInCookie(HttpServletResponse res, String accessToken){
         myCookieUtil.setCookie(res,
                 constJwt.getAccessTokenCookieName(),
@@ -47,7 +50,7 @@ public class JwtTokenManager { //인증처리 총괄
         );
     }
 
-    // RT 쿠키 담기
+    // 만들어진 RT를 쿠키에 담기
     public void setRefreshTokenInCookie(HttpServletResponse res, String refreshToken){
         myCookieUtil.setCookie(res,
                 constJwt.getRefreshTokenCookieName(),
@@ -62,18 +65,19 @@ public class JwtTokenManager { //인증처리 총괄
         return myCookieUtil.getValue(req, constJwt.getAccessTokenCookieName());
     }
 
-
+    // 쿠키에 든 AT를 확인
     public Authentication getAuthentication(HttpServletRequest req){
-        String accessToken = getAccessTokenFromCookie(req); // AT를 쿠키에서 빼낸다.
+        String accessToken = getAccessTokenFromCookie(req); // req의 쿠키 속 AT 꺼내기
 
-        // 쿠키에 AT 없다면 null 반환
+        // 쿠키에 AT 없다면(= 로그인 안된 상태), null 반환
         if(accessToken == null){ return null; }
 
-        //쿠키에 AT가 있다. JWT에 담았던 JwtUser객체를 다시 빼낸다.
+        //쿠키에 AT가 있다면, JWT에 담았던 JwtMember객체(로그인 유저 정보)를 빼내어, 시큐리티를 위한 UserPrincipal로 변환
         JwtMember jwtMember = jwtTokenProvider.getJwtMemberFromToken(accessToken);
         UserPrincipal userPrincipal = new UserPrincipal(jwtMember);
 
         return new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
+        // 시큐리티 인증된 로그인 유저 정보(로그인ID, role 담아 반환. @AuthenticationPrincipal로 활용)
     }
 
     // AT 삭제

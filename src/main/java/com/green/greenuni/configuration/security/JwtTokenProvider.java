@@ -23,6 +23,7 @@ public class JwtTokenProvider {
     public JwtTokenProvider(ObjectMapper objectMapper, ConstJwt constJwt) {
         this.objectMapper = objectMapper;
         this.constJwt = constJwt;
+        // 시크릿 키 문자열을 암호화에 쓸 수 있는 키 객체로 변환
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(constJwt.getSecretKey()));
 
         log.info("constJwt: {}", this.constJwt);
@@ -46,25 +47,28 @@ public class JwtTokenProvider {
                 .header().type(constJwt.getBearerFormat())
                 .and()
                 //payload
-                .issuer(constJwt.getIssuer())
-                .issuedAt(now) // 토큰 생성일
-                .expiration(new Date(now.getTime() + tokenValidityMilleSeconds)) // 토큰 만료 일시
-                .claim(constJwt.getClaimKey(), makeClaimMyUserToJson(jwtMember)) // JSON화된 객체 처리
-                /// key(signedMember) , value(JwtMember객체 JSON으로 변환하여 담기)
+                .issuer(constJwt.getIssuer()) // 발급자
+                .issuedAt(now) // 토큰 발급 시간
+                .expiration(new Date(now.getTime() + tokenValidityMilleSeconds)) // 토큰 만료 시간
+                .claim(constJwt.getClaimKey(), makeClaimMyUserToJson(jwtMember)) // 로그인 유저 실제 데이터
+                /// key(loginMember) , value(JwtMember객체)
                 .signWith(secretKey)
                 .compact();
     }
+
+    // 토큰 안에 jwtMember 데이터 넣기
     public String makeClaimMyUserToJson(JwtMember jwtMember){
-        return objectMapper.writeValueAsString(jwtMember);
+        return objectMapper.writeValueAsString(jwtMember); // jwtMember 객체를 JSON 문자열로 변환하여 담음
     }
 
+    // 토큰 안에 jwtMember 데이터 꺼내기
     public JwtMember getJwtMemberFromToken(String token){
-        Claims claims = getClaims(token);
+        Claims claims = getClaims(token); // 토큰 검정, 내용 꺼내기
 
-        //signedMember 키 값으로 담겨져 있는 value를 String타입으로 리턴
+        //loginMember 키 값으로 담겨져 있는 value를 String타입으로 리턴
         String json = claims.get(constJwt.getClaimKey(), String.class);
 
-        //JSON > Object, json문자열을 JwtMember 객체로 변환
+        //JSON > Object. json문자열을 JwtMember 객체로 변환
         return objectMapper.readValue(json, JwtMember.class);
     }
 
