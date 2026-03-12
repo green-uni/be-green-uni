@@ -65,4 +65,11 @@ public class LectureController {
         System.out.println("전체강의 목록 조회 요청이 들어왔습니다!");
         return new ResultResponse<>("성공", result);
     }
+
+    @GetMapping("/{lectureId}")
+    public ResultResponse<?> getAllLectures(@ModelAttribute LectureDetailReq req){
+        List<LectureDetailRes> result=lectureService.getAllLectures(req);
+        return new ResultResponse<>("강의목록상세보기", result);
+    }
+
 }
