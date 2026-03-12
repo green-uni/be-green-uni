@@ -12,8 +12,8 @@ import java.util.List;
 public class UserPrincipal implements UserDetails {
     private final JwtMember jwtMember;
 
-    public long getSignedMemberId() {
-        return jwtMember.getSignedMemberId();
+    public long getLoginUserId() {
+        return jwtMember.getLoginUserId();
     }
 
     @Override
