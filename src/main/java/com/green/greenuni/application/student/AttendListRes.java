@@ -11,5 +11,5 @@ public class AttendListRes {
     private String major; //학과
     private String status; //출결상태
     private String reason; //사유
-    private int lectureId; //강의id
+    private int lectureId; //강의id를 불러옵니다
 }
