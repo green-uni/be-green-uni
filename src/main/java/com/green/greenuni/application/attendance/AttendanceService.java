@@ -13,13 +13,13 @@ public class AttendanceService {
     private final AttendanceMapper attendanceMapper;
 
     @Transactional
-    public List<AttendListRes> getAttendList(Long lectureId, String attendData) {
-        int count = attendanceMapper.checkAttendList(lectureId, attendData);
+    public List<AttendListRes> getAttendList(Long lectureId, String attendDate) {
+        int count = attendanceMapper.checkAttendList(lectureId, attendDate);
 
         if (count == 0) {
-            attendanceMapper.setAttendList(lectureId, attendData);
+            attendanceMapper.setAttendList(lectureId, attendDate);
         }
-        return attendanceMapper.getStudentAttendList(lectureId, attendData);
+        return attendanceMapper.getStudentAttendList(lectureId, attendDate);
     }
 
 }

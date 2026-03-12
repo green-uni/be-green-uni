@@ -19,9 +19,9 @@ public class AttendanceController {
     @GetMapping("/{lectureId}")
     public ResultResponse<?> getAttendance(
         @PathVariable Long lectureId,
-        @RequestParam( value = "attendData", required = false ) String attendData) {
-        log.info("강의 ID: {}, 조회 날짜: {}", lectureId, attendData);
-        List<AttendListRes> attendList = attendanceService.getAttendList(lectureId, attendData);
+        @RequestParam( value = "attendData", required = false ) String attendDate) {
+        log.info("강의 ID: {}, 조회 날짜: {}", lectureId, attendDate);
+        List<AttendListRes> attendList = attendanceService.getAttendList(lectureId, attendDate);
         return new ResultResponse<>("출석부 조회 성공", attendList);
     }
 }
