@@ -26,10 +26,10 @@ public class MemberController {
         log.info("login req :{}", req);
         MemberLoginRes memberLoginRes = memberService.logIn(req);
 
-        // 보안쿠키처리
-        if(memberService != null){
-            JwtMember jwtMember = new JwtMember( memberLoginRes.getLoginUserId() );
-            jwtTokenManager.issue( res, jwtMember );
+        // 보안 쿠키 처리
+        if(memberLoginRes != null){ // 로그인 성공시
+            JwtMember jwtMember = new JwtMember( memberLoginRes.getLoginUserId(),  memberLoginRes.getRole() ); // 로그인 유저 정보를 담을 객체 생성
+            jwtTokenManager.issue( res, jwtMember ); // 로그인 유저에게 토큰 생성 후 쿠키를 담아 응답으로 발행
         }
 
         return new ResultResponse<>("로그인 성공", memberLoginRes);
