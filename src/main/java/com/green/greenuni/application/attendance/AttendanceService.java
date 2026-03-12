@@ -14,12 +14,7 @@ public class AttendanceService {
 
     @Transactional
     public List<AttendListRes> getAttendList(Long lectureId, String attendDate) {
-        int count = attendanceMapper.checkAttendList(lectureId, attendDate);
-
-        if (count == 0) {
-            attendanceMapper.setAttendList(lectureId, attendDate);
-        }
+        attendanceMapper.setAttendList(lectureId, attendDate);
         return attendanceMapper.getStudentAttendList(lectureId, attendDate);
     }
-
 }
