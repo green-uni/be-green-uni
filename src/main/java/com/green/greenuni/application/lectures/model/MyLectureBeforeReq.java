@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 
 public class MyLectureBeforeReq {
+    private int lectureId;
     private String loginUserId;
     private int page;
     private int size;

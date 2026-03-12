@@ -19,5 +19,5 @@ public interface LectureMapper {
 
     List<LectureListRes> getLectureList(LectureListReq req);
 
-    List<LectureDetailRes> getAllLectures(LectureDetailReq req);
+    LectureDetailRes findById(LectureDetailReq req);
 }

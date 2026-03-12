@@ -47,8 +47,8 @@ public class LectureService {
         return lectureMapper.getLectureList(req);
     }
 
-    public List<LectureDetailRes> getAllLectures(LectureDetailReq req){
-        return lectureMapper.getAllLectures(req);
+    public LectureDetailRes getOneLectures(LectureDetailReq req){
+        return lectureMapper.findById(req);
     }
 
 }

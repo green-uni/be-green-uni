@@ -67,8 +67,8 @@ public class LectureController {
     }
 
     @GetMapping("/{lectureId}")
-    public ResultResponse<?> getAllLectures(@ModelAttribute LectureDetailReq req){
-        List<LectureDetailRes> result=lectureService.getAllLectures(req);
+    public ResultResponse<?> getOneLectures(@ModelAttribute LectureDetailReq req){
+        LectureDetailRes result=lectureService.getOneLectures(req);
         return new ResultResponse<>("강의목록상세보기", result);
     }
 

@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @ToString
 public class LectureDetailRes {
+    private long memberId;
     private String lectureName;
     private String year;
     private int semester;
