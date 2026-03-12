@@ -8,6 +8,7 @@ import com.green.greenuni.configuration.model.ResultResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public class LectureController {
     private final LectureService lectureService;
 
     @PostMapping("/create")
-    public ResultResponse<?> postLecture(@RequestBody LectureCreateReq req){
+    public ResultResponse<?> postLecture(@AuthenticationPrincipal
+            @RequestBody LectureCreateReq req){
         int result=lectureService.postLecture(req);
         System.out.println("전달받은 데이터: " + req.toString());
         return new ResultResponse<>("강의개설이 되었습니다.", result);
@@ -39,7 +41,8 @@ public class LectureController {
     }
 
     @GetMapping("/me/before")
-    public ResultResponse<?> meBefore(@ModelAttribute MyLectureBeforeReq req) {
+    public ResultResponse<?> meBefore(
+            @ModelAttribute MyLectureBeforeReq req) {
         List<MyLectureBeforeRes> result = lectureService.meBefore(req);
         System.out.println(">>> 강의 승인 전 목록 조회 요청이 들어왔습니다!");
         return new ResultResponse<>("성공", result);
