@@ -1,6 +1,6 @@
 package com.green.greenuni.application.lectures.model;
 
-import com.green.greenuni.application.student.StudentInfoRes;
+import com.green.greenuni.application.student.StudentInfoReq;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,5 +26,5 @@ public class LectureDetailRes {
     private String dayOfWeek; //강의요일
     private String startPeriod; //강의시작시간
     private String endPeriod; //강의종료시간
-    private List<StudentInfoRes> students; //수강학생정보(필요시 꺼내쓸용도. 지우지말기ㅠ)
+    private List<StudentInfoReq> students; //수강학생정보(필요시 꺼내쓸용도. 지우지말기ㅠ)
 }

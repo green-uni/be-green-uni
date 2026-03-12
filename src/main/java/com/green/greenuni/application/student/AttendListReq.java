@@ -3,7 +3,7 @@ package com.green.greenuni.application.student;
 import lombok.Data;
 
 @Data
-public class AttendanceRes {
+public class AttendListReq {
     private String attendDate; //출결일
     private long studentCode; //학번
     private String studentName; //이름

@@ -3,7 +3,7 @@ package com.green.greenuni.application.student;
 import lombok.Data;
 
 @Data
-public class StudentInfoRes {
+public class StudentInfoReq {
     private long studentCode; //학번
     private String majorName; //학과
     private String studentName; //성명
