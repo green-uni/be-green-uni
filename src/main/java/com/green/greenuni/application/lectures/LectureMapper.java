@@ -18,4 +18,6 @@ public interface LectureMapper {
     List<MyLectureBeforeRes> meBefore(MyLectureBeforeReq req);
 
     List<LectureListRes> getLectureList(LectureListReq req);
+
+    List<LectureDetailRes> getAllLectures(LectureDetailReq req);
 }
