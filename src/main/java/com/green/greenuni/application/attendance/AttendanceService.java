@@ -1,9 +1,9 @@
 package com.green.greenuni.application.attendance;
 
-import com.green.greenuni.application.student.AttendListReq;
-import com.green.greenuni.configuration.model.ResultResponse;
+import com.green.greenuni.application.student.AttendListRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,7 +12,13 @@ import java.util.List;
 public class AttendanceService {
     private final AttendanceMapper attendanceMapper;
 
-    public List<AttendListReq> getAttendList(Long lectureId, String attendData) {
+    @Transactional
+    public List<AttendListRes> getAttendList(Long lectureId, String attendData) {
+        int count = attendanceMapper.checkAttendList(lectureId, attendData);
+
+        if (count == 0) {
+            attendanceMapper.setAttendList(lectureId, attendData);
+        }
         return attendanceMapper.getStudentAttendList(lectureId, attendData);
     }
 
