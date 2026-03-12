@@ -87,6 +87,4 @@
         LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
         ORDER BY l.lecture_id DESC
     </select>
-
-
 </mapper>
