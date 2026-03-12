@@ -2,11 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.greenuni.application.member.MemberMapper">
     <insert id="createMember" useGeneratedKeys="true" keyProperty="memberId">
-        INSERT INTO `member` (
-            `role`, `birth`, `name`, `entry_date`, `pic`
-        ) VALUES (
-            #{ role }, #{ birth }, #{ name }, #{ entryDate }, #{ pic }
-        )
+        INSERT INTO `member`
+        SET
+            `role` = #{ role }
+            , `birth` = #{ birth }
+            , `name` = #{ name }
+            , `entry_date` = #{ entryDate }
+            <if test="pic != null and pic != ''">
+                , `pic` = #{ pic }
+            </if>
+            <if test="email != null and email != ''">
+                ,`email` = #{ email }
+            </if>
+            <if test="tel != null and tel != ''">
+                , `tel` = #{ tel }
+            </if>
+            <if test="emergencyTel != null and emergencyTel != ''">
+                ,`emergency_tel` = #{ emergencyTel }
+            </if>
+            <if test="postcode != null and postcode != ''">
+                , `postcode` = #{ postcode }
+            </if>
+            <if test="address != null and address != ''">
+                ,`address` = #{ address }
+            </if>
+            <if test="detailAddress != null and detailAddress != ''">
+                , `detail_address` = #{ detailAddress }
+            </if>
+            <if test="exitDate != null and exitDate != ''">
+                , `exit_date` = #{ exitDate }
+            </if>
     </insert>
     <insert id="createStudent">
         INSERT INTO `student`(
@@ -17,9 +42,13 @@
     </insert>
     <insert id="createProfessor">
         INSERT INTO `professor`(
-            `member_id`,`major_id`, `degree`, `position`, `lab_room`, `lab_tel`, `status`
+            `member_id`,`major_id`, `degree`, `position`, `status`
+            <if test="labRoom != null">, `lab_room`</if>
+            <if test="labTel != null">, `lab_tel`</if>
         ) VALUES (
-            #{ memberId }, #{ majorId }, #{ degree }, #{ position }, #{ labRoom }, #{ labTel },#{ status }
+            #{ memberId }, #{ majorId }, #{ degree }, #{ position } ,#{ status }
+            <if test="labRoom != null">, #{ labRoom }</if>
+            <if test="labTel != null">, #{ labTel }</if>
         )
     </insert>
     <insert id="createStaff">
@@ -56,7 +85,18 @@
 
         LEFT JOIN `staff` a
             ON m.member_id = a.member_id
-
+        <where>
+            <if test="role != null and role != ''">
+                m.role = #{role}
+            </if>
+            <if test="memberName != null and memberName != ''">
+                AND m.name LIKE CONCAT('%', #{memberName}, '%')
+            </if>
+            <if test="majorName != null and majorName != ''">
+                AND (sm.name LIKE CONCAT('%', #{majorName}, '%')
+                OR pm.name LIKE CONCAT('%', #{majorName}, '%'))
+            </if>
+        </where>
         ORDER BY m.member_id DESC
 
         LIMIT #{startIdx}, #{size}
