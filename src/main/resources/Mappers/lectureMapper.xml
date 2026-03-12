@@ -6,7 +6,7 @@
         INSERT INTO lecture
         ( member_id, major_id, year, semester, name, credit, type, ref_books, goal, weekly_plan, academic_year, max_std, start_date, end_date )
         VALUES (
-        #{memberId}, #{majorId}, #{year}, #{semester}, #{lectureName},
+        #{loginUserId}, #{majorId}, #{year}, #{semester}, #{lectureName},
         #{credit}, #{lectureType}, #{refBooks}, #{goal}, #{weeklyPlan},
         #{academicYear}, #{maxStd}, #{startDate}, #{endDate}
         )
@@ -25,9 +25,14 @@
         )
     </insert>
 
-
     <select id="getBuildings" resultType="string">
         SELECT DISTINCT building FROM lecture_room
+    </select>
+
+    <select id="getProName" resultType="string">
+        SELECT name
+        FROM member
+        WHERE member_id = #{loginUserId}
     </select>
 
     <resultMap id="lectureRoomMap" type="com.green.greenuni.application.lectures.model.LectureRoom">
