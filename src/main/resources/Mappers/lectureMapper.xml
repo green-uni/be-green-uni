@@ -88,16 +88,16 @@
         ORDER BY l.lecture_id DESC
     </select>
 
-    <select id="getAllLectures">
+    <select id="findById">
         select
-        l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd,l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek
+        l.member_id AS memberId, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd,l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek
 
         from lecture l
         left join lecture_schedule ls
         on l.lecture_id=ls.lecture_id
         left join lecture_room lr
         on ls.room_id=lr.room_id
-        ORDER BY l.lecture_id DESC
+        WHERE l.lecture_id = #{lectureId}
     </select>
 
 </mapper>
