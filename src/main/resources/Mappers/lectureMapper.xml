@@ -48,23 +48,22 @@
         WHERE building = #{building}
     </select>
 
-    <select id="meBefore">
+    <select id="meBefore" resultType="com.green.greenuni.application.lectures.model.MyLectureBeforeRes">
         SELECT
         l.status,
         l.type AS lectureType,
         l.name AS lectureName,
         m.name AS proName,
         l.credit,
-        ls.day_of_week,
-        lr.building,
-        l.academic_year AS academicYear,
+        ls.day_of_week as dayOfWeek, lr.building,
+        lr.room_number as roomNumber, l.academic_year AS academicYear,
         l.max_std AS maxStd,
         l.is_open
         FROM lecture l
-        join member m on l.member_id=m.member_id
+        JOIN member m ON l.member_id = m.member_id
         LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
         LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
-        WHERE l.status = 'before'
-    </select>
+        WHERE l.status IN ('before', 'approved', 'rejected')
+        AND l.member_id = #{loginUserId} </select>
 
 </mapper>

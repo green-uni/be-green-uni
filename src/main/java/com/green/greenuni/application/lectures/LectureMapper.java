@@ -1,9 +1,6 @@
 package com.green.greenuni.application.lectures;
 
-import com.green.greenuni.application.lectures.model.LectureCreateReq;
-import com.green.greenuni.application.lectures.model.LectureRoom;
-import com.green.greenuni.application.lectures.model.MyLectureBeforeReq;
-import com.green.greenuni.application.lectures.model.MyLectureBeforeRes;
+import com.green.greenuni.application.lectures.model.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,4 +16,6 @@ public interface LectureMapper {
     List<LectureRoom> getRoomsByBuilding(String building);
 
     List<MyLectureBeforeRes> meBefore(MyLectureBeforeReq req);
+
+    List<LectureListRes> getLectureList(LectureListReq req);
 }

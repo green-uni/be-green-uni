@@ -1,9 +1,6 @@
 package com.green.greenuni.application.lectures;
 
-import com.green.greenuni.application.lectures.model.LectureCreateReq;
-import com.green.greenuni.application.lectures.model.LectureRoom;
-import com.green.greenuni.application.lectures.model.MyLectureBeforeReq;
-import com.green.greenuni.application.lectures.model.MyLectureBeforeRes;
+import com.green.greenuni.application.lectures.model.*;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,6 +41,10 @@ public class LectureService {
 
     public List<MyLectureBeforeRes> meBefore(MyLectureBeforeReq req){
         return lectureMapper.meBefore(req);
+    }
+
+    public List<LectureListRes> getLectureList(LectureListReq req){
+        return lectureMapper.getLectureList(req);
     }
 
 }
