@@ -7,7 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface AttendanceMapper {
-    int checkAttendList(Long lectureId, String attendDate);
     void setAttendList(Long lectureId, String attendDate);
     List<AttendListRes> getStudentAttendList(Long lectureId, String attendDate);
 }
