@@ -16,6 +16,8 @@ public class MemberCreateReq {
     private String emergencyTel;
     private String address;
     private String detailAddress;
+    private int postcode;
+
     private String entryDate;
     private String exitDate;
     private String pic;
