@@ -23,7 +23,13 @@ public class WebSecurityConfiguration {
                 .formLogin( fl -> fl.disable() )
                 .csrf(csrf -> csrf.disable())
 
-//                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                // 특정 요청이 올 때는 반드시 로그인이 되어있어야 한다.
+                .authorizeHttpRequests( req -> req.requestMatchers(
+                                "/api/lecture/create"
+                                , "/api/feed/me/before").authenticated()
+                        .anyRequest().permitAll() //나머지 요청에 대해서는 허용
+                )
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
