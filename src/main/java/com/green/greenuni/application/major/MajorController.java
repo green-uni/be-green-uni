@@ -4,6 +4,7 @@ import com.green.greenuni.application.major.model.*;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,12 +28,14 @@ public class MajorController {
         return new ResultResponse<>("학과 리스트", list);
     }
 
+    @PreAuthorize("hasRole('admin')")
     @PostMapping
     public ResultResponse<Integer> createMajor(@RequestBody MajorCreateReq req){
         int result = majorService.createMajor(req);
         return new ResultResponse<>("학과 등록 완료", result);
     }
 
+    @PreAuthorize("hasRole('admin')")
     @PutMapping
     public ResultResponse<Integer> modifyMajor(@RequestBody MajorModReq req){
         int result = majorService.modifyMajor(req);
