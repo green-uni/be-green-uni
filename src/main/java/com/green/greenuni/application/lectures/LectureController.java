@@ -6,6 +6,7 @@ import com.green.greenuni.application.lectures.model.MyLectureBeforeReq;
 import com.green.greenuni.application.lectures.model.MyLectureBeforeRes;
 import com.green.greenuni.configuration.model.ResultResponse;
 
+import com.green.greenuni.configuration.model.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,11 +24,22 @@ public class LectureController {
     private final LectureService lectureService;
 
     @PostMapping("/create")
-    public ResultResponse<?> postLecture(@AuthenticationPrincipal
+    public ResultResponse<?> postLecture(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody LectureCreateReq req){
+
+        if (userPrincipal == null) {
+            return new ResultResponse<>("로그인 정보가 만료되었습니다. 다시 로그인해주세요.", 0);
+        }
+
+        req.setLoginUserId(userPrincipal.getLoginUserId());
         int result=lectureService.postLecture(req);
         System.out.println("전달받은 데이터: " + req.toString());
         return new ResultResponse<>("강의개설이 되었습니다.", result);
+    }
+
+    @GetMapping("/professor")
+    public ResultResponse<?> getProName(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return lectureService.getProName(userPrincipal.getLoginUserId());
     }
 
     @GetMapping("/buildings")

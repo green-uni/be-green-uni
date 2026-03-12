@@ -22,9 +22,12 @@ public class LectureService {
     @Transactional
     public int postLecture(LectureCreateReq req){
         lectureMapper.createLecture(req);       // lecture INSERT (lectureId 자동 세팅)
-        lectureMapper.createSchedule(req);      // lecture_schedule INSERT
-
         return lectureMapper.createSchedule(req);
+    }
+
+    public ResultResponse<String> getProName(Long loginUserId) {
+        String name = lectureMapper.getProName(loginUserId);
+        return new ResultResponse<>("교수명 조회 성공", name);
     }
 
     // 건물 목록 조회
