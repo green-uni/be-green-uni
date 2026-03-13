@@ -51,6 +51,7 @@
     <select id="meBefore" resultType="com.green.greenuni.application.lectures.model.MyLectureBeforeRes">
         SELECT
         l.status,
+        l.member_id,
         l.type AS lectureType,
         l.name AS lectureName,
         m.name AS proName,

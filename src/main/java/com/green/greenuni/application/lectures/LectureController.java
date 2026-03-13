@@ -53,7 +53,8 @@ public class LectureController {
     @GetMapping("/me/before")
     public ResultResponse<?> meBefore(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @ModelAttribute MyLectureBeforeReq req) {
-        List<MyLectureBeforeRes> result = lectureService.meBefore(req);
+        Long loginUserId = userPrincipal.getLoginUserId();
+        List<MyLectureBeforeRes> result = lectureService.meBefore(req, loginUserId);
         System.out.println(">>> 강의 승인 전 목록 조회 요청이 들어왔습니다!");
         return new ResultResponse<>("성공", result);
     }
