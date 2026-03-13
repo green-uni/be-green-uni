@@ -55,4 +55,30 @@ public class MyFileUtil {
         File file = new File(fileUploadPath, targetPath);
         mf.transferTo(file);
     }
+
+    // 파일 삭제
+    public void deleteFile(String path){
+        File file = new File(fileUploadPath, path);
+        if(file.exists()){
+            file.delete();
+        }
+    }
+
+    // 폴더 삭제
+    public void deleteDirectory(String fullPath){
+        File directory = new File(fullPath);
+        if( directory.exists() && directory.isDirectory() ){ //directory가 있는지 확인 && directory가 폴더인지 확인
+            File[] includeFiles = directory.listFiles();// 폴더 안에 있는 모든 파일들을 가져온다.
+
+            for( File file : includeFiles ) {
+                if (file.isDirectory()) {
+                    deleteDirectory(file.getAbsolutePath()); //재귀호출
+                    // getAbsolutePath() 절대주소값을 호출
+                } else {
+                    file.delete();
+                }
+            }
+        }
+        directory.delete();
+    }
 }

@@ -1,9 +1,6 @@
 package com.green.greenuni.application.member;
 
-import com.green.greenuni.application.member.model.MemberLoginReq;
-import com.green.greenuni.application.member.model.MemberLoginRes;
-import com.green.greenuni.application.member.model.MemberProfileReq;
-import com.green.greenuni.application.member.model.MemberProfileRes;
+import com.green.greenuni.application.member.model.*;
 import com.green.greenuni.configuration.model.JwtMember;
 import com.green.greenuni.configuration.model.ResultResponse;
 import com.green.greenuni.configuration.model.UserPrincipal;
@@ -13,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -49,6 +47,19 @@ public class MemberController {
         log.info("loginUserId: {}",id);
         MemberProfileRes res = memberService.findLoginUserProfile( id , role );
         return new ResultResponse<>("프로파일 유저정보", res);
+    }
+
+    @PutMapping("/me/mod")
+    public ResultResponse<?> modMemberBySelf(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                             @RequestPart MemberModifyReq req,
+                                             @RequestPart(required = false) MultipartFile pic){
+        long id = userPrincipal.getLoginUserId(); // 현재 로그인한 user Id
+        String role = userPrincipal.getLoginUserRole(); // 현재 로그인한 user role
+
+        log.info("loginUserId: {}",id);
+        String res = memberService.modMemberBySelf( id , role, req, pic );
+
+        return new ResultResponse<>("로그인 유저 정보 수정", res);
     }
 
 }

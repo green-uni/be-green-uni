@@ -18,4 +18,7 @@ public interface MemberMapper {
     MemberFindByCodeRes findByCode(String code);
 
     MemberProfileRes findUserProfile( long id );
+
+    int modMemberBySelf(MemberModifyReq req);
+    int modProfessorMySelf(MemberModifyReq req);
 }
