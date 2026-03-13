@@ -10,6 +10,8 @@ import lombok.ToString;
 
 public class MyLectureBeforeRes{
     private String status;
+    private long memberId;
+    private Long loginUserId;
     private String lectureType;
     private String lectureName;
     private String proName;

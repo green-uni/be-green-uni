@@ -39,8 +39,8 @@ public class LectureService {
         return new ResultResponse<>("강의실 목록 조회 성공", list);
     }
 
-    public List<MyLectureBeforeRes> meBefore(MyLectureBeforeReq req){
-        return lectureMapper.meBefore(req);
+    public List<MyLectureBeforeRes> meBefore(MyLectureBeforeReq req,Long loginUserId){
+        return lectureMapper.meBefore(req,loginUserId);
     }
 
     public List<LectureListRes> getLectureList(LectureListReq req){
