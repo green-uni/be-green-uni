@@ -13,7 +13,7 @@ public class AttendanceService {
     private final AttendanceMapper attendanceMapper;
 
     @Transactional
-    public List<AttendListRes> getAttendList(Long lectureId, String attendDate) {
+    public List<AttendListRes> getAttendList(String lectureId, String attendDate) {
         attendanceMapper.setAttendList(lectureId, attendDate);
         return attendanceMapper.getStudentAttendList(lectureId, attendDate);
     }
