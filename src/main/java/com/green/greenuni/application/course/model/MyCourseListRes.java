@@ -17,6 +17,8 @@ public class MyCourseListRes {
     private int academicYear;
     private String proName;
     private String dayOfWeek;
+    private String startPeriod;
+    private String endPeriod;
     private int credit;
     private int maxStd;
     private int remStd;
