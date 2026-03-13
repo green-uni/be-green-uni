@@ -75,4 +75,30 @@
         INSERT INTO course
         SET lecture_id = #{lectureId}, member_id = #{memberId}
     </insert>
+
+    <select id="getLectureDetail" resultType="com.green.greenuni.application.lectures.model.LectureDetailRes">
+        SELECT
+            lecture_id AS lectureId,
+            major_id AS majorId,
+            type AS lectureType,
+            academic_year AS academicYear,
+            max_std AS maxStd,
+            IFNULL(rem_std, 0) AS remStd
+        FROM lecture
+        WHERE lecture_id = #{lectureId}
+    </select>
+
+    <select id="getStudentDetail">
+        SELECT
+        member_id AS memberId,
+        major_id AS majorId,
+        academic_year AS academicYear  FROM student
+        WHERE member_id = #{memberId}
+    </select>
+
+    <update id="minusLectureRemainder">
+        UPDATE lecture
+        SET rem_std = rem_std - 1
+        WHERE lecture_id = #{lectureId} AND rem_std > 0
+    </update>
 </mapper>

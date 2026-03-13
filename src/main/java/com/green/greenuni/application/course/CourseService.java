@@ -56,7 +56,7 @@ public class CourseService {
             throw new RuntimeException("수강 정원이 초과되었습니다.");
         }
         // [체크 2] 학년 일치 여부
-        if (lecture.getAcademicYear() > student.getAcademicYear()) {
+        if (lecture.getAcademicYear() != student.getAcademicYear()) {
             throw new RuntimeException("해당 강의는 " + lecture.getAcademicYear() + "학년 대상 강의입니다.");
         }
         // [체크 3] 전공 일치 여부
