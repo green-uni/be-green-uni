@@ -16,4 +16,6 @@ public interface MemberMapper {
     List<MemberListRes> findAllMember(MemberListReq req);
 
     MemberFindByCodeRes findByCode(String code);
+
+    MemberProfileRes findUserProfile( long id );
 }

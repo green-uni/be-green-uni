@@ -101,4 +101,9 @@ public class MemberService {
                 .role( res.getRole() )
                 .build();
     }
+
+    // 현재 로그인한 사람의 프로파일 데이터 가져오기
+    public MemberProfileRes findLoginUserProfile( long id, String role ){
+        return memberMapper.findUserProfile( id );
+    }
 }

@@ -43,12 +43,12 @@ public class MemberController {
     }
 
     @GetMapping("/me")
-    public ResultResponse<?> getLoginUserProfile(@AuthenticationPrincipal UserPrincipal userPrincipal
-                                            , @RequestParam long loginUserId){
-        MemberProfileReq req = new MemberProfileReq( loginUserId, userPrincipal.getLoginUserRole() );
-        log.info("req: {}", req);
-        MemberProfileRes res = null;
-        return new ResultResponse<>("프로파일 유저정보", req);
+    public ResultResponse<?> findLoginUserProfile(@AuthenticationPrincipal UserPrincipal userPrincipal){
+        long id = userPrincipal.getLoginUserId(); // 현재 로그인한 user Id
+        String role = userPrincipal.getLoginUserRole(); // 현재 로그인한 user role
+        log.info("loginUserId: {}",id);
+        MemberProfileRes res = memberService.findLoginUserProfile( id , role );
+        return new ResultResponse<>("프로파일 유저정보", res);
     }
 
 }

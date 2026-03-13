@@ -107,4 +107,26 @@
         FROM `member`
         WHERE `code` = #{code}
     </select>
+
+    <select id="findUserProfile">
+        SELECT `code`, m.`name`, `birth`, `email`, m.`tel`, `emergency_tel`
+        , `postcode`, `address`, `detail_address`, `entry_date`, `exit_date`, `pic`
+        , sm.`name` AS stdMajorName, s.`status` AS stdStatus, s.`academic_year`, s.`semester`
+        , pm.`name` AS profMajorName, p.`status` AS profStatus, p.`degree`, p.`position`, p.`lab_room`, p.`lab_tel`
+        , a.`status` AS stfStatus
+        FROM `member` m
+        LEFT JOIN `student` s
+        ON m.member_id = s.member_id
+        LEFT JOIN `professor` p
+        ON m.member_id = p.member_id
+        LEFT JOIN `staff` a
+        ON m.member_id = a.member_id
+
+        LEFT JOIN `major` sm
+        ON s.major_id = sm.major_id
+        LEFT JOIN `major` pm
+        ON p.major_id = pm.major_id
+
+        WHERE m.`member_id` = #{loginUserId}
+    </select>
 </mapper>
