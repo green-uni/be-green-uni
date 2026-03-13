@@ -1,6 +1,6 @@
 package com.green.greenuni.application.attendance;
 
-import com.green.greenuni.application.student.AttendListRes;
+import com.green.greenuni.application.attendance.model.AttendListRes;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.green.greenuni.application.attendance;
 
-import com.green.greenuni.application.student.AttendListRes;
+import com.green.greenuni.application.attendance.model.AttendListRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

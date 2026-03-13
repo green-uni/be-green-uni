@@ -1,4 +1,4 @@
-package com.green.greenuni.application.student;
+package com.green.greenuni.application.attendance.model;
 
 import lombok.Data;
 

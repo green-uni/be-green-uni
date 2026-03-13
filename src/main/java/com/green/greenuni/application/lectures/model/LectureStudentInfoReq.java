@@ -1,9 +1,9 @@
-package com.green.greenuni.application.student;
+package com.green.greenuni.application.lectures.model;
 
 import lombok.Data;
 
 @Data
-public class StudentInfoReq {
+public class LectureStudentInfoReq {
     private long studentCode; //학번
     private String majorName; //학과
     private String studentName; //성명
