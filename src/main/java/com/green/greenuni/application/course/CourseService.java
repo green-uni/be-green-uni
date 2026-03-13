@@ -1,9 +1,8 @@
 package com.green.greenuni.application.course;
 
-import com.green.greenuni.application.course.model.CourseDelReq;
-import com.green.greenuni.application.course.model.CourseListRes;
-import com.green.greenuni.application.course.model.MyCourseListRes;
-import com.green.greenuni.application.course.model.MyCourseResponseDto;
+import com.green.greenuni.application.course.model.*;
+import com.green.greenuni.application.lectures.model.LectureDetailRes;
+import com.green.greenuni.application.student.StudentInfoReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,6 +42,33 @@ public class CourseService {
         if (result > 0) {
             courseMapper.plusLectureRemainder(req.getLectureId());
         }
+        return result;
+    }
+
+    @Transactional
+    public long postCourse(CoursePostReq req) {
+        // 1. 강의 정보 조회 (정원, 대상학년, 개설전공 확인용)
+        LectureDetailRes lecture = courseMapper.getLectureDetail(req.getLectureId());
+        // 2. 학생 정보 조회 (학생의 학년, 전공 확인용)
+        StudentInfoReq student = courseMapper.getStudentDetail(req.getMemberId());
+        // [체크 1] 정원 초과 여부
+        if (lecture.getRemStd() <= 0) {
+            throw new RuntimeException("수강 정원이 초과되었습니다.");
+        }
+        // [체크 2] 학년 일치 여부
+        if (lecture.getAcademicYear() > student.getAcademicYear()) {
+            throw new RuntimeException("해당 강의는 " + lecture.getAcademicYear() + "학년 대상 강의입니다.");
+        }
+        // [체크 3] 전공 일치 여부
+        if (lecture.getLectureType() && !lecture.getMajorId().equals(student.get())) {
+            throw new RuntimeException("해당 전공 학생만 신청 가능한 과목입니다.");
+        }
+
+        // 모든 조건 통과 시 수강 신청 진행
+        int result = courseMapper.insertCourse(req);
+        // 남은 정원 차감
+        courseMapper.minusLectureRemainder(req.getLectureId());
+
         return result;
     }
 }

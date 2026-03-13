@@ -2,6 +2,7 @@ package com.green.greenuni.application.course;
 
 import com.green.greenuni.application.course.model.CourseDelReq;
 import com.green.greenuni.application.course.model.CourseListRes;
+import com.green.greenuni.application.course.model.CoursePostReq;
 import com.green.greenuni.application.course.model.MyCourseResponseDto;
 import com.green.greenuni.configuration.model.ResultResponse;
 import com.green.greenuni.configuration.model.UserPrincipal;
@@ -38,5 +39,17 @@ public class CourseController {
         log.info("req: {}", req);
         int result = courseService.deleteCourse(req);
         return new ResultResponse<>("수강 취소", result);
+    }
+
+    @PostMapping
+    public ResultResponse<?> postCourse(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                        @RequestBody CoursePostReq req) {
+        log.info("통신됐다!!");
+        log.info("signedUserId: {}", userPrincipal.getLoginUserId());
+        log.info("req: {}", req);
+        req.setMemberId(userPrincipal.getLoginUserId());
+        long id = courseService.postCourse(req);
+        String message = id > 0 ? "success" : "failed";
+        return new ResultResponse<>(message, id);
     }
 }

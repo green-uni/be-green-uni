@@ -2,7 +2,10 @@ package com.green.greenuni.application.course;
 
 import com.green.greenuni.application.course.model.CourseDelReq;
 import com.green.greenuni.application.course.model.CourseListRes;
+import com.green.greenuni.application.course.model.CoursePostReq;
 import com.green.greenuni.application.course.model.MyCourseListRes;
+import com.green.greenuni.application.lectures.model.LectureDetailRes;
+import com.green.greenuni.application.student.StudentInfoReq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,4 +23,9 @@ public interface CourseMapper {
     int deleteCourse(CourseDelReq req);
     // 수강 취소 후 잔여 인원 증가
     int plusLectureRemainder(@Param("lectureId") long lectureId);
+    // 수강 신청
+    int saveCourse(CoursePostReq req);
+
+    LectureDetailRes getLectureDetail(long lectureId);
+    StudentInfoReq getStudentDetail(long memberId);
 }

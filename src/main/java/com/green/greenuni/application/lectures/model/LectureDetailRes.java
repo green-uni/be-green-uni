@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class LectureDetailRes {
     private long memberId;
+    private long majorId;
     private String lectureName;
     private String year;
     private int semester;
@@ -16,6 +17,7 @@ public class LectureDetailRes {
     private long lectureId;
     private Integer credit;
     private Integer maxStd;
+    private Integer remStd;
     private String building;
     private String roomNumber;
     private String dayOfWeek;
