@@ -55,6 +55,10 @@ public class LectureService {
         return lectureMapper.findById(req);
     }
 
+    public List<LectureStudentInfoReq> getStudentInfo(LectureDetailReq req, Long loginUserId) {
+        return lectureMapper.studentInfo(req, loginUserId);
+    }
+
     public void updateStatus(Long lectureId, String status) {
         lectureMapper.updateLectureStatus(lectureId, status);
     }
