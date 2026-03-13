@@ -10,7 +10,7 @@ import lombok.ToString;
 
 public class MyLectureListReq {
     private int lectureId;
-    private String loginUserId;
+    private Long loginUserId;
     private int page;
     private int size;
     private int startIdx;
