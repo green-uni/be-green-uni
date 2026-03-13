@@ -51,7 +51,7 @@ public class LectureController {
         return lectureService.getRoomsByBuilding(building);
     }
 
-    @GetMapping("/me/before")
+    @GetMapping("/my")
     public ResultResponse<?> meBefore(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @ModelAttribute MyLectureBeforeReq req) {
         Long loginUserId = userPrincipal.getLoginUserId();
@@ -75,7 +75,7 @@ public class LectureController {
     }
 
     // PATCH /lectures/{lectureId}/status
-    @PatchMapping("/{lectureId}/status")
+    @PatchMapping("/{lectureId}/edit")
     public ResultResponse<?> updateLectureStatus(
             @PathVariable Long lectureId,
             @RequestBody Map<String, String> body// { "status": "approved" or "rejected" }
