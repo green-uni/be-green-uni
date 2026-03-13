@@ -13,12 +13,14 @@ import java.util.List;
 @ToString
 public class LectureDetailRes {
     private long memberId;
+    private long majorId;
     private String lectureName;
     private String year;
     private int semester;
     private String lectureType;
     private Integer credit;
     private Integer maxStd;
+    private Integer remStd;
     private String building;
     private String roomNumber;
     private String day_of_week;
