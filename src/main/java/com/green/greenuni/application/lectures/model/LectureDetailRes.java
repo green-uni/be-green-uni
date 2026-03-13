@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class LectureDetailRes {
     private long memberId;
+    private long loginUserId;
     private String status;
     private long majorId;
     private String lectureName;

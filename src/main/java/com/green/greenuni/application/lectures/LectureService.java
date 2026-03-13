@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.Transient;
 import java.util.List;
 
 
@@ -39,8 +38,13 @@ public class LectureService {
         return new ResultResponse<>("강의실 목록 조회 성공", list);
     }
 
-    public List<MyLectureBeforeRes> meBefore(MyLectureBeforeReq req,Long loginUserId){
-        return lectureMapper.meBefore(req,loginUserId);
+    public List<MyLectureListRes> getMyLectureList(MyLectureListReq req, Long loginUserId, String role){
+        if ("student".equalsIgnoreCase(role)) {
+            return lectureMapper.getMyCourseList(loginUserId); // 학생: 수강신청 목록
+        } else if ("professor".equalsIgnoreCase(role)) {
+            return lectureMapper.getMyLectureList(loginUserId);    // 교수: 본인 강의만
+        }
+        return lectureMapper.getMyLectureList(null);               // 관리자: 전체
     }
 
     public List<LectureListRes> getLectureList(LectureListReq req){
