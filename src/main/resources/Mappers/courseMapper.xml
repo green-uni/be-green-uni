@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.green.greenuni.application.student.course.CourseMapper">
+<mapper namespace="com.green.greenuni.application.course.CourseMapper">
     <select id="getCourseList">
         SELECT
             l.lecture_id AS lectureId,
@@ -44,7 +44,8 @@
             lr.room_number AS roomNumber,
             l.academic_year AS academicYear,
             l.max_std AS maxStd,
-            l.rem_std AS remStd
+            l.rem_std AS remStd,
+            l.status
         FROM course c
         JOIN lecture l ON c.lecture_id = l.lecture_id
         LEFT JOIN member m ON l.member_id = m.member_id
@@ -54,4 +55,19 @@
         WHERE c.member_id = #{memberId}
         ORDER BY l.lecture_id DESC
     </select>
+
+    <update id="plusLectureRemainder">
+        UPDATE lecture
+        SET rem_std = rem_std + 1
+        WHERE lecture_id = #{lectureId}
+    </update>
+
+    <delete id="deleteAttendance">
+        DELETE FROM attendance
+        WHERE course_id = (SELECT course_id FROM course WHERE lecture_id = #{lectureId} AND member_id = #{memberId})
+    </delete>
+    <delete id="deleteCourse">
+        DELETE FROM course
+        WHERE lecture_id = #{lectureId} AND member_id = #{memberId};
+    </delete>
 </mapper>

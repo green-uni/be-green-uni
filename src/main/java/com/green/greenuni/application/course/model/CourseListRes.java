@@ -1,4 +1,4 @@
-package com.green.greenuni.application.student.course.model;
+package com.green.greenuni.application.course.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,4 +20,5 @@ public class CourseListRes {
     private int credit;
     private int maxStd;
     private int remStd;
+    private String status;
 }
