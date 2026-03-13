@@ -70,4 +70,9 @@
         DELETE FROM course
         WHERE lecture_id = #{lectureId} AND member_id = #{memberId};
     </delete>
+
+    <insert id="saveCourse">
+        INSERT INTO course
+        SET lecture_id = #{lectureId}, member_id = #{memberId}
+    </insert>
 </mapper>
