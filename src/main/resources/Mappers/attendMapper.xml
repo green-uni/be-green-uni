@@ -20,7 +20,8 @@
       )
    </insert>
 
-   <select id="getStudentAttendList">
+   <select id="getStudentAttendList"
+           resultType="com.green.greenuni.application.attendance.model.AttendListRes">
       SELECT
             a.attend_date AS attendDate, m.`code` AS `code`, m.`name` AS `name`,
             s.academic_year AS academicYear, mj.`name` AS `major`,
@@ -32,8 +33,6 @@
              ON s.member_id = m.member_id
       LEFT JOIN major mj
              ON mj.major_id = s.major_id
-      JOIN lecture l
-             ON l.lecture_id = a.lecture_id
       WHERE a.lecture_id = #{lectureId}
         AND a.attend_date = #{attendDate}
       ORDER BY m.`name` ASC

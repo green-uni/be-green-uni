@@ -10,15 +10,15 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/attendance")
+@RequestMapping("/api/lectures")
 @RequiredArgsConstructor
 
 public class AttendanceController {
     private final AttendanceService attendanceService;
 
-    @GetMapping("/{lectureId}")
+    @GetMapping("/{lectureId}/attendance")
     public ResultResponse<?> getAttendance(
-        @PathVariable Long lectureId,
+        @PathVariable String lectureId,
         @RequestParam( value = "attendDate", required = false ) String attendDate) {
         log.info("강의 ID: {}, 조회 날짜: {}", lectureId, attendDate);
         List<AttendListRes> attendList = attendanceService.getAttendList(lectureId, attendDate);
