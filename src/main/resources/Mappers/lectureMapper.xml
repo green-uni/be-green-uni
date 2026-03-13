@@ -52,6 +52,7 @@
         SELECT
         l.status,
         l.member_id,
+        l.lecture_id AS lectureId,
         l.type AS lectureType,
         l.name AS lectureName,
         m.name AS proName,
