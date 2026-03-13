@@ -12,6 +12,7 @@ public class MyLectureBeforeRes{
     private String status;
     private long memberId;
     private Long loginUserId;
+    private String lectureId;
     private String lectureType;
     private String lectureName;
     private String proName;

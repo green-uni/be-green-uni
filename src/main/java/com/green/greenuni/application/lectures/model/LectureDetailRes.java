@@ -17,6 +17,7 @@ public class LectureDetailRes {
     private String year;
     private int semester;
     private String lectureType;
+    private long lectureId;
     private Integer credit;
     private Integer maxStd;
     private String building;
