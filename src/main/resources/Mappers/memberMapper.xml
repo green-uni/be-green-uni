@@ -114,6 +114,8 @@
         , sm.`name` AS stdMajorName, s.`status` AS stdStatus, s.`academic_year`, s.`semester`
         , pm.`name` AS profMajorName, p.`status` AS profStatus, p.`degree`, p.`position`, p.`lab_room`, p.`lab_tel`
         , a.`status` AS stfStatus
+        , s.major_id AS stdMajorId
+        , p.major_id AS profMajorId
         FROM `member` m
         LEFT JOIN `student` s
         ON m.member_id = s.member_id
@@ -129,4 +131,26 @@
 
         WHERE m.`member_id` = #{loginUserId}
     </select>
+
+
+    <update id="modMemberBySelf">
+        UPDATE `member`
+        SET
+        `email`= #{email}
+        ,`tel`= #{tel}
+        ,`emergency_tel` = #{emergencyTel}
+        ,`postcode` = #{postcode}
+        ,`address` = #{address}
+        ,`detail_address` = #{detailAddress}
+        ,`pic` = #{pic}
+        WHERE member_id = #{loginUserId}
+    </update>
+
+    <update id="modProfessorMySelf">
+        UPDATE `professor`
+        SET
+        `lab_room` = #{labRoom}
+        , `lab_tel` = #{labTel}
+        WHERE member_id = #{loginUserId}
+    </update>
 </mapper>

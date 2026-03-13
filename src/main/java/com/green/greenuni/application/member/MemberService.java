@@ -106,4 +106,39 @@ public class MemberService {
     public MemberProfileRes findLoginUserProfile( long id, String role ){
         return memberMapper.findUserProfile( id );
     }
+
+    // 로그인 유저가 본인 프로파일 정보 수정
+    @Transactional
+    public String modMemberBySelf(long loginUserId, String loginUserRole, MemberModifyReq req, MultipartFile pic) {
+        req.setLoginUserId(loginUserId);
+        // 프로파일 사진 수정
+        //기존 프로파일 사진은 삭제, 기존 파일명을 구해야 함.
+        MemberProfileRes res = memberMapper.findUserProfile( loginUserId );
+        String savedPic = res.getPic();
+
+        String folderPath = String.format("member/%d", loginUserId);
+
+        if (pic != null) {
+            if (res.getPic() != null) {
+                myFileUtil.deleteFile(String.format("%s/%s", folderPath, res.getPic()));
+            }
+            savedPic = myFileUtil.makeRandomFileName(pic);
+            try {
+                myFileUtil.transferTo(pic, String.format("%s/%s", folderPath, savedPic));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        req.setPic(savedPic);
+        memberMapper.modMemberBySelf(req);
+
+        if("professor".equals(loginUserRole)){
+            memberMapper.modProfessorMySelf(req);
+        }
+
+        return savedPic;
+    }
+
+
 }
