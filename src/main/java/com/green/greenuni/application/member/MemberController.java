@@ -2,16 +2,17 @@ package com.green.greenuni.application.member;
 
 import com.green.greenuni.application.member.model.MemberLoginReq;
 import com.green.greenuni.application.member.model.MemberLoginRes;
+import com.green.greenuni.application.member.model.MemberProfileReq;
+import com.green.greenuni.application.member.model.MemberProfileRes;
 import com.green.greenuni.configuration.model.JwtMember;
 import com.green.greenuni.configuration.model.ResultResponse;
+import com.green.greenuni.configuration.model.UserPrincipal;
 import com.green.greenuni.configuration.security.JwtTokenManager;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -41,5 +42,13 @@ public class MemberController {
         return new ResultResponse<>("로그아웃 성공", 1);
     }
 
+    @GetMapping("/me")
+    public ResultResponse<?> getLoginUserProfile(@AuthenticationPrincipal UserPrincipal userPrincipal
+                                            , @RequestParam long loginUserId){
+        MemberProfileReq req = new MemberProfileReq( loginUserId, userPrincipal.getLoginUserRole() );
+        log.info("req: {}", req);
+        MemberProfileRes res = null;
+        return new ResultResponse<>("프로파일 유저정보", req);
+    }
 
 }
