@@ -95,7 +95,7 @@
     <select id="findById">
         select
         l.member_id AS memberId, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd,l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
-        ls.start_period AS startPeriod
+        ls.start_period AS startPeriod, l.status
 
         from lecture l
         left join lecture_schedule ls
@@ -104,5 +104,12 @@
         on ls.room_id=lr.room_id
         WHERE l.lecture_id = #{lectureId}
     </select>
+
+    <update id="updateLectureStatus">
+        UPDATE lecture
+        SET status = #{status}
+        WHERE lecture_id = #{lectureId}
+    </update>
+
 
 </mapper>

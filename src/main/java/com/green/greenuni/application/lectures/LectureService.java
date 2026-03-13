@@ -51,4 +51,7 @@ public class LectureService {
         return lectureMapper.findById(req);
     }
 
+    public void updateStatus(Long lectureId, String status) {
+        lectureMapper.updateLectureStatus(lectureId, status);
+    }
 }
