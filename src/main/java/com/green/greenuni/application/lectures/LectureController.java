@@ -11,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -71,6 +72,16 @@ public class LectureController {
     public ResultResponse<?> getOneLectures(@ModelAttribute LectureDetailReq req){
         LectureDetailRes result=lectureService.getOneLectures(req);
         return new ResultResponse<>("강의목록상세보기", result);
+    }
+
+    // PATCH /lectures/{lectureId}/status
+    @PatchMapping("/{lectureId}/status")
+    public ResultResponse<?> updateLectureStatus(
+            @PathVariable Long lectureId,
+            @RequestBody Map<String, String> body// { "status": "approved" or "rejected" }
+    ) {
+        lectureService.updateStatus(lectureId, body.get("status"));
+        return new ResultResponse<>("강의 승인 상태 변경", null);
     }
 
 }
