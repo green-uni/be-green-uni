@@ -78,6 +78,8 @@
         m.name AS proName,
         l.credit,
         ls.day_of_week AS dayOfWeek,
+        ls.end_period AS endPeriod,
+        ls.start_period AS startPeriod,
         lr.building,
         lr.room_number AS roomNumber,
         l.academic_year AS academicYear,
@@ -92,7 +94,8 @@
 
     <select id="findById">
         select
-        l.member_id AS memberId, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd,l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek
+        l.member_id AS memberId, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd,l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
+        ls.start_period AS startPeriod
 
         from lecture l
         left join lecture_schedule ls
