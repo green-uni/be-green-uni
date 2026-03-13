@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 
 public class LectureListRes {
+    private long loginUserId;
     private String status;
     private String lectureId;
     private String lectureType;
@@ -24,5 +25,7 @@ public class LectureListRes {
     private Integer academicYear;
     private Integer year;
     private Integer semester;
+
+
 
 }

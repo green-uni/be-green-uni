@@ -52,13 +52,15 @@ public class LectureController {
     }
 
     @GetMapping("/my")
-    public ResultResponse<?> meBefore(@AuthenticationPrincipal UserPrincipal userPrincipal,
-            @ModelAttribute MyLectureBeforeReq req) {
+    public ResultResponse<?> getMyLectureList(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @ModelAttribute MyLectureListReq req) {
         Long loginUserId = userPrincipal.getLoginUserId();
-        List<MyLectureBeforeRes> result = lectureService.meBefore(req, loginUserId);
+        String role = userPrincipal.getLoginUserRole();
+        List<MyLectureListRes> result = lectureService.getMyLectureList(req, loginUserId, role);
         System.out.println(">>> 강의 승인 전 목록 조회 요청이 들어왔습니다!");
         return new ResultResponse<>("성공", result);
     }
+
 
     @GetMapping
     public ResultResponse<?> getLectureList(@AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -74,8 +76,7 @@ public class LectureController {
         return new ResultResponse<>("강의목록상세보기", result);
     }
 
-    // PATCH /lectures/{lectureId}/status
-    @PatchMapping("/{lectureId}/edit")
+    @PatchMapping("/{lectureId}/statusedit")
     public ResultResponse<?> updateLectureStatus(
             @PathVariable Long lectureId,
             @RequestBody Map<String, String> body// { "status": "approved" or "rejected" }
