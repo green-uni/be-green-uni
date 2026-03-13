@@ -1,6 +1,6 @@
 package com.green.greenuni.application.attendance;
 
-import com.green.greenuni.application.student.AttendListRes;
+import com.green.greenuni.application.attendance.model.AttendListRes;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

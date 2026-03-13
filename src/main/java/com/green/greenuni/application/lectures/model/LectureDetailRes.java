@@ -1,12 +1,8 @@
 package com.green.greenuni.application.lectures.model;
 
-import com.green.greenuni.application.student.StudentInfoReq;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.Year;
-import java.util.List;
 
 @Getter
 @Setter
