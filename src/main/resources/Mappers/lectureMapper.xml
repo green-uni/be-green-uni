@@ -126,6 +126,7 @@
     <!-- 학생용: 수강신청한 강의 -->
     <select id="getMyCourseList" resultType="com.green.greenuni.application.lectures.model.LectureListRes">
         SELECT
+        c.member_id AS memberId,
         l.lecture_id AS lectureId,
         l.type AS lectureType,
         mj.name AS majorName,
