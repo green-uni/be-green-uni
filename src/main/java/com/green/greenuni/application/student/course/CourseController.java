@@ -31,11 +31,9 @@ public class CourseController {
 //        return new ResultResponse<>("내 수강 조회", dto);
 //    }
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/my")
     public ResultResponse<MyCourseResponseDto> getMyCourse(@AuthenticationPrincipal UserPrincipal userPrincipal){
-        long memberId = userPrincipal.getLoginUserId();
-        log.info("조회 요청 memberId: {}", memberId);
-        MyCourseResponseDto result = courseService.getMyCourseData(memberId);
-        return new ResultResponse<>("success", result);
+        MyCourseResponseDto result = courseService.getMyCourseData(userPrincipal.getLoginUserId());
+        return new ResultResponse<>("내 수강 내역", result);
     }
 }
