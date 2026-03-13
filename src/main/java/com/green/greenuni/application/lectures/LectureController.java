@@ -76,6 +76,14 @@ public class LectureController {
         return new ResultResponse<>("강의목록상세보기", result);
     }
 
+    @GetMapping("/{lectureId}/studentInfo")
+    public ResultResponse<?> getStudentInfo(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                            @ModelAttribute LectureDetailReq req) {
+        Long loginUserId = userPrincipal.getLoginUserId();
+        List<LectureStudentInfoReq> result = lectureService.getStudentInfo(req, loginUserId);
+        return new ResultResponse<>("수강학생조회완료", result);
+    }
+
     @PatchMapping("/{lectureId}/statusedit")
     public ResultResponse<?> updateLectureStatus(
             @PathVariable Long lectureId,

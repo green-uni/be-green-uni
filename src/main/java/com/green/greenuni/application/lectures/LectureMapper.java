@@ -22,6 +22,8 @@ public interface LectureMapper {
 
 
     LectureDetailRes findById(LectureDetailReq req);
+    List<LectureStudentInfoReq> studentInfo(@Param("req") LectureDetailReq req,
+                                             @Param("loginUserId") Long loginUserId);
 
     void updateLectureStatus(@Param("lectureId") Long lectureId, @Param("status") String status);
 }
