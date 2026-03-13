@@ -18,7 +18,9 @@ public class LectureDetailRes {
     private Integer maxStd;
     private String building;
     private String roomNumber;
-    private String day_of_week;
+    private String dayOfWeek;
+    private String startPeriod;
+    private String endPeriod;
     private Integer academicYear;
 
     private String refBooks;
