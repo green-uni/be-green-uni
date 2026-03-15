@@ -10,4 +10,6 @@ public class MemberLoginRes {
     private String name;
     private String code;
     private String role;
+    private String stdMajorName;
+    private String profMajorName;
 }

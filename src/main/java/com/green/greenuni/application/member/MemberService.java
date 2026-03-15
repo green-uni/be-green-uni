@@ -82,9 +82,13 @@ public class MemberService {
         return res;
     }
 
+    // 모든 멤버 조회
     public List<MemberListRes> findAllMember(MemberListReq req){
         return memberMapper.findAllMember(req);
     }
+    // 모든 멤버 목록 조회때 최대 페이지 조회
+    public int getMemberMaxPage(MemberListMaxPageReq req){ return memberMapper.findMaxPage(req); }
+
 
     public MemberLoginRes logIn(MemberLoginReq req){
         MemberFindByCodeRes res = memberMapper.findByCode( req.getCode() );
@@ -99,6 +103,8 @@ public class MemberService {
                 .code( res.getCode() )
                 .name( res.getName() )
                 .role( res.getRole() )
+                .stdMajorName( res.getStdMajorName() )
+                .profMajorName( res.getProfMajorName() )
                 .build();
     }
 
@@ -140,5 +146,16 @@ public class MemberService {
         return savedPic;
     }
 
+    @Transactional
+    public int modStatusList(List<MemberModifyListReq> reqs){
+        for(MemberModifyListReq req : reqs){
+            switch (req.getRole()){
+                case "admin"     -> memberMapper.modStfStatus(req);
+                case "professor" -> memberMapper.modProfStatus(req);
+                default          -> memberMapper.modStdStatus(req);
+            }
+        }
+        return 1;
+    }
 
 }

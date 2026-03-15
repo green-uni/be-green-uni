@@ -14,9 +14,15 @@ public interface MemberMapper {
     int updateMemberCodeAPw(MemberCreateReq req);
 
     List<MemberListRes> findAllMember(MemberListReq req);
+    int findMaxPage(MemberListMaxPageReq req);
+    int modStdStatus(MemberModifyListReq req);
+    int modProfStatus(MemberModifyListReq req);
+    int modStfStatus(MemberModifyListReq req);
 
+    // login
     MemberFindByCodeRes findByCode(String code);
 
+    // 프로파일 화면
     MemberProfileRes findUserProfile( long id );
 
     int modMemberBySelf(MemberModifyReq req);

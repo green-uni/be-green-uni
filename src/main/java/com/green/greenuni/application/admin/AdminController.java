@@ -1,10 +1,7 @@
 package com.green.greenuni.application.admin;
 
 import com.green.greenuni.application.member.MemberService;
-import com.green.greenuni.application.member.model.MemberCreateReq;
-import com.green.greenuni.application.member.model.MemberCreateRes;
-import com.green.greenuni.application.member.model.MemberListReq;
-import com.green.greenuni.application.member.model.MemberListRes;
+import com.green.greenuni.application.member.model.*;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +20,7 @@ public class AdminController {
     private final MemberService memberService;
 
     @PostMapping("/members")
-    public ResultResponse createMember(@RequestPart MemberCreateReq req
+    public ResultResponse<?> createMember(@RequestPart MemberCreateReq req
             , @RequestPart(required = false) MultipartFile pic){
         log.info("createMember req: {}", req);
         MemberCreateRes res = memberService.createMember(req, pic);
@@ -31,8 +28,23 @@ public class AdminController {
     }
 
     @GetMapping("/members")
-    public ResultResponse findAllMember(@ModelAttribute MemberListReq req){
+    public ResultResponse<?> findAllMember(@ModelAttribute MemberListReq req){
         List<MemberListRes> list = memberService.findAllMember(req);
         return new ResultResponse("전체 계정 조회", list);
     }
+
+    @GetMapping("/members/max_page")
+    public ResultResponse<?> getMemberMaxPage(@ModelAttribute MemberListMaxPageReq req){
+        log.info("req: {}", req);
+        int maxPage = memberService.getMemberMaxPage(req);
+        return new ResultResponse<>("전체 계정 조회시 최대 페이지", maxPage);
+    }
+
+    @PutMapping("/members/mod")
+    public ResultResponse<?> modMembersStatus(@RequestBody List<MemberModifyListReq> reqs){
+        log.info("reqs: {}", reqs);
+        memberService.modStatusList(reqs);
+        return new ResultResponse<>("목록에서 계정 상태 수정", 1);
+    }
+
 }
