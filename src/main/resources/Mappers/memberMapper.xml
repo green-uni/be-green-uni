@@ -58,6 +58,7 @@
             #{ memberId }, #{ status }
         )
     </insert>
+
     <update id="updateMemberCodeAPw">
         UPDATE `member`
         SET
@@ -67,10 +68,11 @@
     </update>
 
     <select id="findAllMember">
-        SELECT m.`code`, m.`name`, m.entry_date, m.exit_date, m.email, m.tel,
-                sm.`name` AS std_major_name, s.`status` AS std_status,
-                pm.`name` AS prof_major_name, p.`status` AS prof_status,
-                a.`status` AS stf_status
+        SELECT m.`member_id`, m.`code`, m.`name`, m.entry_date, m.exit_date, m.email, m.tel
+                , m.`role`
+                , sm.`name` AS std_major_name, s.`status` AS std_status, s.`academic_year`, s.`semester`
+                , pm.`name` AS prof_major_name, p.`status` AS prof_status, p.`position`
+                , a.`status` AS stf_status
           FROM `member` m
 
         LEFT JOIN `student` s
@@ -102,9 +104,67 @@
         LIMIT #{startIdx}, #{size}
     </select>
 
+    <select id="findMaxPage">
+        SELECT CEIL( COUNT(1) / #{size} )
+        FROM `member` m
+
+        LEFT JOIN `student` s
+        ON m.member_id = s.member_id
+        LEFT JOIN `major` sm
+        ON s.major_id = sm.major_id
+
+        LEFT JOIN `professor` p
+        ON m.member_id = p.member_id
+        LEFT JOIN `major` pm
+        ON p.major_id = pm.major_id
+
+        LEFT JOIN `staff` a
+        ON m.member_id = a.member_id
+        <where>
+            <if test="role != null and role != ''">m.role = #{role}</if>
+            <if test="memberName != null and memberName != ''">
+                AND m.name LIKE CONCAT('%', #{memberName}, '%')
+            </if>
+            <if test="majorName != null and majorName != ''">
+                AND (sm.name LIKE CONCAT('%', #{majorName}, '%')
+                OR pm.name LIKE CONCAT('%', #{majorName}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <update id="modStdStatus">
+        UPDATE `student`
+        SET
+        `status` = #{ status }
+        WHERE `member_id` = #{ memberId }
+    </update>
+    <update id="modProfStatus">
+        UPDATE `professor`
+        SET
+        `status` = #{ status }
+        WHERE `member_id` = #{ memberId }
+    </update>
+    <update id="modStfStatus">
+        UPDATE `staff`
+        SET
+        `status` = #{ status }
+        WHERE `member_id` = #{ memberId }
+    </update>
+
     <select id="findByCode">
-        SELECT `member_id`, `code`, `password`, `name`, `role`
-        FROM `member`
+        SELECT m.`member_id`, m.`code`, m.`password`, m.`name`, m.`role`
+            , sm.`name` AS stdMajorName, pm.`name` AS profMajorName
+        FROM `member` m
+
+        LEFT JOIN `student` s
+        ON m.member_id = s.member_id
+        LEFT JOIN `professor` p
+        ON m.member_id = p.member_id
+        LEFT JOIN `major` sm
+        ON s.major_id = sm.major_id
+        LEFT JOIN `major` pm
+        ON p.major_id = pm.major_id
+
         WHERE `code` = #{code}
     </select>
 
