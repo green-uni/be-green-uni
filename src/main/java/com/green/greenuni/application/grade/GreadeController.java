@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/lectures")
 @RequiredArgsConstructor
 public class GreadeController {
-    public final GradeService gradeService;
+    private final GradeService gradeService;
 
     //성적 조회
     @GetMapping("/{lectureId}/grades")
@@ -23,7 +23,7 @@ public class GreadeController {
 
     //성적 수정
     @PatchMapping("/{lectureId}/grades")
-    public ResultResponse<?> updateGrades(@PathVariable Long letureId,
+    public ResultResponse<?> updateGrades(@PathVariable Long lectureId,
                                           @RequestBody List<GradeUpdateReq> req) {
         gradeService.updateGrades(req);
         return new ResultResponse<>("성적 저장 성공", null);

@@ -24,10 +24,17 @@
     <update id="updateGrade">
         UPDATE course
         SET mid_score = #{midScore}
-            , fin_score = #{finScore}
+            , fin_score  = #{finScore}
             , assignment_score = #{assignmentScore}
             , attend_score = #{attendScore}
             , total_score = #{midScore} + #{finScore} + #{assignmentScore} + #{attendScore}
+            , grade_letter = CASE
+                WHEN #{midScore} + #{finScore} + #{assignmentScore} + #{attendScore} >= 90 THEN 'A'
+                WHEN #{midScore} + #{finScore} + #{assignmentScore} + #{attendScore} >= 80 THEN 'B'
+                WHEN #{midScore} + #{finScore} + #{assignmentScore} + #{attendScore} >= 70 THEN 'C'
+                WHEN #{midScore} + #{finScore} + #{assignmentScore} + #{attendScore} >= 60 THEN 'D'
+                ELSE 'F'
+            END
         WHERE course_id = #{courseId}
     </update>
 

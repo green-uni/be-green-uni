@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class GradeService {
-    public final GradeMapper gradeMapper;
+    private final GradeMapper gradeMapper;
 
     public List<GradeRes> getGradeList(Long lectureId) {
         return gradeMapper.getGradeList(lectureId);
