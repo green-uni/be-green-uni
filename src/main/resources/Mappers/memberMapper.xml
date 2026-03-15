@@ -105,7 +105,7 @@
     </select>
 
     <select id="findMaxPage">
-        SELECT CEIL( COUNT(1) / #{size} )
+        SELECT CEIL( COUNT(1) / #{size} ), COUNT(*)
         FROM `member` m
 
         LEFT JOIN `student` s
@@ -191,7 +191,6 @@
 
         WHERE m.`member_id` = #{loginUserId}
     </select>
-
 
     <update id="modMemberBySelf">
         UPDATE `member`
