@@ -4,8 +4,11 @@ import lombok.Data;
 
 @Data
 public class GradeRes {
-    private long studentCode; //학번
-    private String studentName; //성명
+
+    //성적 조회용
+    private Long courseId; //수강id
+    private String code; //학번
+    private String name; //성명
     private int academicYear; //학년
     private int midScore; //중간평가
     private int finScore; //기말평가
