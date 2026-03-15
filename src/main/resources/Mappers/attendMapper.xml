@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.greenuni.application.attendance.AttendanceMapper">
+
+    <!--저장버튼 클릭 시 insert하는 쿼리문-->
    <insert id="setAttendList">
       INSERT IGNORE INTO attendance(
          lecture_id,
@@ -20,9 +22,11 @@
       )
    </insert>
 
+    <!--출결정보있을 때 기존정보 불러오는 쿼리문-->
    <select id="getStudentAttendList"
            resultType="com.green.greenuni.application.attendance.model.AttendListRes">
       SELECT
+            a.attend_id AS attendId,
             a.attend_date AS attendDate, m.`code` AS `code`, m.`name` AS `name`,
             s.academic_year AS academicYear, mj.`name` AS `major`,
             a.`status` AS `status`, a.reason AS reason, a.lecture_id
@@ -37,4 +41,29 @@
         AND a.attend_date = #{attendDate}
       ORDER BY m.`name` ASC
    </select>
+
+    <!--기존데이터 없을 때 수강중인 학생만 불러오는 쿼리문-->
+    <select id="getCourseStudentList"
+            resultType="com.green.greenuni.application.attendance.model.AttendListRes">
+        SELECT
+        m.code AS code, m.name AS name, s.academic_year AS academicYear, mj.name AS major,
+        'attend' AS status, null AS reason, null AS attendId, #{attendDate} AS attendDate
+        FROM course c
+        LEFT JOIN student s
+          ON c.member_id = s.member_id
+        LEFT JOIN member m
+          ON s.member_id = m.member_id
+        LEFT JOIN major mj
+          ON s.major_id  = mj.major_id
+        WHERE c.lecture_id = #{lectureId}
+        ORDER BY m.name ASC
+    </select>
+
+    <!--출결상태 수정 시 update하는 쿼리문-->
+    <update id="updateAttend">
+        UPDATE attendance
+        SET `status` = #{status}
+            , reason = #{reason}
+        WHERE attend_id = #{attendId}
+    </update>
 </mapper>

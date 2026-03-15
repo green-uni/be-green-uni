@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.greenuni.application.grade.GradeMapper">
+
+    <!--성적조회-->
+    <select id="getGradeList"
+            resultType="com.green.greenuni.application.grade.model.GradeRes">
+        SELECT
+        c.course_id AS courseId, m.code AS code, m.name AS name,
+        s.academic_year AS academicYear, c.mid_score AS midScore,
+        c.fin_score AS finScore, c.assignment_score AS assignmentScore,
+        c.attend_score AS attendScore, c.total_score AS totalScore,
+        c.grade_letter AS gradeLetter
+        FROM course c
+        LEFT JOIN student s
+          ON c.member_id = s.member_id
+        LEFT JOIN member m
+          ON s.member_id = m.member_id
+        WHERE c.lecture_id = #{lectureId}
+        ORDER BY m.name ASC
+    </select>
+
+    <!--성적수정-->
+    <update id="updateGrade">
+        UPDATE course
+        SET mid_score = #{midScore}
+            , fin_score = #{finScore}
+            , assignment_score = #{assignmentScore}
+            , attend_score = #{attendScore}
+            , total_score = #{midScore} + #{finScore} + #{assignmentScore} + #{attendScore}
+        WHERE course_id = #{courseId}
+    </update>
+
+</mapper>
