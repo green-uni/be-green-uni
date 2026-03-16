@@ -18,8 +18,8 @@ public class LectureListRes {
     private String proName;
     private Integer credit;
     private String dayOfWeek;
-    private String startPeriod;
-    private String endPeriod;
+    private Integer startPeriod;
+    private Integer endPeriod;
     private String building;
     private String roomNumber;
     private Integer academicYear;

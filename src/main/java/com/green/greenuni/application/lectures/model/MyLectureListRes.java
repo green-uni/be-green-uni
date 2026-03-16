@@ -17,9 +17,9 @@ public class MyLectureListRes {
     private String lectureName;
     private String proName;
     private Integer credit;
-    private String day_of_week;
-    private String start_period;
-    private String end_period;
+    private String dayOfWeek;
+    private Integer startPeriod;
+    private Integer endPeriod;
     private String building;
     private String roomNumber;
     private Integer academicYear;

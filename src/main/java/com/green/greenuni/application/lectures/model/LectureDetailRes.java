@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LectureDetailRes {
-
+    private Long memberId;
     private Long loginUserId;
     private String status;
     private Long majorId;
