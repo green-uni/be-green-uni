@@ -36,6 +36,15 @@ public class LectureController {
         return new ResultResponse<>("강의개설이 되었습니다.", result);
     }
 
+    @PatchMapping("edit/{lectureId}")
+    public ResultResponse<?> editlecture(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                         @PathVariable Long lectureId, @RequestBody LectureCreateReq req){
+        req.setLoginUserId(userPrincipal.getLoginUserId());
+
+        int result=lectureService.editLeceture(lectureId, req);
+        return new ResultResponse<>("강의개설이 수정되었습니다.", result);
+    }
+
     @GetMapping("/professor")
     public ResultResponse<?> getProName(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return lectureService.getProName(userPrincipal.getLoginUserId());

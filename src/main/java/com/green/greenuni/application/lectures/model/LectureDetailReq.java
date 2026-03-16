@@ -10,8 +10,8 @@ import lombok.ToString;
 
 public class LectureDetailReq {
     private String loginUserId;
-    private long memberId;
-    private long lectureId;
+    private Long memberId;
+    private Long lectureId;
     private int page;
     private int size;
     private int startIdx;

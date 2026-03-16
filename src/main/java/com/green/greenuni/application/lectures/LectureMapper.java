@@ -15,6 +15,9 @@ public interface LectureMapper {
     List<String> getBuildings();
     List<LectureRoom> getRoomsByBuilding(String building);
 
+    int editLeceture(LectureCreateReq req);
+    int updateSchedule(LectureCreateReq req);
+
     List<MyLectureListRes> getMyLectureList(@Param("loginUserId") Long loginUserId);
     List<MyLectureListRes> getMyCourseList(@Param("loginUserId") Long loginUserId);
 
@@ -26,4 +29,5 @@ public interface LectureMapper {
                                              @Param("loginUserId") Long loginUserId);
 
     void updateLectureStatus(@Param("lectureId") Long lectureId, @Param("status") String status);
+
 }
