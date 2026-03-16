@@ -56,7 +56,7 @@ public class MemberController {
 
     @PutMapping("/me/mod")
     public ResultResponse<?> modMemberBySelf(@AuthenticationPrincipal UserPrincipal userPrincipal,
-                                             @RequestPart MemberModifyReq req,
+                                             @RequestPart MemberEditReq req,
                                              @RequestPart(required = false) MultipartFile pic){
         long id = userPrincipal.getLoginUserId(); // 현재 로그인한 user Id
         String role = userPrincipal.getLoginUserRole(); // 현재 로그인한 user role
