@@ -65,6 +65,11 @@ public class JwtTokenManager { //인증처리 총괄
         return myCookieUtil.getValue(req, constJwt.getAccessTokenCookieName());
     }
 
+    // 쿠키에서 RT꺼내기
+    public String getRefreshTokenFromCookie(HttpServletRequest req) {
+        return myCookieUtil.getValue(req, constJwt.getRefreshTokenCookieName());
+    }
+
     // 쿠키에 든 AT를 확인
     public Authentication getAuthentication(HttpServletRequest req){
         String accessToken = getAccessTokenFromCookie(req); // req의 쿠키 속 AT 꺼내기
@@ -96,4 +101,15 @@ public class JwtTokenManager { //인증처리 총괄
         deleteRefreshTokenInCookie(res);
     }
 
+    // AT 재발행
+    public void reissue(HttpServletRequest req, HttpServletResponse res) {
+        //req에서 RT을 얻기
+        String refreshToken = getRefreshTokenFromCookie(req);
+
+        //RT를 이용하여 JwtUser 객체 생성
+        JwtMember jwtMember = jwtTokenProvider.getJwtMemberFromToken(refreshToken);
+
+        //JwtMember를 이용해 AT를 만들어 cookie에 담기
+        setAccessTokenInCookie(res, jwtMember);
+    }
 }
