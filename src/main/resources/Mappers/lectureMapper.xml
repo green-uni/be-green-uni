@@ -82,7 +82,10 @@
         l.name AS lectureName,
         m.name AS proName,
         l.credit,
-        ls.day_of_week as dayOfWeek, lr.building,
+        ls.day_of_week as dayOfWeek,
+        ls.end_period AS endPeriod,
+        ls.start_period AS startPeriod,
+        lr.building,
         lr.room_number as roomNumber, l.academic_year AS academicYear,
         l.max_std AS maxStd,
         l.is_open
@@ -90,8 +93,12 @@
         JOIN member m ON l.member_id = m.member_id
         LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
         LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
-        WHERE l.member_id = #{loginUserId}
-        AND l.member_id = #{loginUserId}
+        <choose>
+            <when test="role == 'professor'">
+                WHERE l.member_id = #{loginUserId}
+            </when>
+            <!-- admin은 WHERE 조건 없음 → 전체 조회 -->
+        </choose>
     </select>
 
     <!-- 학생용: 수강신청한 강의 -->
@@ -123,7 +130,7 @@
 
     <select id="findById">
         select
-        l.member_id AS loginUserId, l.lecture_id, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd, l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
+        l.member_id AS memberId, l.lecture_id, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd, l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
         ls.start_period AS startPeriod, l.status, l.major_id AS majorId, m.name AS majorName
 
         from lecture l

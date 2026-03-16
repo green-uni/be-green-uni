@@ -21,7 +21,7 @@ public interface LectureMapper {
     int updateSchedule(@Param("lectureId") Long lectureId, @Param("req") LectureCreateReq req);
 
 
-    List<MyLectureListRes> getMyLectureList(@Param("loginUserId") Long loginUserId);
+    List<MyLectureListRes> getMyLectureList(@Param("loginUserId") Long loginUserId,@Param("role") String role);
     List<MyLectureListRes> getMyCourseList(@Param("loginUserId") Long loginUserId);
 
     List<LectureListRes> getLectureList(LectureListReq req);

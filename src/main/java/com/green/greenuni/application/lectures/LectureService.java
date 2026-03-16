@@ -60,10 +60,8 @@ public class LectureService {
     public List<MyLectureListRes> getMyLectureList(MyLectureListReq req, Long loginUserId, String role){
         if ("student".equalsIgnoreCase(role)) {
             return lectureMapper.getMyCourseList(loginUserId); // 학생: 수강신청 목록
-        } else if ("professor".equalsIgnoreCase(role)) {
-            return lectureMapper.getMyLectureList(loginUserId);    // 교수: 본인 강의만
-        }
-        return lectureMapper.getMyLectureList(null);               // 관리자: 전체
+        } // professor, admin 둘 다 getMyLectureList로 → XML에서 role로 분기
+        return lectureMapper.getMyLectureList(loginUserId, role);
     }
 
     public List<LectureListRes> getLectureList(LectureListReq req){
