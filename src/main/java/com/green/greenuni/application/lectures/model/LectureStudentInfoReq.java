@@ -9,5 +9,5 @@ public class LectureStudentInfoReq {
     private String studentName; //성명
     private int academicYear; //학년
     private String gradeLetter; //점수(등급)
-    private String lectureId; //강의ID
+    private Long lectureId; //강의ID
 }

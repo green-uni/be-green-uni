@@ -8,15 +8,16 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LectureDetailRes {
-    private long memberId;
-    private long loginUserId;
+
+    private Long loginUserId;
     private String status;
-    private long majorId;
+    private Long majorId;
+    private String majorName;
+    private Long lectureId;
     private String lectureName;
     private String year;
     private int semester;
     private String lectureType;
-    private long lectureId;
     private Integer credit;
     private Integer maxStd;
     private Integer remStd;

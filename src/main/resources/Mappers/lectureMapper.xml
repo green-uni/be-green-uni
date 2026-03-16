@@ -90,37 +90,8 @@
         JOIN member m ON l.member_id = m.member_id
         LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
         LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
-
+        WHERE l.member_id = #{loginUserId}
         AND l.member_id = #{loginUserId}
-    </select>
-
-    <!-- 교수/관리자용 상세 -->
-    <select id="getMyLecture" resultType="com.green.greenuni.application.lectures.model.LectureListRes">
-        SELECT
-        l.lecture_id AS lectureId,
-        l.type AS lectureType,
-        mj.name AS majorName,
-        l.name AS lectureName,
-        m.name AS proName,
-        l.credit,
-        ls.day_of_week AS dayOfWeek,
-        ls.end_period AS endPeriod,
-        ls.start_period AS startPeriod,
-        lr.building,
-        lr.room_number AS roomNumber,
-        l.academic_year AS academicYear,
-        l.status
-        FROM lecture l
-        LEFT JOIN member m ON l.member_id = m.member_id
-        LEFT JOIN major mj ON l.major_id = mj.major_id
-        LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
-        LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
-        <where>
-            <if test="loginUserId != null and loginUserId != '' and loginUserId != '0'">
-                AND l.member_id = #{loginUserId}  <!-- 교수면 본인 강의만 -->
-            </if>
-        </where>
-        ORDER BY l.lecture_id DESC
     </select>
 
     <!-- 학생용: 수강신청한 강의 -->
@@ -152,14 +123,30 @@
 
     <select id="findById">
         select
-        l.member_id AS memberId, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd,l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
-        ls.start_period AS startPeriod, l.status
+        l.member_id AS loginUserId, l.lecture_id, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd, l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
+        ls.start_period AS startPeriod, l.status, l.major_id AS majorId, m.name AS majorName
 
         from lecture l
         left join lecture_schedule ls
         on l.lecture_id=ls.lecture_id
         left join lecture_room lr
         on ls.room_id=lr.room_id
+        LEFT JOIN major m ON l.major_id = m.major_id
+        WHERE l.lecture_id = #{lectureId}
+    </select>
+
+    <!--강의수정-->
+    <select id="editLeceture">
+        select
+        l.member_id AS loginUserId, l.lecture_id, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd, l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
+        ls.start_period AS startPeriod, l.status, l.major_id AS majorId, m.name AS majorName
+
+        from lecture l
+        left join lecture_schedule ls
+        on l.lecture_id=ls.lecture_id
+        left join lecture_room lr
+        on ls.room_id=lr.room_id
+        LEFT JOIN major m ON l.major_id = m.major_id
         WHERE l.lecture_id = #{lectureId}
     </select>
 
@@ -186,6 +173,17 @@
     <update id="updateLectureStatus">
         UPDATE lecture
         SET status = #{status}
+        WHERE lecture_id = #{lectureId}
+    </update>
+
+    <!-- lecture_schedule UPDATE -->
+    <update id="updateSchedule">
+        UPDATE lecture_schedule
+        SET room_id = (SELECT room_id FROM lecture_room
+        WHERE room_number = #{roomNumber} LIMIT 1),
+        day_of_week = #{dayOfWeek},
+        start_period = #{startPeriod},
+        end_period   = #{endPeriod}
         WHERE lecture_id = #{lectureId}
     </update>
 

@@ -38,6 +38,14 @@ public class LectureService {
         return new ResultResponse<>("강의실 목록 조회 성공", list);
     }
 
+    @Transactional
+    public int editLeceture(Long lectureId, LectureCreateReq req) {
+        req.setLectureId(lectureId);
+        lectureMapper.editLeceture(req);   // lecture 테이블 수정
+        return lectureMapper.updateSchedule(req); // schedule 테이블 수정
+    }
+
+
     public List<MyLectureListRes> getMyLectureList(MyLectureListReq req, Long loginUserId, String role){
         if ("student".equalsIgnoreCase(role)) {
             return lectureMapper.getMyCourseList(loginUserId); // 학생: 수강신청 목록

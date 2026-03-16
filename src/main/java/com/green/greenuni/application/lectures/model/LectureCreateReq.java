@@ -30,6 +30,6 @@ public class LectureCreateReq {
     private String dayOfWeek;
     private Integer startPeriod;
     private Integer endPeriod;
-    private Integer lectureId;
+    private Long lectureId;
 
 }
