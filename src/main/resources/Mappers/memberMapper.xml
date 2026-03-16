@@ -213,10 +213,14 @@
         WHERE member_id = #{loginUserId}
     </update>
 
-    <update id="modPwMySelf">
+    <select id="findById"  resultType="com.green.greenuni.application.member.model.MemberFindByIdRes">
+        SELECT `member_id`, `password`
+        FROM `member`
+        WHERE `member_id` = #{id}
+    </select>
+    <update id="changePw">
         UPDATE `member`
-        SET
-        `password` = #{password}
-        WHERE member_id = #{loginUserId}
+        SET `password` = #{newPassword}
+        WHERE `member_id` = #{loginUserId}
     </update>
 </mapper>
