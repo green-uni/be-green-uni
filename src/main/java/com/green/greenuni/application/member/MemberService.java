@@ -1,5 +1,7 @@
 package com.green.greenuni.application.member;
 
+import com.green.greenuni.application.admin.model.MemberEditByAdminReq;
+import com.green.greenuni.application.admin.model.MemberEditByAdminRes;
 import com.green.greenuni.application.member.model.*;
 import com.green.greenuni.configuration.util.MyFileUtil;
 import lombok.RequiredArgsConstructor;
@@ -113,9 +115,10 @@ public class MemberService {
         return memberMapper.findUserProfile( id );
     }
 
+
     // 로그인 유저가 본인 프로파일 정보 수정
     @Transactional
-    public String modMemberBySelf(long loginUserId, String loginUserRole, MemberModifyReq req, MultipartFile pic) {
+    public String modMemberBySelf(long loginUserId, String loginUserRole, MemberEditReq req, MultipartFile pic) {
         req.setLoginUserId(loginUserId);
         // 프로파일 사진 수정
         //기존 프로파일 사진은 삭제, 기존 파일명을 구해야 함.
@@ -146,9 +149,10 @@ public class MemberService {
         return savedPic;
     }
 
+    // 관리자가 목록에서 상태만 수정
     @Transactional
-    public int modStatusList(List<MemberModifyListReq> reqs){
-        for(MemberModifyListReq req : reqs){
+    public int modStatusList(List<MemberEditListReq> reqs){
+        for(MemberEditListReq req : reqs){
             switch (req.getRole()){
                 case "admin"     -> memberMapper.modStfStatus(req);
                 case "professor" -> memberMapper.modProfStatus(req);
@@ -158,4 +162,17 @@ public class MemberService {
         return 1;
     }
 
+    // 관리자가 수정
+//    @Transactional
+//    public int editMemberByAdmin(MemberEditByAdminReq req){
+//        memberMapper.editMemberByAdmin(req);
+//
+//        switch (req.getRole()){
+//            case "admin"     -> memberMapper.editStfByAdmin(req);
+//            case "professor" -> memberMapper.editProfByAdmin(req);
+//            default          -> memberMapper.editStdByAdmin(req);
+//        }
+//
+//        return 1;
+//    }
 }

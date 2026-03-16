@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberModifyReq {
+public class MemberEditReq {
     private String role;
     private String birth;
     private String name;

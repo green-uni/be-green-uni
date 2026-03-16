@@ -212,4 +212,11 @@
         , `lab_tel` = #{labTel}
         WHERE member_id = #{loginUserId}
     </update>
+
+    <update id="modPwMySelf">
+        UPDATE `member`
+        SET
+        `password` = #{password}
+        WHERE member_id = #{loginUserId}
+    </update>
 </mapper>

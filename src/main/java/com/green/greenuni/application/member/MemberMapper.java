@@ -15,9 +15,9 @@ public interface MemberMapper {
 
     List<MemberListRes> findAllMember(MemberListReq req);
     int findMaxPage(MemberListMaxPageReq req);
-    int modStdStatus(MemberModifyListReq req);
-    int modProfStatus(MemberModifyListReq req);
-    int modStfStatus(MemberModifyListReq req);
+    int modStdStatus(MemberEditListReq req);
+    int modProfStatus(MemberEditListReq req);
+    int modStfStatus(MemberEditListReq req);
 
     // login
     MemberFindByCodeRes findByCode(String code);
@@ -25,6 +25,6 @@ public interface MemberMapper {
     // 프로파일 화면
     MemberProfileRes findUserProfile( long id );
 
-    int modMemberBySelf(MemberModifyReq req);
-    int modProfessorMySelf(MemberModifyReq req);
+    int modMemberBySelf(MemberEditReq req);
+    int modProfessorMySelf(MemberEditReq req);
 }
