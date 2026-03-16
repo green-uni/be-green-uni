@@ -1,7 +1,6 @@
 package com.green.greenuni.application.admin;
 
-import com.green.greenuni.application.admin.model.MemberEditByAdminReq;
-import com.green.greenuni.application.admin.model.MemberEditByAdminRes;
+import com.green.greenuni.application.admin.model.*;
 import com.green.greenuni.application.member.MemberService;
 import com.green.greenuni.application.member.model.*;
 import com.green.greenuni.configuration.model.ResultResponse;

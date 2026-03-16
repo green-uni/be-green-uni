@@ -1,15 +1,16 @@
 package com.green.greenuni.application.member;
 
-import com.green.greenuni.application.admin.model.MemberEditByAdminReq;
-import com.green.greenuni.application.admin.model.MemberEditByAdminRes;
+import com.green.greenuni.application.admin.model.*;
 import com.green.greenuni.application.member.model.*;
 import com.green.greenuni.configuration.util.MyFileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +26,6 @@ public class MemberService {
 
     @Transactional
     public MemberCreateRes createMember(MemberCreateReq req, MultipartFile mf){
-
         //파일 업로드가 되었으면 저장하는 파일명을 테이블에 저장
         String savedPicFileName = mf == null ? null : myFileUtil.makeRandomFileName(mf);
         req.setPic(savedPicFileName);
@@ -96,7 +96,7 @@ public class MemberService {
         MemberFindByCodeRes res = memberMapper.findByCode( req.getCode() );
         if (res == null) {
             throw new RuntimeException("존재하지 않는 회원입니다.");
-        } // 로그인 id를 DB에서 조회 후 결과가 없으면 해당 문구 throw
+        } // 로그인 code를 DB에서 조회 후 결과가 없으면 해당 문구 throw
         if(!passwordEncoder.matches( req.getPassword(), res.getPassword() ) ){
             return null;
         }
@@ -166,13 +166,29 @@ public class MemberService {
 //    @Transactional
 //    public int editMemberByAdmin(MemberEditByAdminReq req){
 //        memberMapper.editMemberByAdmin(req);
-//
 //        switch (req.getRole()){
 //            case "admin"     -> memberMapper.editStfByAdmin(req);
 //            case "professor" -> memberMapper.editProfByAdmin(req);
 //            default          -> memberMapper.editStdByAdmin(req);
 //        }
-//
 //        return 1;
 //    }
+
+    //비밀번호 수정
+    @Transactional
+    public int changePw(long id, MemberPwChangeReq req){
+        req.setLoginUserId(id);
+        MemberFindByIdRes res = memberMapper.findById( id );
+
+        if(!passwordEncoder.matches( req.getOldPassword(), res.getPassword() ) ){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다.");
+        }
+
+        // 변경할 비밀번호 암호화
+        String rawPw = req.getNewPassword();
+        String hashedPw = passwordEncoder.encode(rawPw);
+        req.setNewPassword(hashedPw);
+
+        return memberMapper.changePw(req);
+    }
 }

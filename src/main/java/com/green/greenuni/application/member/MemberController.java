@@ -67,4 +67,12 @@ public class MemberController {
         return new ResultResponse<>("로그인 유저 정보 수정", res);
     }
 
+    @PatchMapping("/me/pw")
+    public ResultResponse<?> changePwInProfile(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                               @RequestBody MemberPwChangeReq req){
+        long loginUserId = userPrincipal.getLoginUserId(); // 현재 로그인한 user Id
+        log.info("loginUserId: {}", loginUserId);
+        int result = memberService.changePw(loginUserId, req);
+        return new ResultResponse<>("비밀번호 변경 성공", result);
+    }
 }
