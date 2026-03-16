@@ -14,7 +14,7 @@ public class LectureCreateReq {
 
     private Integer majorId;
     private String majorName;
-    private String year;
+    private Integer year;
     private Integer semester;
     private String lectureName;
     private Integer credit;

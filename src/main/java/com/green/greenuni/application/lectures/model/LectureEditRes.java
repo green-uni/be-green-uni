@@ -1,19 +1,18 @@
 package com.green.greenuni.application.lectures.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
-public class LectureDetailRes {
+import lombok.Data;
 
+import java.util.List;
+
+@Data
+    public class LectureEditRes {
+    // 강의 기본정보 (LectureDetailRes 필드 그대로)
+    private Long lectureId;
     private Long loginUserId;
     private String status;
     private Long majorId;
     private String majorName;
-    private Long lectureId;
     private String lectureName;
     private Integer year;
     private int semester;
@@ -27,8 +26,11 @@ public class LectureDetailRes {
     private String startPeriod;
     private String endPeriod;
     private Integer academicYear;
-
     private String refBooks;
     private String goal;
     private String weeklyPlan;
-}
+        // 드롭다운용
+        private List<String> buildingList;
+        private List<LectureRoom> roomList;
+    }
+

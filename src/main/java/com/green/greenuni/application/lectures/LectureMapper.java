@@ -1,6 +1,7 @@
 package com.green.greenuni.application.lectures;
 
 import com.green.greenuni.application.lectures.model.*;
+import com.green.greenuni.configuration.model.ResultResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,8 +16,10 @@ public interface LectureMapper {
     List<String> getBuildings();
     List<LectureRoom> getRoomsByBuilding(String building);
 
-    int editLeceture(LectureCreateReq req);
-    int updateSchedule(LectureCreateReq req);
+    LectureEditRes findByIdForEdit(@Param("lectureId") Long lectureId);
+    int editLeceture(@Param("lectureId") Long lectureId, @Param("req") LectureCreateReq req);
+    int updateSchedule(@Param("lectureId") Long lectureId, @Param("req") LectureCreateReq req);
+
 
     List<MyLectureListRes> getMyLectureList(@Param("loginUserId") Long loginUserId);
     List<MyLectureListRes> getMyCourseList(@Param("loginUserId") Long loginUserId);
