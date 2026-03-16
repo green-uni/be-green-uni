@@ -36,13 +36,19 @@ public class LectureController {
         return new ResultResponse<>("강의개설이 되었습니다.", result);
     }
 
-    @PatchMapping("edit/{lectureId}")
-    public ResultResponse<?> editlecture(@AuthenticationPrincipal UserPrincipal userPrincipal,
-                                         @PathVariable Long lectureId, @RequestBody LectureCreateReq req){
-        req.setLoginUserId(userPrincipal.getLoginUserId());
+    @GetMapping("/edit/{lectureId}")
+    public ResultResponse<?> editlecture(@PathVariable Long lectureId){
+        LectureEditRes result = lectureService.findByIdForEdit(lectureId);
+        return new ResultResponse<>("강의 수정 데이터 조회", result);
+    }
 
-        int result=lectureService.editLeceture(lectureId, req);
-        return new ResultResponse<>("강의개설이 수정되었습니다.", result);
+    @PatchMapping("/edit/{lectureId}")
+    public ResultResponse<?> editLecture(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                         @PathVariable Long lectureId,
+                                         @RequestBody LectureCreateReq req) {
+        req.setLoginUserId(userPrincipal.getLoginUserId());
+        req.setLectureId(lectureId);
+        return lectureService.editLeceture(lectureId, req);
     }
 
     @GetMapping("/professor")

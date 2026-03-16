@@ -135,20 +135,61 @@
         WHERE l.lecture_id = #{lectureId}
     </select>
 
-    <!--강의수정-->
-    <select id="editLeceture">
-        select
-        l.member_id AS loginUserId, l.lecture_id, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd, l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
-        ls.start_period AS startPeriod, l.status, l.major_id AS majorId, m.name AS majorName
-
-        from lecture l
-        left join lecture_schedule ls
-        on l.lecture_id=ls.lecture_id
-        left join lecture_room lr
-        on ls.room_id=lr.room_id
-        LEFT JOIN major m ON l.major_id = m.major_id
+    <!--강의수정시 불러올 내용-->
+    <select id="findByIdForEdit" resultType="com.green.greenuni.application.lectures.model.LectureEditRes">
+        SELECT
+        l.lecture_id    AS lectureId,
+        l.member_id     AS loginUserId,
+        l.name          AS lectureName,
+        l.year,
+        l.semester,
+        l.type          AS lectureType,
+        l.credit,
+        l.max_std       AS maxStd,
+        l.academic_year AS academicYear,
+        l.ref_books     AS refBooks,
+        l.goal,
+        l.weekly_plan   AS weeklyPlan,
+        l.status,
+        l.major_id      AS majorId,
+        mj.name         AS majorName,
+        ls.day_of_week  AS dayOfWeek,
+        ls.start_period AS startPeriod,
+        ls.end_period   AS endPeriod,
+        lr.building,
+        lr.room_number  AS roomNumber
+        FROM lecture l
+        LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
+        LEFT JOIN lecture_room lr     ON ls.room_id = lr.room_id
+        LEFT JOIN major mj            ON l.major_id = mj.major_id
         WHERE l.lecture_id = #{lectureId}
     </select>
+
+    <update id="editLeceture">
+        UPDATE lecture
+        SET major_id = #{req.majorId},
+        name          = #{req.lectureName},
+        credit        = #{req.credit},
+        type          = #{req.lectureType},
+        ref_books     = #{req.refBooks},
+        goal          = #{req.goal},
+        weekly_plan   = #{req.weeklyPlan},
+        academic_year = #{req.academicYear},
+        max_std       = #{req.maxStd},
+        semester      = #{req.semester},
+        year          = #{req.year}
+        WHERE lecture_id = #{lectureId}
+    </update>
+
+    <update id="updateSchedule">
+        UPDATE lecture_schedule
+        SET room_id      = (SELECT room_id FROM lecture_room
+        WHERE room_number = #{req.roomNumber} LIMIT 1),
+        day_of_week  = #{req.dayOfWeek},
+        start_period = #{req.startPeriod},
+        end_period   = #{req.endPeriod}
+        WHERE lecture_id = #{lectureId}
+    </update>
 
     <!--내 강의수강하는 학생 정보-->
     <select id="studentInfo"
@@ -176,16 +217,6 @@
         WHERE lecture_id = #{lectureId}
     </update>
 
-    <!-- lecture_schedule UPDATE -->
-    <update id="updateSchedule">
-        UPDATE lecture_schedule
-        SET room_id = (SELECT room_id FROM lecture_room
-        WHERE room_number = #{roomNumber} LIMIT 1),
-        day_of_week = #{dayOfWeek},
-        start_period = #{startPeriod},
-        end_period   = #{endPeriod}
-        WHERE lecture_id = #{lectureId}
-    </update>
 
 
 </mapper>

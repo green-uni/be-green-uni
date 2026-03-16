@@ -5,6 +5,7 @@ import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -38,13 +39,23 @@ public class LectureService {
         return new ResultResponse<>("강의실 목록 조회 성공", list);
     }
 
-    @Transactional
-    public int editLeceture(Long lectureId, LectureCreateReq req) {
-        req.setLectureId(lectureId);
-        lectureMapper.editLeceture(req);   // lecture 테이블 수정
-        return lectureMapper.updateSchedule(req); // schedule 테이블 수정
+    public LectureEditRes findByIdForEdit(Long lectureId) {
+        LectureEditRes res = lectureMapper.findByIdForEdit(lectureId);
+
+        // 전체 건물 목록
+        res.setBuildingList(lectureMapper.getBuildings());
+        // 해당 강의 건물의 강의실 목록
+        if (res.getBuilding() != null) {
+            res.setRoomList(lectureMapper.getRoomsByBuilding(res.getBuilding()));
+        }
+        return res;
     }
 
+    public ResultResponse editLeceture(Long lectureId, LectureCreateReq req){
+        lectureMapper.updateSchedule(lectureId, req);
+        lectureMapper.editLeceture(lectureId, req);
+        return new ResultResponse<>("강의가 수정되었습니다.", null);
+    }
 
     public List<MyLectureListRes> getMyLectureList(MyLectureListReq req, Long loginUserId, String role){
         if ("student".equalsIgnoreCase(role)) {
