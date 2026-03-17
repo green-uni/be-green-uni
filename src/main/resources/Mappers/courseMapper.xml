@@ -23,7 +23,7 @@
         LEFT JOIN major mj ON l.major_id = mj.major_id
         LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
         LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
-        ORDER BY l.lecture_id DESC
+        ORDER BY l.name
     </select>
 
     <select id="getTotalEnrolledCredits" resultType="int">
@@ -57,7 +57,7 @@
         LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
         LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
         WHERE c.member_id = #{memberId}
-        ORDER BY l.lecture_id DESC
+        ORDER BY l.name
     </select>
 
     <delete id="deleteAttendance">
