@@ -15,7 +15,8 @@ public class MajorCreateReq {
     private String active;
     private String room;
     private String tel;
-    private String chairProfessor;
+    private long chairProfessorId;
+    private String chairProfessorName;
     private int capacity;
     private long majorId;
     private String college;

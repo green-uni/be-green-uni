@@ -11,7 +11,7 @@ public class MajorListRes {
     private String name;
     private String room;
     private String tel;
-    private String chairProfessor;
+    private String chairProfessorName;
     private int capacity;
     private long majorId;
     private int professorCount;

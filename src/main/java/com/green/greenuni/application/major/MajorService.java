@@ -30,4 +30,8 @@ public class MajorService {
     public MajorDetailRes getMajor(long majorId) {
         return majorMapper.getMajor(majorId);
     }
+
+    public List<ProfessorListDto> getProfessorList(){
+        return majorMapper.getProfessorList();
+    }
 }

@@ -13,7 +13,7 @@ public class MajorDetailRes {
     private String college;
     private String room;
     private String tel;
-    private String chairProfessor;
+    private String chairProfessorName;
     private Integer capacity;
     private LocalDate startDate;
     private String info;

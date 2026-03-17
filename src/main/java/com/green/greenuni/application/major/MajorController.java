@@ -47,4 +47,11 @@ public class MajorController {
         MajorDetailRes res = majorService.getMajor(majorId);
         return new ResultResponse<>("학과 상세 조회", res);
     }
+
+    @GetMapping("/professors")
+    public ResultResponse<List<ProfessorListDto>> getProfessorList() {
+        List<ProfessorListDto> list = majorService.getProfessorList();
+        return new ResultResponse<>("교수 전체 목록", list);
+    }
+
 }
