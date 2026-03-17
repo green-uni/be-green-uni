@@ -13,4 +13,5 @@ public interface AttendanceMapper {
     List<AttendListRes> getStudentAttendList(@Param("lectureId") String lectureId, @Param("attendDate") String attendDate);
     List<AttendListRes> getCourseStudentList(@Param("lectureId") String lectureId, @Param("attendDate") String attendDate);
     void updateAttend(AttendUpdateReq req);
+    List<String> getRecordedDates(@Param("lectureId") Long lectureId);
 }

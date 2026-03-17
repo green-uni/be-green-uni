@@ -32,4 +32,10 @@ public class AttendanceController {
             attendanceService.updateAttendList(lectureId, reqList);
             return new ResultResponse<>("출석 저장 성공", null);
     }
+
+    @GetMapping("/{lectureId}/attendance/dates")
+    public ResultResponse<?> getRecordedDates(@PathVariable Long lectureId) {
+        return new ResultResponse<>("출석 날짜 조회 성공",
+            attendanceService.getRecordedDates(lectureId));
+    }
 }

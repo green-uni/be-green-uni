@@ -15,11 +15,18 @@ public class AttendanceService {
 
     @Transactional
     public List<AttendListRes> getAttendList(String lectureId, String attendDate) {
+
         List<AttendListRes> attendList = attendanceMapper.getStudentAttendList(lectureId, attendDate);
 
-        // attendance 데이터 없으면 course에서 수강생 목록 가져오기
-        if (attendList.isEmpty()) {
-            return attendanceMapper.getCourseStudentList(lectureId, attendDate);
+        //course 수강생 전체와 비교해서 새로추가된 학생까지 출력
+        List<AttendListRes> courseList = attendanceMapper.getCourseStudentList(lectureId, attendDate);
+
+        // attendance에 없는 학생 찾아서 추가
+        for (AttendListRes course : courseList) {
+            boolean exists = attendList.stream().anyMatch(a -> a.getCode().equals(course.getCode()));
+            if (!exists) {
+                attendList.add(course);
+            }
         }
         return attendList;
     }
@@ -30,5 +37,10 @@ public class AttendanceService {
         for (AttendUpdateReq req : reqList) {
             attendanceMapper.updateAttend(req); //update부분
         }
+    }
+
+    //교수가 출석한 기록이 있으면 초록색으로 표시하려고 사용
+    public List<String> getRecordedDates(Long lectureId) {
+        return attendanceMapper.getRecordedDates(lectureId);
     }
 }
