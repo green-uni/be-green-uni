@@ -95,11 +95,11 @@ public class MemberService {
     public MemberLoginRes logIn(MemberLoginReq req){
         MemberFindByCodeRes res = memberMapper.findByCode( req.getCode() );
         if (res == null) {
-            throw new RuntimeException("존재하지 않는 회원입니다.");
-        } // 로그인 code를 DB에서 조회 후 결과가 없으면 해당 문구 throw
+            throw new RuntimeException("아이디, 비밀번호를 확인해주세요.");
+        } // 로그인 code를 DB에서 조회 후 결과가 없으면 오류 처리
         if(!passwordEncoder.matches( req.getPassword(), res.getPassword() ) ){
-            return null;
-        }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디, 비밀번호를 확인해주세요.");
+        } // DB에 저장된 비밀번호와 입력한 비밀번호가 다를시 오류 처리
         return MemberLoginRes.builder()
                 .loginUserId( res.getMemberId() )
                 .code( res.getCode() )
