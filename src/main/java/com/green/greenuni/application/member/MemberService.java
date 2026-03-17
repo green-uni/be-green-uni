@@ -91,7 +91,6 @@ public class MemberService {
     // 모든 멤버 목록 조회때 최대 페이지 조회
     public int getMemberMaxPage(MemberListMaxPageReq req){ return memberMapper.findMaxPage(req); }
 
-
     public MemberLoginRes logIn(MemberLoginReq req){
         MemberFindByCodeRes res = memberMapper.findByCode( req.getCode() );
         if (res == null) {
@@ -189,5 +188,15 @@ public class MemberService {
         req.setNewPassword(hashedPw);
 
         return memberMapper.changePw(req);
+    }
+
+    // 메일 인증 후 비밀번호 리셋
+    @Transactional
+    public int ResetPw(MemberPwResetReq req){
+        // 새 비밀번호 암호화
+        String hashedPw = passwordEncoder.encode(req.getPassword());
+        req.setPassword(hashedPw);
+
+        return memberMapper.resetPw(req);
     }
 }
