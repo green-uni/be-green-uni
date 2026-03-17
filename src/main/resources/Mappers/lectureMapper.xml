@@ -99,6 +99,7 @@
             </when>
             <!-- admin은 WHERE 조건 없음 → 전체 조회 -->
         </choose>
+        ORDER BY l.lecture_id DESC
     </select>
 
     <!-- 학생용: 수강신청한 강의 -->
@@ -176,16 +177,16 @@
     <update id="editLeceture">
         UPDATE lecture
         SET major_id = #{req.majorId},
-        name          = #{req.lectureName},
-        credit        = #{req.credit},
-        type          = #{req.lectureType},
-        ref_books     = #{req.refBooks},
-        goal          = #{req.goal},
-        weekly_plan   = #{req.weeklyPlan},
-        academic_year = #{req.academicYear},
-        max_std       = #{req.maxStd},
-        semester      = #{req.semester},
-        year          = #{req.year}
+            name          = #{req.lectureName},
+            credit        = #{req.credit},
+            type          = #{req.lectureType},
+            ref_books     = #{req.refBooks},
+            goal          = #{req.goal},
+            weekly_plan   = #{req.weeklyPlan},
+            academic_year = #{req.academicYear},
+            max_std       = #{req.maxStd},
+            semester      = #{req.semester},
+            year          = #{req.year}
         WHERE lecture_id = #{lectureId}
     </update>
 
@@ -217,6 +218,7 @@
         SELECT lecture_id FROM lecture
         WHERE member_id = #{loginUserId}
         )
+        ORDER BY m.`name` ASC
     </select>
 
     <update id="updateLectureStatus">
