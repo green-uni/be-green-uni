@@ -7,6 +7,21 @@ spring:
     url: ${DATASOURCE.DB_URL}
     username: ${DATASOURCE.USERNAME}
     password: ${DATASOURCE.PASSWORD}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL.USERNAME}
+    password: ${MAIL.PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 mybatis:
   configuration:

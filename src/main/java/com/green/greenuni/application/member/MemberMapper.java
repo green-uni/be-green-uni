@@ -32,4 +32,7 @@ public interface MemberMapper {
     // 비밀번호 변경 (로그인유저 직접)
     MemberFindByIdRes findById(long loginUserId);
     int changePw(MemberPwChangeReq req);
+
+    // 비밀번호 변경 (메일 인증 후)
+    int resetPw(MemberPwResetReq req);
 }

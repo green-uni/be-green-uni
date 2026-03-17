@@ -7,8 +7,11 @@ import com.green.greenuni.configuration.model.UserPrincipal;
 import com.green.greenuni.configuration.security.JwtTokenManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -74,5 +77,12 @@ public class MemberController {
         log.info("loginUserId: {}", loginUserId);
         int result = memberService.changePw(loginUserId, req);
         return new ResultResponse<>("비밀번호 변경 성공", result);
+    }
+
+    @PatchMapping("/pw")
+    public ResultResponse<?> ResetPw(@RequestBody @Valid MemberPwResetReq req){
+        log.info("memberId: {}", req.getMemberId());
+        int result = memberService.ResetPw(req);
+        return new ResultResponse<>("비빌번호 변경 성공", result);
     }
 }

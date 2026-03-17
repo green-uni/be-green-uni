@@ -223,4 +223,10 @@
         SET `password` = #{newPassword}
         WHERE `member_id` = #{loginUserId}
     </update>
+
+    <update id="resetPw">
+        UPDATE `member`
+        SET `password` = #{password}
+        WHERE `member_id` = #{memberId}
+    </update>
 </mapper>
