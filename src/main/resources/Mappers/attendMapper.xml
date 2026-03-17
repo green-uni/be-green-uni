@@ -39,6 +39,7 @@
              ON mj.major_id = s.major_id
       WHERE a.lecture_id = #{lectureId}
         AND a.attend_date = #{attendDate}
+        AND m.role = 'student'
       ORDER BY m.`name` ASC
    </select>
 
@@ -56,6 +57,8 @@
         LEFT JOIN major mj
           ON s.major_id  = mj.major_id
         WHERE c.lecture_id = #{lectureId}
+          AND m.role = 'student'
+          AND m.member_id IS NOT NULL
         ORDER BY m.name ASC
     </select>
 
