@@ -16,7 +16,7 @@
             lr.room_number AS roomNumber,
             l.academic_year AS academicYear,
             l.max_std AS maxStd,
-            l.rem_std AS remStd,
+        (l.max_std - (SELECT COUNT(*) FROM course WHERE lecture_id = l.lecture_id)) AS rem_std,
             l.status
         FROM lecture l
         LEFT JOIN member m ON l.member_id = m.member_id
@@ -48,7 +48,7 @@
             lr.room_number AS roomNumber,
             l.academic_year AS academicYear,
             l.max_std AS maxStd,
-            l.rem_std AS remStd,
+        (l.max_std - (SELECT COUNT(*) FROM course WHERE lecture_id = l.lecture_id)) AS rem_std,
             l.status
         FROM course c
         JOIN lecture l ON c.lecture_id = l.lecture_id
@@ -59,12 +59,6 @@
         WHERE c.member_id = #{memberId}
         ORDER BY l.lecture_id DESC
     </select>
-
-    <update id="plusLectureRemainder">
-        UPDATE lecture
-        SET rem_std = rem_std + 1
-        WHERE lecture_id = #{lectureId}
-    </update>
 
     <delete id="deleteAttendance">
         DELETE FROM attendance
@@ -87,7 +81,7 @@
             type AS lectureType,
             academic_year AS academicYear,
             max_std AS maxStd,
-            IFNULL(rem_std, 0) AS remStd
+        (max_std - (SELECT COUNT(*) FROM course WHERE lecture_id = #{lectureId})) AS remStd
         FROM lecture
         WHERE lecture_id = #{lectureId}
     </select>
@@ -100,9 +94,4 @@
         WHERE member_id = #{memberId}
     </select>
 
-    <update id="minusLectureRemainder">
-        UPDATE lecture
-        SET rem_std = rem_std - 1
-        WHERE lecture_id = #{lectureId} AND rem_std > 0
-    </update>
 </mapper>
