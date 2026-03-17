@@ -64,8 +64,6 @@ public class CourseService {
         }
         // 모든 조건 통과 시 수강 신청 진행
         int result = courseMapper.saveCourse(req);
-        // 남은 정원 차감
-        courseMapper.minusLectureRemainder(req.getLectureId());
 
         return result;
     }
