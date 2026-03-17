@@ -12,4 +12,5 @@ public interface MajorMapper {
     List<MajorListRes> getMajorList();
     int modifyMajor(MajorModReq req);
     MajorDetailRes getMajor(long majorId);
+    List<ProfessorListDto> getProfessorList();
 }

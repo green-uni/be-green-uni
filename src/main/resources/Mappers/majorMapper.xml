@@ -24,7 +24,7 @@
         #{college},
         #{room},
         #{tel},
-        #{chairProfessor},
+        #{chairProfessorId},
         #{capacity},
         #{startDate},
         #{info}
@@ -40,9 +40,11 @@
             m.tel,
             m.college,
             m.active,
-            m.chair_professor,
+        m.chair_professor AS chairProfessorId,
+        mem.name AS chairProfessorName,
             (SELECT COUNT(*) FROM professor p WHERE p.major_id = m.major_id) AS professorCount
         FROM major m
+        LEFT JOIN member mem ON m.chair_professor = mem.member_id
         ORDER BY m.name ASC
     </select>
 
@@ -54,7 +56,7 @@
             college = #{college},
             room = #{room},
             tel = #{tel},
-            chair_professor = #{chairProfessor},
+            chair_professor = #{chairProfessorId},
             capacity = #{capacity},
             start_date = #{startDate},
             info = #{info}
@@ -63,16 +65,29 @@
 
     <select id="getMajor">
         SELECT
-            name,
-            active,
-            college,
-            room,
-            tel,
-            chair_professor,
-            capacity,
-            start_date,
-            info
-        FROM major
+            m.name,
+            m.active,
+            m.college,
+            m.room,
+            m.tel,
+        m.chair_professor AS chairProfessorId,
+        mem.name AS chairProfessorName,
+            m.capacity,
+            m.start_date,
+            m.info
+        FROM major m
+        LEFT JOIN member mem ON m.chair_professor = mem.member_id
         WHERE major_id = #{majorId}
     </select>
+
+    <select id="getProfessorList">
+        SELECT
+            p.member_id AS memberId,
+            m.name AS name
+        FROM professor p
+        JOIN member m ON p.member_id = m.member_id
+        WHERE p.status = '재직'
+        ORDER BY m.name
+    </select>
+
 </mapper>
