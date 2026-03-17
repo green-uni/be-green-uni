@@ -62,6 +62,14 @@
         ORDER BY m.name ASC
     </select>
 
+    <!--출결 시 날짜에 초록색으로 표시하려고 사용-->
+    <select id="getRecordedDates" resultType="string">
+        SELECT DISTINCT DATE_FORMAT(attend_date, '%Y-%m-%d')
+        FROM attendance
+        WHERE lecture_id = #{lectureId}
+        ORDER BY attend_date ASC
+    </select>
+
     <!--출결상태 수정 시 update하는 쿼리문-->
     <update id="updateAttend">
         UPDATE attendance
