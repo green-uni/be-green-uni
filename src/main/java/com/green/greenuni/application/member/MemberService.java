@@ -115,7 +115,6 @@ public class MemberService {
         return memberMapper.findUserProfile( id );
     }
 
-
     // 로그인 유저가 본인 프로파일 정보 수정
     @Transactional
     public String modMemberBySelf(long loginUserId, String loginUserRole, MemberEditReq req, MultipartFile pic) {

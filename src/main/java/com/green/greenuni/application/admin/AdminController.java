@@ -2,7 +2,6 @@ package com.green.greenuni.application.admin;
 
 import com.green.greenuni.application.admin.model.*;
 import com.green.greenuni.application.member.MemberService;
-import com.green.greenuni.application.member.model.*;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
