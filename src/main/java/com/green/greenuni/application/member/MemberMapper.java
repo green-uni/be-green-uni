@@ -1,9 +1,6 @@
 package com.green.greenuni.application.member;
 
-import com.green.greenuni.application.admin.model.MemberCreateReq;
-import com.green.greenuni.application.admin.model.MemberListMaxPageReq;
-import com.green.greenuni.application.admin.model.MemberListReq;
-import com.green.greenuni.application.admin.model.MemberListRes;
+import com.green.greenuni.application.admin.model.*;
 import com.green.greenuni.application.member.model.*;
 import org.apache.ibatis.annotations.Mapper;
 

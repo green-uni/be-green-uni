@@ -1,4 +1,4 @@
-package com.green.greenuni.application.member.model;
+package com.green.greenuni.application.admin.model;
 
 import lombok.Getter;
 import lombok.Setter;
