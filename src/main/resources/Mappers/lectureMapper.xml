@@ -130,10 +130,11 @@
 
     <select id="findById">
         select
-        l.member_id AS memberId, l.lecture_id, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd, l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
+        l.member_id AS memberId, mem.name AS proName, l.lecture_id, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd, l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
         ls.start_period AS startPeriod, l.status, l.major_id AS majorId, m.name AS majorName
 
         from lecture l
+        left join member mem on l.member_id = mem.member_id
         left join lecture_schedule ls
         on l.lecture_id=ls.lecture_id
         left join lecture_room lr
