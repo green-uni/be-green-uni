@@ -29,11 +29,14 @@ public class LectureController {
         if (userPrincipal == null) {
             return new ResultResponse<>("로그인 정보가 만료되었습니다. 다시 로그인해주세요.", 0);
         }
-
-        req.setLoginUserId(userPrincipal.getLoginUserId());
+        try {
+            req.setLoginUserId(userPrincipal.getLoginUserId());
         int result=lectureService.postLecture(req);
         System.out.println("전달받은 데이터: " + req.toString());
         return new ResultResponse<>("강의개설이 되었습니다.", result);
+        } catch (IllegalStateException e) {
+            return new ResultResponse<>(e.getMessage(), 0); // 강의시 중복 메시지 반환
+        }
     }
 
     @GetMapping("/edit/{lectureId}")
