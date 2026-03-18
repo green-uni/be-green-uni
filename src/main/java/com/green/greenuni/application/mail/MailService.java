@@ -36,8 +36,8 @@ public class MailService {
         }
         // DB에 있다면 메일 발송
         // 5자리 랜덤 인증코드 생성
-        String verifyCode = String.format("%05d", (int)(Math.random() * 900000) + 100000);
-        // 임시저장
+        String verifyCode = String.format("%05d", (int)(Math.random() * 90000) + 10000);
+        // 인증코드, 조회된 멤버 아이디 임시저장
         codeStore.put(req.getEmail(), verifyCode);
         memberIdStore.put(req.getEmail(), memberId);
 
