@@ -90,6 +90,8 @@
     <!--전체강의-->
     <select id="getLectureList">
         SELECT
+        l.semester,
+        l.year,
         l.lecture_id AS lectureId,
         l.type AS lectureType,
         mj.name AS majorName,
