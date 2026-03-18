@@ -7,6 +7,7 @@ import com.green.greenuni.configuration.model.ResultResponse;
 import com.green.greenuni.configuration.model.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class LectureController {
     private final LectureService lectureService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('professor')")
     public ResultResponse<?> postLecture(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody LectureCreateReq req){
 
@@ -40,12 +42,14 @@ public class LectureController {
     }
 
     @GetMapping("/edit/{lectureId}")
+    @PreAuthorize("hasRole('professor')")
     public ResultResponse<?> editlecture(@PathVariable Long lectureId){
         LectureEditRes result = lectureService.findByIdForEdit(lectureId);
         return new ResultResponse<>("강의 수정 데이터 조회", result);
     }
 
     @PatchMapping("/edit/{lectureId}")
+    @PreAuthorize("hasRole('professor')")
     public ResultResponse<?> editLecture(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                          @PathVariable Long lectureId,
                                          @RequestBody LectureCreateReq req) {
@@ -70,6 +74,7 @@ public class LectureController {
     }
 
     @GetMapping("/my")
+    @PreAuthorize("hasAnyRole('professor', 'admin', 'student')")
     public ResultResponse<?> getMyLectureList(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @ModelAttribute MyLectureListReq req) {
         Long loginUserId = userPrincipal.getLoginUserId();
@@ -81,6 +86,7 @@ public class LectureController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('professor', 'admin', 'student')")
     public ResultResponse<?> getLectureList(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @ModelAttribute LectureListReq req){
         List<LectureListRes> result = lectureService.getLectureList(req);
@@ -89,6 +95,7 @@ public class LectureController {
     }
 
     @GetMapping("/{lectureId}")
+    @PreAuthorize("hasAnyRole('professor', 'admin', 'student')")
     public ResultResponse<?> getOneLectures(@ModelAttribute LectureDetailReq req){
         LectureDetailRes result=lectureService.getOneLectures(req);
         return new ResultResponse<>("강의목록상세보기", result);
@@ -103,6 +110,7 @@ public class LectureController {
     }
 
     @PatchMapping("/{lectureId}/statusedit")
+    @PreAuthorize("hasRole('admin')")
     public ResultResponse<?> updateLectureStatus(
             @PathVariable Long lectureId,
             @RequestBody Map<String, String> body// { "status": "approved" or "rejected" }
