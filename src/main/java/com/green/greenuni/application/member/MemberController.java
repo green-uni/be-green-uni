@@ -67,7 +67,7 @@ public class MemberController {
         log.info("loginUserId: {}",id);
         String res = memberService.modMemberBySelf( id , role, req, pic );
 
-        return new ResultResponse<>("로그인 유저 정보 수정", res);
+        return new ResultResponse<>("내 정보 수정을 성공하였습니다.", res);
     }
 
     @PatchMapping("/me/pw")
@@ -76,13 +76,17 @@ public class MemberController {
         long loginUserId = userPrincipal.getLoginUserId(); // 현재 로그인한 user Id
         log.info("loginUserId: {}", loginUserId);
         int result = memberService.changePw(loginUserId, req);
-        return new ResultResponse<>("비밀번호 변경 성공", result);
+        return new ResultResponse<>("비밀번호 변경을 성공하였습니다", result);
     }
 
     @PatchMapping("/pw")
     public ResultResponse<?> ResetPw(@RequestBody @Valid MemberPwResetReq req){
         log.info("memberId: {}", req.getMemberId());
         int result = memberService.ResetPw(req);
-        return new ResultResponse<>("비빌번호 변경 성공", result);
+        String message = "";
+        if(!(result == 0)){
+            message = "비밀번호 변경에 성공하였습니다.";
+        }
+        return new ResultResponse<>("비빌번호 변경 성공", message);
     }
 }

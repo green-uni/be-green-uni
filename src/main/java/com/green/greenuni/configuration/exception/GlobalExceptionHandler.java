@@ -35,14 +35,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             , WebRequest request) {
         List<ValidationError> errors = getValidationError(ex);
 
-        List<String> messages = errors.stream().map(item -> String.format("%s: %s", item.getField(), item.getMessage())).toList();
-        StringBuilder sb = new StringBuilder();
-        for(String message : messages){
-            sb.append(message);
-            sb.append("\n");
-        }
+        List<String> messages = errors.stream()
+                .map(item -> item.getMessage())
+                .toList();
+        String result = String.join("\n", messages);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ResultResponse<>(sb.toString(), errors.toString()));
+                .body(new ResultResponse<>(result, null));
     }
 
     @ExceptionHandler(Exception.class)
