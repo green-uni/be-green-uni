@@ -25,7 +25,7 @@ public class AdminController {
             , @RequestPart(required = false) MultipartFile pic){
         log.info("createMember req: {}", req);
         MemberCreateRes res = memberService.createMember(req, pic);
-        return new ResultResponse("계정생성", res);
+        return new ResultResponse("계정 생성을 성공하였습니다", res);
     }
 
     // 전체 계정 조회
