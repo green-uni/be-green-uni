@@ -48,7 +48,46 @@
         WHERE building = #{building}
     </select>
 
-<!--    전체강의-->
+    <!--중복체크-->
+    <select id="checkScheduleConflict" resultType="map">
+        SELECT
+        (SELECT COUNT(*) FROM lecture_schedule ls
+        JOIN lecture l ON ls.lecture_id = l.lecture_id
+        WHERE ls.room_id = (SELECT room_id FROM lecture_room WHERE room_number = #{roomNumber} LIMIT 1)
+        AND ls.day_of_week = #{dayOfWeek}
+        AND l.year = #{year}
+        AND l.semester = #{semester}
+        AND l.status != 'rejected'
+        AND (#{startPeriod} BETWEEN ls.start_period AND ls.end_period
+            OR #{endPeriod} BETWEEN ls.start_period AND ls.end_period
+            OR ls.start_period BETWEEN #{startPeriod} AND #{endPeriod})
+            <if test="lectureId != null">
+                AND ls.lecture_id != #{lectureId} <!-- 수정시, 지금 작성하고 있는 강의는 제외 -->
+            </if>
+            ) AS roomConflict,
+
+        (SELECT COUNT(*) FROM lecture_schedule ls
+        JOIN lecture l ON ls.lecture_id = l.lecture_id
+        WHERE l.member_id = #{loginUserId}
+        AND ls.day_of_week = #{dayOfWeek}
+        AND l.year = #{year}
+        AND l.semester = #{semester}
+        AND l.status != 'rejected'
+        AND (#{startPeriod} BETWEEN ls.start_period AND ls.end_period
+            OR #{endPeriod} BETWEEN ls.start_period AND ls.end_period
+            OR ls.start_period BETWEEN #{startPeriod} AND #{endPeriod})
+        <if test="lectureId != null">
+            AND ls.lecture_id != #{lectureId}<!-- 수정시, 지금 작성하고 있는 강의는 제외 -->
+        </if>
+        ) AS professorConflict,
+
+        (SELECT CASE WHEN capacity &lt; #{maxStd} THEN 1 ELSE 0 END
+        FROM lecture_room
+        WHERE room_number = #{roomNumber} LIMIT 1
+        ) AS capacityOver
+    </select>
+
+    <!--전체강의-->
     <select id="getLectureList">
         SELECT
         l.lecture_id AS lectureId,
@@ -225,6 +264,13 @@
         UPDATE lecture
         SET status = #{status}
         WHERE lecture_id = #{lectureId}
+    </update>
+
+    <!--강의개설후 교수퇴임 혹은 병가-->
+    <update id="professorChange">
+    UPDATE lecture
+    SET member_id = #{newProfessorId}
+    WHERE lecture_id = #{lectureId}
     </update>
 
 

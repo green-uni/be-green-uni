@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -18,8 +19,35 @@ public class LectureService {
 
     @Transactional
     public int postLecture(LectureCreateReq req){
-        lectureMapper.createLecture(req);       // lecture INSERT (lectureId 자동 세팅)
+        validateLecture(req, null); // 유효성 검사 공통화
+        lectureMapper.createLecture(req);
         return lectureMapper.createSchedule(req);
+    }
+
+    public ResultResponse editLeceture(Long lectureId, LectureCreateReq req){
+        validateLecture(req,lectureId);
+        lectureMapper.updateSchedule(lectureId, req);
+        lectureMapper.editLeceture(lectureId, req);
+        return new ResultResponse<>("강의가 수정되었습니다.", null);
+    }
+
+    // 공통 검증 로직
+    private void validateLecture(LectureCreateReq req,Long lectureId) {
+        Map<String, Object> conflictMap = lectureMapper.checkScheduleConflict(
+                req.getRoomNumber(), req.getDayOfWeek(),
+                req.getStartPeriod(), req.getEndPeriod(),
+                req.getYear(), req.getSemester(), lectureId, req.getLoginUserId(), req.getMaxStd()
+        );
+
+        if (Integer.parseInt(String.valueOf(conflictMap.get("roomConflict"))) > 0) {
+            throw new IllegalStateException("해당 강의실에 같은 시간대 강의가 이미 존재합니다.");
+        }
+        if (Integer.parseInt(String.valueOf(conflictMap.get("professorConflict"))) > 0) {
+            throw new IllegalStateException("해당 시간에 이미 다른 수업이 있습니다.");
+        }
+        if (Integer.parseInt(String.valueOf(conflictMap.get("capacityOver"))) > 0) {
+            throw new IllegalStateException("강의실 최대 수용 인원을 초과했습니다.");
+        }
     }
 
     public ResultResponse<String> getProName(Long loginUserId) {
@@ -51,12 +79,6 @@ public class LectureService {
         return res;
     }
 
-    public ResultResponse editLeceture(Long lectureId, LectureCreateReq req){
-        lectureMapper.updateSchedule(lectureId, req);
-        lectureMapper.editLeceture(lectureId, req);
-        return new ResultResponse<>("강의가 수정되었습니다.", null);
-    }
-
     public List<MyLectureListRes> getMyLectureList(MyLectureListReq req, Long loginUserId, String role){
         if ("student".equalsIgnoreCase(role)) {
             return lectureMapper.getMyCourseList(loginUserId); // 학생: 수강신청 목록
@@ -76,6 +98,7 @@ public class LectureService {
         return lectureMapper.studentInfo(req, loginUserId);
     }
 
+    @Transactional
     public void updateStatus(Long lectureId, String status) {
         lectureMapper.updateLectureStatus(lectureId, status);
     }
