@@ -5,6 +5,7 @@ import com.green.greenuni.application.member.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface MemberMapper {
@@ -14,8 +15,9 @@ public interface MemberMapper {
     int createStaff(MemberCreateReq req);
     int updateMemberCodeAPw(MemberCreateReq req);
 
+    // 관리자 멤버 목록 조회 및 수정
     List<MemberListRes> findAllMember(MemberListReq req);
-    int findMaxPage(MemberListMaxPageReq req);
+    Map<String, Object> findMaxPage(MemberListMaxPageReq req);
     int modStdStatus(MemberEditListReq req);
     int modProfStatus(MemberEditListReq req);
     int modStfStatus(MemberEditListReq req);

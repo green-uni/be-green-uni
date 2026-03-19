@@ -71,7 +71,7 @@ public class MemberController {
     }
 
     @PatchMapping("/me/pw")
-    public ResultResponse<?> changePwInProfile(@AuthenticationPrincipal @Valid UserPrincipal userPrincipal,
+    public ResultResponse<?> changePwInProfile(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                                @RequestBody MemberPwChangeReq req){
         long loginUserId = userPrincipal.getLoginUserId(); // 현재 로그인한 user Id
         log.info("loginUserId: {}", loginUserId);

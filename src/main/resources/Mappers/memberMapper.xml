@@ -105,7 +105,8 @@
     </select>
 
     <select id="findMaxPage">
-        SELECT CEIL( COUNT(1) / #{size} ), COUNT(*)
+        SELECT CEIL( COUNT(1) / #{size} ) AS maxPage
+                ,COUNT(*) AS totalCount
         FROM `member` m
 
         LEFT JOIN `student` s
