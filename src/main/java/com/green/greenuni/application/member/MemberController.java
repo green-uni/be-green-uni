@@ -67,7 +67,7 @@ public class MemberController {
         log.info("loginUserId: {}",id);
         String res = memberService.modMemberBySelf( id , role, req, pic );
 
-        return new ResultResponse<>("내 정보 수정을 완료하였습니다.", res);
+        return new ResultResponse<>("내 정보 수정을 완료하였습니다.", role);
     }
 
     @PatchMapping("/me/pw")
