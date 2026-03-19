@@ -264,7 +264,7 @@
     </select>
 
     <!-- 관리자용: 소유자 체크 없음 -->
-    <select id="studentInfoForAdmin" resultType="com.green.greenuni.application.lectures.model.LectureStudentInfoReq">>
+    <select id="studentInfoForAdmin" resultType="com.green.greenuni.application.lectures.model.LectureStudentInfoReq">
         SELECT ma.`name` AS majorName, m.`code` AS studentCode,
             m.`name` AS studentName, s.academic_year AS academicYear,
             c.grade_letter AS gradeLetter, c.lecture_id AS lectureId
