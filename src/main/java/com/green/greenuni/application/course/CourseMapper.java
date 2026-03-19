@@ -15,16 +15,10 @@ public interface CourseMapper {
     // 수강 목록 조회
     List<MyCourseListRes> getMyCourseList(@Param("memberId") long memberId);
     // 수강 취소
-    void deleteAttendance(CourseDelReq req);
     int deleteCourse(CourseDelReq req);
-    // 수강 취소 후 잔여 인원 증가
-    int plusLectureRemainder(@Param("lectureId") long lectureId);
     // 수강 신청
     int saveCourse(CoursePostReq req);
 
     LectureDetailRes getLectureDetail(long lectureId);
     CourseStudentReq getStudentDetail(long memberId);
-
-    // 수강 신청 후 잔여 인원 감소
-    void minusLectureRemainder(long lectureId);
 }

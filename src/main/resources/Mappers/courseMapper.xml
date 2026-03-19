@@ -50,7 +50,10 @@
             l.academic_year AS academicYear,
             l.max_std AS maxStd,
         (l.max_std - (SELECT COUNT(*) FROM course WHERE lecture_id = l.lecture_id)) AS rem_std,
-            l.status
+            l.status,
+        (SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM attendance
+        WHERE course_id = c.course_id) AS isAttended
         FROM course c
         JOIN lecture l ON c.lecture_id = l.lecture_id
         LEFT JOIN member m ON l.member_id = m.member_id
@@ -61,10 +64,6 @@
         ORDER BY l.name
     </select>
 
-    <delete id="deleteAttendance">
-        DELETE FROM attendance
-        WHERE course_id = (SELECT course_id FROM course WHERE lecture_id = #{lectureId} AND member_id = #{memberId})
-    </delete>
     <delete id="deleteCourse">
         DELETE FROM course
         WHERE lecture_id = #{lectureId} AND member_id = #{memberId};
