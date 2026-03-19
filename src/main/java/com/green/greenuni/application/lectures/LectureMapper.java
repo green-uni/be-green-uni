@@ -48,4 +48,7 @@ public interface LectureMapper {
 
     void updateLectureStatus(@Param("lectureId") Long lectureId, @Param("status") String status);
 
+    void deleteSchedule(LectureDetailReq req);
+    void deleteLecture(LectureDetailReq req);
+    int countStudentsByLectureId(LectureDetailReq req);
 }

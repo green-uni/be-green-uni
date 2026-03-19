@@ -121,4 +121,12 @@ public class LectureController {
         return new ResultResponse<>("강의 승인 상태 변경", null);
     }
 
+    @DeleteMapping("/{lectureId}")
+    public ResultResponse<?> deleteLecture(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                          LectureDetailReq req) {
+        req.setLoginUserId(userPrincipal.getLoginUserId());
+        lectureService.deleteLecture(req);
+        return new ResultResponse<>("강의삭제완료", null);
+    }
+
 }
