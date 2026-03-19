@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -89,7 +90,7 @@ public class MemberService {
         return memberMapper.findAllMember(req);
     }
     // 모든 멤버 목록 조회때 최대 페이지 조회
-    public int getMemberMaxPage(MemberListMaxPageReq req){ return memberMapper.findMaxPage(req); }
+    public Map<String, Object> getMemberMaxPage(MemberListMaxPageReq req){ return memberMapper.findMaxPage(req); }
 
     public MemberLoginRes logIn(MemberLoginReq req){
         MemberFindByCodeRes res = memberMapper.findByCode( req.getCode() );

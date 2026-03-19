@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -39,8 +40,8 @@ public class AdminController {
     @GetMapping("/members/max_page")
     public ResultResponse<?> getMemberMaxPage(@ModelAttribute MemberListMaxPageReq req){
         log.info("req: {}", req);
-        int maxPage = memberService.getMemberMaxPage(req);
-        return new ResultResponse<>("전체 계정 조회시 최대 페이지", maxPage);
+        Map<String, Object> maxPage = memberService.getMemberMaxPage(req);
+        return new ResultResponse<>("전체 계정 조회", maxPage);
     }
 
     // 전체 목록에서 계정 상태만 수정
