@@ -23,6 +23,7 @@
         LEFT JOIN major mj ON l.major_id = mj.major_id
         LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
         LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
+        WHERE l.year = YEAR(CURDATE()) <!--오늘 날짜에서 연도(2026)만 뽑아내겠다-->
         ORDER BY l.name
     </select>
 
