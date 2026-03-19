@@ -102,7 +102,7 @@ public class LectureController {
     }
 
     @GetMapping("/{lectureId}/studentInfo")
-    @PreAuthorize("hasAnyRole('professor', 'admin')")
+    @PreAuthorize("hasAnyRole('professor', 'admin','student')")
     public ResultResponse<?> getStudentInfo(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                             @ModelAttribute LectureDetailReq req) {
         Long loginUserId = userPrincipal.getLoginUserId();
