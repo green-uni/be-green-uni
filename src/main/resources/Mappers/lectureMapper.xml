@@ -245,25 +245,26 @@
     <select id="studentInfo"
             resultType="com.green.greenuni.application.lectures.model.LectureStudentInfoReq">
         SELECT ma.`name` AS majorName, m.`code` AS studentCode,
-        m.`name` AS studentName, s.academic_year AS academicYear,
-        c.grade_letter AS gradeLetter, c.lecture_id AS lectureId
+            m.`name` AS studentName, s.academic_year AS academicYear,
+            c.grade_letter AS gradeLetter, c.lecture_id AS lectureId
         FROM course c
-        JOIN student s
-        ON c.member_id = s.member_id
-        JOIN major ma
-        ON s.major_id = ma.major_id
-        JOIN member m
-        ON s.member_id = m.member_id
+        JOIN student s ON c.member_id = s.member_id
+        JOIN major ma  ON s.major_id = ma.major_id
+        JOIN member m  ON s.member_id = m.member_id
         WHERE c.lecture_id = #{req.lectureId}
-        AND c.lecture_id IN(
-        SELECT lecture_id FROM lecture
-        WHERE member_id = #{loginUserId}
-        )
+
+        <if test="role == 'professor'">
+            AND c.lecture_id IN (
+            SELECT lecture_id FROM lecture
+            WHERE member_id = #{loginUserId}
+            )
+        </if>
+
         ORDER BY m.`name` ASC
     </select>
 
     <!-- 관리자용: 소유자 체크 없음 -->
-    <select id="studentInfoForAdmin">
+    <select id="studentInfoForAdmin" resultType="com.green.greenuni.application.lectures.model.LectureStudentInfoReq">>
         SELECT ma.`name` AS majorName, m.`code` AS studentCode,
             m.`name` AS studentName, s.academic_year AS academicYear,
             c.grade_letter AS gradeLetter, c.lecture_id AS lectureId
@@ -281,12 +282,12 @@
         WHERE lecture_id = #{lectureId}
     </update>
 
-    <!--강의개설후 교수퇴임 혹은 병가-->
-    <update id="professorChange">
-    UPDATE lecture
-    SET member_id = #{newProfessorId}
-    WHERE lecture_id = #{lectureId}
-    </update>
+<!--    &lt;!&ndash;강의개설후 교수퇴임 혹은 병가&ndash;&gt;-->
+<!--    <update id="professorChange">-->
+<!--    UPDATE lecture-->
+<!--    SET member_id = #{newProfessorId}-->
+<!--    WHERE lecture_id = #{lectureId}-->
+<!--    </update>-->
 
 
 

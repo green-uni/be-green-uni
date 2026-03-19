@@ -99,7 +99,7 @@ public class LectureService {
         if ("admin".equalsIgnoreCase(role)) {
             return lectureMapper.studentInfoForAdmin(req,loginUserId);  // 소유자 체크 없는 쿼리
         }
-        return lectureMapper.studentInfo(req, loginUserId);
+        return lectureMapper.studentInfo(req, loginUserId, role);
     }
 
     @Transactional
