@@ -3,9 +3,11 @@ package com.green.greenuni.application.lectures;
 import com.green.greenuni.application.lectures.model.*;
 import com.green.greenuni.configuration.model.ResultResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -106,4 +108,33 @@ public class LectureService {
     public void updateStatus(Long lectureId, String status) {
         lectureMapper.updateLectureStatus(lectureId, status);
     }
+
+    public void deleteLecture(LectureDetailReq req) {
+        // 1. 강의 조회
+        LectureDetailRes lecture = lectureMapper.findById(req);
+        if (lecture == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 강의입니다.");
+        }
+        //2. 내 강의인지 조회
+        if (!lecture.getMemberId().equals(req.getLoginUserId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "본인이 개설한 강의만 삭제할 수 있습니다.");
+        }
+        // 3. 승인된 강의 체크
+        if ("approved".equals(lecture.getStatus())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "승인된 강의는 삭제할 수 없습니다.");
+        }
+
+        // 4. 수강학생 체크
+        int studentCount = lectureMapper.countStudentsByLectureId(req);
+        if (studentCount > 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수강 학생이 있는 강의는 삭제할 수 없습니다.");
+        }
+
+        // 4. 스케줄 먼저 삭제 (FK 제약조건)
+        lectureMapper.deleteSchedule(req);
+
+        // 5. 강의 삭제
+        lectureMapper.deleteLecture(req);
+    }
+
 }
