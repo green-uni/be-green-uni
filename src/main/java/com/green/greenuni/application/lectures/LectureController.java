@@ -102,10 +102,12 @@ public class LectureController {
     }
 
     @GetMapping("/{lectureId}/studentInfo")
+    @PreAuthorize("hasAnyRole('professor', 'admin','student')")
     public ResultResponse<?> getStudentInfo(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                             @ModelAttribute LectureDetailReq req) {
         Long loginUserId = userPrincipal.getLoginUserId();
-        List<LectureStudentInfoReq> result = lectureService.getStudentInfo(req, loginUserId);
+        String role = userPrincipal.getLoginUserRole();
+        List<LectureStudentInfoReq> result = lectureService.getStudentInfo(req, loginUserId, role);
         return new ResultResponse<>("수강학생조회완료", result);
     }
 

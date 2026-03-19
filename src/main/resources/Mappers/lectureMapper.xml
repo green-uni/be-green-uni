@@ -262,6 +262,19 @@
         ORDER BY m.`name` ASC
     </select>
 
+    <!-- 관리자용: 소유자 체크 없음 -->
+    <select id="studentInfoForAdmin">
+        SELECT ma.`name` AS majorName, m.`code` AS studentCode,
+            m.`name` AS studentName, s.academic_year AS academicYear,
+            c.grade_letter AS gradeLetter, c.lecture_id AS lectureId
+        FROM course c
+        JOIN student s ON c.member_id = s.member_id
+        JOIN major ma ON s.major_id = ma.major_id
+        JOIN member m ON s.member_id = m.member_id
+        WHERE c.lecture_id = #{req.lectureId}
+        ORDER BY m.`name` ASC
+    </select>
+
     <update id="updateLectureStatus">
         UPDATE lecture
         SET status = #{status}
