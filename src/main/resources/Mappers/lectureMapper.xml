@@ -4,11 +4,11 @@
     <!-- lecture INSERT 후 생성된 ID 반환 -->
     <insert id="createLecture" useGeneratedKeys="true" keyProperty="lectureId">
         INSERT INTO lecture
-        ( member_id, major_id, year, semester, name, credit, type, ref_books, goal, weekly_plan, academic_year, max_std, start_date, end_date )
+        ( member_id, major_id, year, semester, name, credit, type, ref_books, goal, weekly_plan, academic_year, max_std, rem_std, start_date, end_date )
         VALUES (
         #{loginUserId}, #{majorId}, #{year}, #{semester}, #{lectureName},
         #{credit}, #{lectureType}, #{refBooks}, #{goal}, #{weeklyPlan},
-        #{academicYear}, #{maxStd}, #{startDate}, #{endDate}
+        #{academicYear}, #{maxStd}, #{maxStd}, #{startDate}, #{endDate}
         )
     </insert>
 
@@ -286,13 +286,21 @@
         WHERE lecture_id = #{lectureId}
     </update>
 
-<!--    &lt;!&ndash;강의개설후 교수퇴임 혹은 병가&ndash;&gt;-->
-<!--    <update id="professorChange">-->
-<!--    UPDATE lecture-->
-<!--    SET member_id = #{newProfessorId}-->
-<!--    WHERE lecture_id = #{lectureId}-->
-<!--    </update>-->
+    <!--삭제시필요한것들 아래 3가지임-->
+    <select id="countStudentsByLectureId" resultType="int">
+        SELECT COUNT(*) FROM course
+        WHERE lecture_id = #{lectureId}
+    </select>
 
+    <delete id="deleteSchedule">
+        DELETE FROM lecture_schedule
+        WHERE lecture_id = #{lectureId}
+    </delete>
 
+    <delete id="deleteLecture">
+        DELETE FROM lecture
+        WHERE lecture_id = #{lectureId}
+        AND member_id = #{loginUserId}
+    </delete>
 
 </mapper>
