@@ -23,4 +23,5 @@ public class MyCourseListRes {
     private int maxStd;
     private int remStd;
     private String status;
+    private int isAttended; // 0이면 삭제 가능, 1이면 삭제 불가
 }

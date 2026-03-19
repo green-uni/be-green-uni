@@ -33,9 +33,6 @@ public class CourseService {
 
     @Transactional // 삭제와 인원 복구를 하나의 작업으로 묶기 위해
     public int deleteCourse(CourseDelReq req) {
-        // 1. 자식 테이블(출석) 데이터 삭제
-        courseMapper.deleteAttendance(req);
-        // 2. 부모 테이블(수강) 데이터 삭제
         int result = courseMapper.deleteCourse(req);
         return result;
     }
