@@ -35,12 +35,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             , WebRequest request) {
         List<ValidationError> errors = getValidationError(ex);
 
-        List<String> messages = errors.stream()
-                .map(item -> item.getMessage())
-                .toList();
-        String result = String.join("\n", messages);
+//        List<String> messages = errors.stream()
+//                .map(item -> item.getMessage())
+//                .toList();
+//        String result = String.join("\n", messages);
+        String message = ex.getBindingResult()
+                .getFieldErrors()
+                .get(0)                    // 첫번째 에러만 반환
+                .getDefaultMessage();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ResultResponse<>(result, null));
+                .body(new ResultResponse<>(message, null));
     }
 
     @ExceptionHandler(Exception.class)
@@ -57,7 +61,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String statusMessage = HttpStatus.valueOf(ex.getStatusCode().value()).getReasonPhrase();
 
         return ResponseEntity.status(ex.getStatusCode())
-                .body(new ResultResponse<>(statusMessage, ex.getReason()));
+                .body(new ResultResponse<>(ex.getReason(), null));
     }
 
     //토큰에 문제 발생시

@@ -52,7 +52,7 @@ public class MailService {
     }
 
     public Long checkVerifyCode(PwCodeReq req) {
-        // codeStore에서 이메일로 저장된 코드 꺼내기
+        // req로 받은 이메일로 codeStore에 저장된 코드 꺼내기
         String savedVerifyCode = codeStore.get(req.getEmail());
 
         // 코드가 없거나 (만료) 일치하지 않으면 예외
