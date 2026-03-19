@@ -37,10 +37,6 @@ public class CourseService {
         courseMapper.deleteAttendance(req);
         // 2. 부모 테이블(수강) 데이터 삭제
         int result = courseMapper.deleteCourse(req);
-        // 3. 인원 수 복구 (+1)
-        if (result > 0) {
-            courseMapper.plusLectureRemainder(req.getLectureId());
-        }
         return result;
     }
 
