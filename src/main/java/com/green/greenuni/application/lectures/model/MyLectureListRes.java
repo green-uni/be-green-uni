@@ -25,5 +25,7 @@ public class MyLectureListRes {
     private Integer academicYear;
     private Integer maxStd;
     private String is_open;
+    private Integer year;
+    private Integer semester;
 
 }
