@@ -94,7 +94,11 @@ public class LectureService {
         return lectureMapper.findById(req);
     }
 
-    public List<LectureStudentInfoReq> getStudentInfo(LectureDetailReq req, Long loginUserId) {
+    public List<LectureStudentInfoReq> getStudentInfo(LectureDetailReq req, Long loginUserId, String role) {
+
+        if ("admin".equalsIgnoreCase(role)) {
+            return lectureMapper.studentInfoForAdmin(req,loginUserId);  // 소유자 체크 없는 쿼리
+        }
         return lectureMapper.studentInfo(req, loginUserId);
     }
 
