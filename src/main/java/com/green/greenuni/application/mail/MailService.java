@@ -32,7 +32,7 @@ public class MailService {
         Long memberId = mailMapper.findMember(req);
         // DB에 없다면 예외 처리
         if(memberId == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "정보가 일치하지 않습니다");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 회원입니다");
         }
         // DB에 있다면 메일 발송
         // 5자리 랜덤 인증코드 생성

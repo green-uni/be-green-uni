@@ -49,7 +49,7 @@ public class AdminController {
     public ResultResponse<?> modMembersStatus(@RequestBody List<MemberEditListReq> reqs){
         log.info("reqs: {}", reqs);
         memberService.modStatusList(reqs);
-        return new ResultResponse<>("목록에서 계정 상태 수정", 1);
+        return new ResultResponse<>("회원 상태를 수정하였습니다", 1);
     }
 
 //    @GetMapping("/members/{memberId}")
