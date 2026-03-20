@@ -23,10 +23,11 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final MyFileUtil myFileUtil;
-    MemberCreateRes res = new MemberCreateRes();
 
     @Transactional
     public MemberCreateRes createMember(MemberCreateReq req, MultipartFile mf){
+        MemberCreateRes res = new MemberCreateRes(); // 싱글톤이 아닌 메서드 안에서 작동
+
         //파일 업로드가 되었으면 저장하는 파일명을 테이블에 저장
         String savedPicFileName = mf == null ? null : myFileUtil.makeRandomFileName(mf);
         req.setPic(savedPicFileName);
@@ -38,14 +39,15 @@ public class MemberService {
         if( mf != null ){ //이미지가 업로드 되었다면
             long id = req.getMemberId();
             String middlePath = "member/" + id;
-            // 디렉토리 생성
-            myFileUtil.makeFolders(middlePath);
-
+            myFileUtil.makeFolders(middlePath); // 디렉토리 생성
             String fullFilePath = String.format("%s/%s", middlePath, savedPicFileName);
             try{
                 myFileUtil.transferTo(mf, fullFilePath);
             }catch (IOException e){
-                e.printStackTrace();
+                // 파일 저장 실패시 pic을 null로 되돌리기
+                req.setPic(null);
+                memberMapper.updateMemberPic(req);  // pic null로 업데이트
+                log.error("파일 저장 실패: {}", e.getMessage());
             }
         }
 
@@ -92,10 +94,11 @@ public class MemberService {
     // 모든 멤버 목록 조회때 최대 페이지 조회
     public Map<String, Object> getMemberMaxPage(MemberListMaxPageReq req){ return memberMapper.findMaxPage(req); }
 
+    // 멤버 로그인
     public MemberLoginRes logIn(MemberLoginReq req){
         MemberFindByCodeRes res = memberMapper.findByCode( req.getCode() );
         if (res == null) {
-            throw new RuntimeException("아이디, 비밀번호를 확인해주세요.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디, 비밀번호를 확인해주세요.");
         } // 로그인 code를 DB에서 조회 후 결과가 없으면 오류 처리
         if(!passwordEncoder.matches( req.getPassword(), res.getPassword() ) ){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디, 비밀번호를 확인해주세요.");
@@ -131,14 +134,20 @@ public class MemberService {
 
         if (pic != null) {
             if (res.getPic() != null) {
-                myFileUtil.deleteFile(String.format("%s/%s", folderPath, res.getPic()));
+                try {
+                    myFileUtil.deleteFile(String.format("%s/%s", folderPath, res.getPic()));
+                } catch (Exception e) {
+                    log.warn("기존 파일 삭제 실패: {}", e.getMessage());
+                }
             }
             savedPic = myFileUtil.makeRandomFileName(pic);
             try {
-                // #TODO 폴더 만드는 로직 추가
+                myFileUtil.makeFolders(folderPath); // 폴더가 없다면 폴더 생성 (폴더가 있다면 자동 패스)
                 myFileUtil.transferTo(pic, String.format("%s/%s", folderPath, savedPic));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                // 새 파일 저장 실패시 기존 이미지 유지
+                savedPic = res.getPic();
+                log.error("파일 저장 실패: {}", e.getMessage());
             }
         }
 
@@ -165,7 +174,7 @@ public class MemberService {
         return 1;
     }
 
-    // 관리자가 수정
+    // #TODO 관리자가 수정
 //    @Transactional
 //    public int editMemberByAdmin(MemberEditByAdminReq req){
 //        memberMapper.editMemberByAdmin(req);
