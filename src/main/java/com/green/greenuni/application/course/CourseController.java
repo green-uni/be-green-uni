@@ -1,17 +1,17 @@
 package com.green.greenuni.application.course;
 
-import com.green.greenuni.application.course.model.CourseDelReq;
-import com.green.greenuni.application.course.model.CourseListRes;
-import com.green.greenuni.application.course.model.CoursePostReq;
-import com.green.greenuni.application.course.model.MyCourseResponseDto;
+import com.green.greenuni.application.admin.model.MemberListMaxPageReq;
+import com.green.greenuni.application.course.model.*;
 import com.green.greenuni.configuration.model.ResultResponse;
 import com.green.greenuni.configuration.model.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -32,6 +32,7 @@ public class CourseController {
         return new ResultResponse<>("내 수강 내역", result);
     }
 
+    @PreAuthorize("hasRole('student')")
     @DeleteMapping
     public ResultResponse<?> deleteCourse(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                         @ModelAttribute CourseDelReq req) {
@@ -41,6 +42,7 @@ public class CourseController {
         return new ResultResponse<>("수강 취소", result);
     }
 
+    @PreAuthorize("hasRole('student')")
     @PostMapping
     public ResultResponse<?> postCourse(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                         @RequestBody CoursePostReq req) {
@@ -51,5 +53,12 @@ public class CourseController {
         long id = courseService.postCourse(req);
         String message = id > 0 ? "success" : "failed";
         return new ResultResponse<>(message, id);
+    }
+
+    @GetMapping("/max_page")
+    public ResultResponse<?> getCourseMaxPage(@ModelAttribute CourseListMaxPageReq req){
+        log.info("req: {}", req);
+        Map<String, Object> maxPage = courseService.getCourseMaxPage(req);
+        return new ResultResponse<>("전체 계정 조회", maxPage);
     }
 }
