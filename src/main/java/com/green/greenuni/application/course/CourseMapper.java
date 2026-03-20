@@ -30,4 +30,5 @@ public interface CourseMapper {
 
     Long getCourseId(@Param("lectureId") long lectureId, @Param("memberId") long memberId);
     List<Long> getEnrolledStudentIds(@Param("lectureId") long lectureId);
+    List<Map<String, Object>> getCourseMap(@Param("lectureId") Long lectureId);
 }
