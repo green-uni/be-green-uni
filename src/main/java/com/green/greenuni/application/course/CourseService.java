@@ -1,5 +1,6 @@
 package com.green.greenuni.application.course;
 
+import com.green.greenuni.application.admin.model.MemberListMaxPageReq;
 import com.green.greenuni.application.course.model.*;
 import com.green.greenuni.application.lectures.model.LectureDetailRes;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -34,6 +36,10 @@ public class CourseService {
     @Transactional // 삭제와 인원 복구를 하나의 작업으로 묶기 위해
     public int deleteCourse(CourseDelReq req) {
         int result = courseMapper.deleteCourse(req);
+        // 삭제 성공 시 lecture 테이블의 rem_std 컬럼 1 증가
+        if (result > 0) {
+            courseMapper.increaseRemStd(req.getLectureId());
+        }
         return result;
     }
 
@@ -58,6 +64,13 @@ public class CourseService {
         // 모든 조건 통과 시 수강 신청 진행
         int result = courseMapper.saveCourse(req);
 
+        // lecture 테이블의 rem_std 컬럼 1 감소
+        if (result > 0) {
+            courseMapper.decreaseRemStd(req.getLectureId());
+        }
+
         return result;
     }
+
+    public Map<String, Object> getCourseMaxPage(CourseListMaxPageReq req){ return courseMapper.findMaxPage(req); }
 }

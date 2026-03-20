@@ -45,6 +45,19 @@
             (SELECT COUNT(*) FROM professor p WHERE p.major_id = m.major_id) AS professorCount
         FROM major m
         LEFT JOIN member mem ON m.chair_professor = mem.member_id
+        <where>
+            <if test="active != null and active != ''">
+                AND m.active = #{active}
+            </if>
+
+            <if test="majorName != null and majorName != ''">
+                AND m.name LIKE CONCAT('%', #{majorName}, '%')
+            </if>
+
+            <if test="collegeName != null and collegeName != ''">
+                AND m.college LIKE CONCAT('%', #{collegeName}, '%')
+            </if>
+        </where>
         ORDER BY m.name ASC
     </select>
 
@@ -90,4 +103,23 @@
         ORDER BY m.name
     </select>
 
+    <select id="findMaxPage" resultType="map">
+        SELECT
+        CEIL(COUNT(major_id) / #{size}) AS maxPage,
+        COUNT(major_id) AS totalCount
+        FROM major
+        <where>
+            <if test="active != null and active != ''">
+                AND active = #{active}
+            </if>
+
+            <if test="majorName != null and majorName != ''">
+                AND name LIKE CONCAT('%', #{majorName}, '%')
+            </if>
+
+            <if test="collegeName != null and collegeName != ''">
+                AND college LIKE CONCAT('%', #{collegeName}, '%')
+            </if>
+        </where>
+    </select>
 </mapper>

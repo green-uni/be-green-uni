@@ -16,14 +16,27 @@
             lr.room_number AS roomNumber,
             l.academic_year AS academicYear,
             l.max_std AS maxStd,
-        (l.max_std - (SELECT COUNT(*) FROM course WHERE lecture_id = l.lecture_id)) AS rem_std,
+        l.rem_std AS rem_std,
             l.status
         FROM lecture l
         LEFT JOIN member m ON l.member_id = m.member_id
         LEFT JOIN major mj ON l.major_id = mj.major_id
         LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
         LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
-        WHERE l.year = YEAR(CURDATE()) <!--오늘 날짜에서 연도(2026)만 뽑아내겠다-->
+        <where>
+            l.year = YEAR(CURDATE()) AND status = 'approved'
+            <if test="academicYear > 0">
+                AND l.academic_year = #{academicYear}
+            </if>
+
+            <if test="majorName != null and majorName != ''">
+                AND mj.name LIKE CONCAT('%', #{majorName}, '%')
+            </if>
+
+            <if test="lectureName != null and lectureName != ''">
+                AND l.name LIKE CONCAT('%', #{lectureName}, '%')
+            </if>
+        </where>
         ORDER BY l.name
     </select>
 
@@ -49,7 +62,7 @@
             lr.room_number AS roomNumber,
             l.academic_year AS academicYear,
             l.max_std AS maxStd,
-        (l.max_std - (SELECT COUNT(*) FROM course WHERE lecture_id = l.lecture_id)) AS rem_std,
+        l.rem_std AS rem_std,
             l.status,
         (SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
         FROM attendance
@@ -70,9 +83,21 @@
     </delete>
 
     <insert id="saveCourse">
-        INSERT INTO course
-        SET lecture_id = #{lectureId}, member_id = #{memberId}
+        INSERT INTO course (lecture_id, member_id)
+        VALUES (#{lectureId}, #{memberId})
     </insert>
+
+    <update id="decreaseRemStd">
+        UPDATE lecture
+        SET rem_std = rem_std - 1
+        WHERE lecture_id = #{lectureId} AND rem_std > 0
+    </update>
+
+    <update id="increaseRemStd">
+        UPDATE lecture
+        SET rem_std = rem_std + 1
+        WHERE lecture_id = #{lectureId}
+    </update>
 
     <select id="getLectureDetail" resultType="com.green.greenuni.application.lectures.model.LectureDetailRes">
         SELECT
@@ -81,7 +106,7 @@
             type AS lectureType,
             academic_year AS academicYear,
             max_std AS maxStd,
-        (max_std - (SELECT COUNT(*) FROM course WHERE lecture_id = #{lectureId})) AS remStd
+        rem_std AS remStd
         FROM lecture
         WHERE lecture_id = #{lectureId}
     </select>
@@ -94,4 +119,31 @@
         WHERE member_id = #{memberId}
     </select>
 
+    <select id="findMaxPage">
+        SELECT
+        CEIL(COUNT(l.lecture_id) / #{size}) AS maxPage,
+        COUNT(l.lecture_id) AS totalCount
+        FROM lecture l
+        LEFT JOIN major mj ON l.major_id = mj.major_id
+        <where>
+            l.year = YEAR(CURDATE())
+            AND l.status = 'approved'
+
+            <if test="lectureType != null and lectureType != ''">
+                AND l.type = #{lectureType}
+            </if>
+
+            <if test="academicYear > 0">
+                AND l.academic_year = #{academicYear}
+            </if>
+
+            <if test="majorName != null and majorName != ''">
+                AND mj.name LIKE CONCAT('%', #{majorName}, '%')
+            </if>
+
+            <if test="lectureName != null and lectureName != ''">
+                AND l.name LIKE CONCAT('%', #{lectureName}, '%')
+            </if>
+        </where>
+    </select>
 </mapper>

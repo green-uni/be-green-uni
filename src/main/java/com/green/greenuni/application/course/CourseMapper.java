@@ -1,11 +1,13 @@
 package com.green.greenuni.application.course;
 
+import com.green.greenuni.application.admin.model.MemberListMaxPageReq;
 import com.green.greenuni.application.course.model.*;
 import com.green.greenuni.application.lectures.model.LectureDetailRes;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface CourseMapper {
@@ -21,4 +23,9 @@ public interface CourseMapper {
 
     LectureDetailRes getLectureDetail(long lectureId);
     CourseStudentReq getStudentDetail(long memberId);
+
+    void increaseRemStd(long lectureId);
+    void decreaseRemStd(long lectureId);
+
+    Map<String, Object> findMaxPage(CourseListMaxPageReq req);
 }
