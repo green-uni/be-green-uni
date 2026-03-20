@@ -309,21 +309,27 @@
         AND member_id = #{loginUserId}
     </delete>
 
-    <select id="getAllRoomIds" resultType="int">
-        SELECT room_id FROM lecture_room ORDER BY room_id
+    <select id="getAllRoomNumbers" resultType="string">
+        SELECT room_number
+        FROM lecture_room
+        ORDER BY room_number
     </select>
+    <!-- 312~ 315 삭제 후 아래 코드가 추가 되었는데 확인 바람 -->
+    <!--    <select id="getAllRoomIds" resultType="int">
+            SELECT room_id FROM lecture_room ORDER BY room_id
+        </select>
 
-    <select id="getApprovedLectureIds" resultType="long">
-        SELECT lecture_id FROM lecture
-        WHERE lecture_id IN
-        <foreach collection="lectureIds" item="id" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-        AND status = 'approved'
-    </select>
+        <select id="getApprovedLectureIds" resultType="long">
+            SELECT lecture_id FROM lecture
+            WHERE lecture_id IN
+            <foreach collection="lectureIds" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+            AND status = 'approved'
+        </select>
 
-    <select id="getLectureById" resultType="com.green.greenuni.application.lectures.model.LectureDto">
-        SELECT lecture_id AS lectureId, year, semester
-        FROM lecture WHERE lecture_id = #{lectureId}
-    </select>
+        <select id="getLectureById" resultType="com.green.greenuni.application.lectures.model.LectureDto">
+            SELECT lecture_id AS lectureId, year, semester
+            FROM lecture WHERE lecture_id = #{lectureId}
+        </select>-->
 </mapper>

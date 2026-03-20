@@ -32,12 +32,6 @@
             <if test="exitDate != null and exitDate != ''">
                 , `exit_date` = #{ exitDate }
             </if>
-        <if test="code != null and code != ''">
-            , `code` = #{code}
-        </if>
-        <if test="password != null and password != ''">
-            , `password` = #{password}
-        </if>
     </insert>
     <insert id="createStudent">
         INSERT INTO `student`(
