@@ -107,6 +107,9 @@ public class MemberService {
                 .role( res.getRole() )
                 .stdMajorName( res.getStdMajorName() )
                 .profMajorName( res.getProfMajorName() )
+                .stdStatus(res.getStdStatus())
+                .profStatus(res.getProfStatus())
+                .stfStatus(res.getStfStatus())
                 .build();
     }
 

@@ -15,4 +15,7 @@ public class MemberFindByCodeRes {
     private String role;
     private String stdMajorName;
     private String profMajorName;
+    private String stdStatus;
+    private String stfStatus;
+    private String profStatus;
 }
