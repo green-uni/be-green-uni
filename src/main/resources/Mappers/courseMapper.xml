@@ -160,9 +160,9 @@
     </select>
 
     <!-- CourseMapper.xml에 추가 -->
-    <select id="getCourseMap" resultType="map">
+<!--    <select id="getCourseMap" resultType="map">
         SELECT member_id, course_id
         FROM course
         WHERE lecture_id = #{lectureId}
-    </select>
+    </select> -->
 </mapper>
