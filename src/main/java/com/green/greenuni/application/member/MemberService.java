@@ -135,6 +135,7 @@ public class MemberService {
             }
             savedPic = myFileUtil.makeRandomFileName(pic);
             try {
+                // #TODO 폴더 만드는 로직 추가
                 myFileUtil.transferTo(pic, String.format("%s/%s", folderPath, savedPic));
             } catch (IOException e) {
                 throw new RuntimeException(e);
