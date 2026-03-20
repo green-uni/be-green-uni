@@ -137,4 +137,9 @@ public class LectureService {
         lectureMapper.deleteLecture(req);
     }
 
+    public ResultResponse<?> getAllRoomNumbers() {
+        List<String> list = lectureMapper.getAllRoomNumbers();
+        return new ResultResponse<>("강의실 번호 전체 조회 성공", list);
+    }
+
 }

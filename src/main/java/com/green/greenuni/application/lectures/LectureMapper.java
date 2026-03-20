@@ -51,4 +51,6 @@ public interface LectureMapper {
     void deleteSchedule(LectureDetailReq req);
     void deleteLecture(LectureDetailReq req);
     int countStudentsByLectureId(LectureDetailReq req);
+
+    List<String> getAllRoomNumbers();
 }

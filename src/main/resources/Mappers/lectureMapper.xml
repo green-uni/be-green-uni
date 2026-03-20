@@ -303,4 +303,9 @@
         AND member_id = #{loginUserId}
     </delete>
 
+    <select id="getAllRoomNumbers" resultType="string">
+        SELECT room_number
+        FROM lecture_room
+        ORDER BY room_number
+    </select>
 </mapper>
