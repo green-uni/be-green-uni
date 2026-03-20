@@ -23,7 +23,7 @@ public class LectureService {
     public int postLecture(LectureCreateReq req){
         // 재직 여부 확인
         String profStatus = lectureMapper.getProfStatus(req.getLoginUserId());
-        if (!"재직".equals(profStatus)) {
+        if (!"employment".equals(profStatus)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "재직 중인 교수만 강의를 개설할 수 있습니다.");
         }
         validateLecture(req, null); // 유효성 검사 공통화
@@ -34,7 +34,7 @@ public class LectureService {
     public ResultResponse editLeceture(Long lectureId, LectureCreateReq req){
         // 재직 여부 확인
         String profStatus = lectureMapper.getProfStatus(req.getLoginUserId());
-        if (!"재직".equals(profStatus)) {
+        if (!"employment".equals(profStatus)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "재직 중인 교수만 강의를 수정할 수 있습니다.");
         }
         validateLecture(req,lectureId);
@@ -131,7 +131,7 @@ public class LectureService {
         }
         //3. 재직 여부 확인 (DB에서 직접 조회)
         String profStatus = lectureMapper.getProfStatus(req.getLoginUserId());
-        if (!"재직".equals(profStatus)) {
+        if (!"employment".equals(profStatus)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "재직 중인 교수만 강의를 삭제할 수 있습니다.");
         }
         // 4. 승인된 강의 체크
