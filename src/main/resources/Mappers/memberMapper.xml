@@ -154,7 +154,9 @@
 
     <select id="findByCode">
         SELECT m.`member_id`, m.`code`, m.`password`, m.`name`, m.`role`
-            , sm.`name` AS stdMajorName, pm.`name` AS profMajorName
+            , sm.`name` AS stdMajorName, s.`status` AS stdStatus
+            , pm.`name` AS profMajorName, p.`status` AS profStatus
+            , a.`status` AS stfStatus
         FROM `member` m
 
         LEFT JOIN `student` s
@@ -165,6 +167,8 @@
         ON s.major_id = sm.major_id
         LEFT JOIN `major` pm
         ON p.major_id = pm.major_id
+        LEFT JOIN `staff` a
+        ON m.member_id = a.member_id
 
         WHERE `code` = #{code}
     </select>
