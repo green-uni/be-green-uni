@@ -21,12 +21,22 @@ public class LectureService {
 
     @Transactional
     public int postLecture(LectureCreateReq req){
+        // 재직 여부 확인
+        String profStatus = lectureMapper.getProfStatus(req.getLoginUserId());
+        if (!"재직".equals(profStatus)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "재직 중인 교수만 강의를 개설할 수 있습니다.");
+        }
         validateLecture(req, null); // 유효성 검사 공통화
         lectureMapper.createLecture(req);
         return lectureMapper.createSchedule(req);
     }
 
     public ResultResponse editLeceture(Long lectureId, LectureCreateReq req){
+        // 재직 여부 확인
+        String profStatus = lectureMapper.getProfStatus(req.getLoginUserId());
+        if (!"재직".equals(profStatus)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "재직 중인 교수만 강의를 수정할 수 있습니다.");
+        }
         validateLecture(req,lectureId);
         lectureMapper.updateSchedule(lectureId, req);
         lectureMapper.editLeceture(lectureId, req);
@@ -119,21 +129,26 @@ public class LectureService {
         if (!lecture.getMemberId().equals(req.getLoginUserId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "본인이 개설한 강의만 삭제할 수 있습니다.");
         }
-        // 3. 승인된 강의 체크
+        //3. 재직 여부 확인 (DB에서 직접 조회)
+        String profStatus = lectureMapper.getProfStatus(req.getLoginUserId());
+        if (!"재직".equals(profStatus)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "재직 중인 교수만 강의를 삭제할 수 있습니다.");
+        }
+        // 4. 승인된 강의 체크
         if ("approved".equals(lecture.getStatus())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "승인된 강의는 삭제할 수 없습니다.");
         }
 
-        // 4. 수강학생 체크
+        // 5. 수강학생 체크
         int studentCount = lectureMapper.countStudentsByLectureId(req);
         if (studentCount > 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수강 학생이 있는 강의는 삭제할 수 없습니다.");
         }
 
-        // 4. 스케줄 먼저 삭제 (FK 제약조건)
+        // 6. 스케줄 먼저 삭제 (FK 제약조건)
         lectureMapper.deleteSchedule(req);
 
-        // 5. 강의 삭제
+        // 7. 강의 삭제
         lectureMapper.deleteLecture(req);
     }
 
