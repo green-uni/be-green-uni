@@ -287,6 +287,12 @@
     </update>
 
     <!--삭제시필요한것들 아래 3가지임-->
+    <select id="getProfStatus" resultType="String">
+        SELECT status
+        FROM professor
+        WHERE member_id = #{loginUserId}
+    </select>
+
     <select id="countStudentsByLectureId" resultType="int">
         SELECT COUNT(*) FROM course
         WHERE lecture_id = #{lectureId}
