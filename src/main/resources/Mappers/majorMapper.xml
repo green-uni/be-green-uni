@@ -7,7 +7,7 @@
         ORDER BY `name`
     </select>
 
-    <insert id="createMajor">
+    <insert id="createMajor" useGeneratedKeys="true" keyProperty="majorId">
         INSERT INTO major (
         name,
         active,
