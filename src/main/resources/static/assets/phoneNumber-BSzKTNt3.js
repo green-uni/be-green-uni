@@ -1,0 +1,1 @@
+const t=r=>{if(!r)return"";const e=r.toString().replace(/[^0-9]/g,"");if(e.startsWith("02")){if(e.length===9)return e.replace(/(\d{2})(\d{3})(\d{4})/,"$1-$2-$3");if(e.length===10)return e.replace(/(\d{2})(\d{4})(\d{4})/,"$1-$2-$3")}return e.length===10?e.replace(/(\d{3})(\d{3})(\d{4})/,"$1-$2-$3"):e.length===11?e.replace(/(\d{3})(\d{4})(\d{4})/,"$1-$2-$3"):e};export{t as f};

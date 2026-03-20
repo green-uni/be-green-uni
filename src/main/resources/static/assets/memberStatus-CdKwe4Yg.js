@@ -1,0 +1,1 @@
+const s={enrolled:"재학",absence:"휴학",graduation:"졸업",expulsion:"퇴학",quit:"자퇴"},e={employment:"재직",absence:"휴직",retirement:"퇴임"},n={employment:"재직",absence:"휴직",retirement:"퇴사"},r=t=>t.stdStatus?s[t.stdStatus]||"-":t.profStatus?e[t.profStatus]||"-":t.stfStatus&&n[t.stfStatus]||"-";export{r as s};
