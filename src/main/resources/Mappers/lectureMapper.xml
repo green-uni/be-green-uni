@@ -12,16 +12,18 @@
         )
     </insert>
 
-    <!-- lecture_schedule INSERT -->
+    <insert id="createScheduleByRoomId">
+        INSERT INTO lecture_schedule (lecture_id, room_id, day_of_week, start_period, end_period)
+        VALUES (#{lectureId}, #{roomId}, #{dayOfWeek}, #{startPeriod}, #{endPeriod})
+    </insert>
+
+    <!-- 서비스용 (기존 — roomNumber 서브쿼리) -->
     <insert id="createSchedule">
-        INSERT INTO lecture_schedule
-        ( lecture_id, room_id, day_of_week, start_period, end_period )
+        INSERT INTO lecture_schedule (lecture_id, room_id, day_of_week, start_period, end_period)
         VALUES (
         #{lectureId},
         (SELECT room_id FROM lecture_room WHERE room_number = #{roomNumber} LIMIT 1),
-        #{dayOfWeek},
-        #{startPeriod},
-        #{endPeriod}
+        #{dayOfWeek}, #{startPeriod}, #{endPeriod}
         )
     </insert>
 
