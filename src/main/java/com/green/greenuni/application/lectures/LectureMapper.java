@@ -54,6 +54,6 @@ public interface LectureMapper {
     int countStudentsByLectureId(LectureDetailReq req);
 
     List<String> getAllRoomNumbers();
-    List<Long> getApprovedLectureIds(@Param("lectureIds") List<Long> lectureIds);
-    LectureDto getLectureById(@Param("lectureId") Long lectureId);
+    List<Long> getApprovedLectureIds(@Param("lectureIds") List<Long> lectureIds); //더미용
+    LectureDto getLectureById(@Param("lectureId") Long lectureId); //더미용
 }
