@@ -61,4 +61,24 @@ public class CourseController {
         Map<String, Object> maxPage = courseService.getCourseMaxPage(req);
         return new ResultResponse<>("전체 계정 조회", maxPage);
     }
+
+    /**
+     * 특정 강의의 수강생 ID 리스트 조회 (교수/관리자용)
+     */
+    @PreAuthorize("hasAnyRole('professor', 'admin')")
+    @GetMapping("/{lectureId}/students")
+    public ResultResponse<List<Long>> getEnrolledStudents(@PathVariable long lectureId) {
+        List<Long> studentIds = courseService.getEnrolledStudentIds(lectureId);
+        return new ResultResponse<>("수강생 ID 리스트 조회", studentIds);
+    }
+
+    /**
+     * 특정 강의에 대한 내 수강 PK(courseId) 확인 (디버깅 또는 상세 조회용)
+     */
+    @GetMapping("/{lectureId}/my-course-id")
+    public ResultResponse<Long> getMyCourseId(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                              @PathVariable long lectureId) {
+        Long courseId = courseService.getCourseId(lectureId, userPrincipal.getLoginUserId());
+        return new ResultResponse<>("내 수강 ID 조회", courseId);
+    }
 }

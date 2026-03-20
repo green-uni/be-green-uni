@@ -73,4 +73,18 @@ public class CourseService {
     }
 
     public Map<String, Object> getCourseMaxPage(CourseListMaxPageReq req){ return courseMapper.findMaxPage(req); }
+
+    /**
+     * 특정 강의를 수강 중인 모든 학생의 member_id 리스트 조회
+     */
+    public List<Long> getEnrolledStudentIds(long lectureId) {
+        return courseMapper.getEnrolledStudentIds(lectureId);
+    }
+
+    /**
+     * 특정 강의와 특정 학생의 매핑 정보(course_id) 조회
+     */
+    public Long getCourseId(long lectureId, long memberId) {
+        return courseMapper.getCourseId(lectureId, memberId);
+    }
 }

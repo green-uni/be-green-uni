@@ -146,4 +146,16 @@
             </if>
         </where>
     </select>
+
+    <!-- CourseMapper.xml에 추가 필요 -->
+    <select id="getCourseId" resultType="long">
+        SELECT course_id FROM course
+        WHERE lecture_id = #{lectureId} AND member_id = #{memberId}
+    </select>
+
+    <!-- CourseMapper.xml에 추가 필요 -->
+    <select id="getEnrolledStudentIds" resultType="long">
+        SELECT member_id FROM course
+        WHERE lecture_id = #{lectureId}
+    </select>
 </mapper>
