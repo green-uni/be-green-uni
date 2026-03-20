@@ -24,16 +24,16 @@ public class MajorFixture {
     public List<Long> insertMajors() {
         List<Object[]> majors = List.of(
                 // { name, college, active }
-                new Object[]{"컴퓨터공학과",   "공과대학", "Y"},
-                new Object[]{"소프트웨어학과", "공과대학", "Y"},
-                new Object[]{"전기전자공학과", "공과대학", "Y"},
-                new Object[]{"경영학과",       "경영대학", "Y"},
-                new Object[]{"마케팅학과",     "경영대학", "Y"},
-                new Object[]{"회계학과",       "경영대학", "Y"},
-                new Object[]{"영어영문학과",   "인문대학", "Y"},
-                new Object[]{"심리학과",       "인문대학", "Y"},
-                new Object[]{"멀티미디어학과", "공과대학", "N"}, // 폐지
-                new Object[]{"e-비즈니스학과", "경영대학", "N"}  // 폐지
+                new Object[]{"컴퓨터공학과",   "공과대학", "running"},
+                new Object[]{"소프트웨어학과", "공과대학", "running"},
+                new Object[]{"전기전자공학과", "공과대학", "running"},
+                new Object[]{"경영학과",       "경영대학", "running"},
+                new Object[]{"마케팅학과",     "경영대학", "running"},
+                new Object[]{"회계학과",       "경영대학", "running"},
+                new Object[]{"영어영문학과",   "인문대학", "running"},
+                new Object[]{"심리학과",       "인문대학", "running"},
+                new Object[]{"멀티미디어학과", "공과대학", "closed"},
+                new Object[]{"e-비즈니스학과", "경영대학", "closed"}
         );
 
         List<Long> activeMajorIds = new ArrayList<>();
@@ -48,7 +48,7 @@ public class MajorFixture {
 
             majorMapper.createMajor(req); // useGeneratedKeys → majorId 세팅
 
-            if ("Y".equals(m[2])) {
+            if ("running".equals(m[2])) {
                 activeMajorIds.add(req.getMajorId());
             }
         }

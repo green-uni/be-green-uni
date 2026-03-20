@@ -125,7 +125,7 @@ class GreenUniApplicationTests {
     @DisplayName("강의 60개 생성 (연도·학기 분산)")
     void insertLectures() {
         assumeTrue(professorIds != null, "Order(3) 먼저 실행 필요");
-        assumeTrue(roomIds != null,      "Order(2) 먼저 실행 필요");
+        assumeTrue(roomIds != null && !roomIds.isEmpty(), "lecture_room 데이터 없음"); // ← !isEmpty() 추가
 
         lectureIds = lectureFixture.insertLectures(60, professorIds, majorIds, roomIds);
         assertEquals(60, lectureIds.size());

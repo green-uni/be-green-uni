@@ -52,6 +52,8 @@ public class LectureFixture {
     public List<Long> insertLectures(int count, List<Long> professorIds,
                                      List<Long> majorIds, List<Integer> roomIds) {
 
+        approvedIds.clear();
+
         // 연도·학기 배치 정의 { year, semester, count, startDate, endDate }
         List<int[]> batches = List.of(
                 new int[]{2024, 1, 10},
@@ -130,10 +132,8 @@ public class LectureFixture {
 
     // 이수구분: 전공필수 30% / 전공선택 40% / 교양 30%
     private String pickType(int idx) {
-        int r = idx % 10;
-        if (r < 3) return "전공필수";
-        if (r < 7) return "전공선택";
-        return "교양";
+        int r = idx % 2;
+        return r == 0 ? "교양" : "전공";
     }
 
     private int[] findAvailableSlot(Set<String> used, List<Integer> roomIds, int fallbackIdx) {
