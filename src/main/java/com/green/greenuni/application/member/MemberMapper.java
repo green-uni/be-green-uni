@@ -28,8 +28,10 @@ public interface MemberMapper {
     // 프로파일 화면
     MemberProfileRes findUserProfile( long id );
 
+    // 멤퍼 프로파일 수정
     int modMemberBySelf(MemberEditReq req);
     int modProfessorMySelf(MemberEditReq req);
+    int updateMemberPic(MemberCreateReq req);
 
     // 비밀번호 변경 (로그인유저 직접)
     MemberFindByIdRes findById(long loginUserId);

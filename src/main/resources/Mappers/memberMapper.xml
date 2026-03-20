@@ -197,6 +197,12 @@
         WHERE m.`member_id` = #{loginUserId}
     </select>
 
+    <update id="updateMemberPic">
+        UPDATE `member`
+        SET `pic` = #{pic}
+        WHERE `member_id` = #{memberId}
+    </update>
+
     <update id="modMemberBySelf">
         UPDATE `member`
         SET
