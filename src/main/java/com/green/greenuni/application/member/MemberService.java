@@ -117,8 +117,8 @@ public class MemberService {
     }
 
     // 현재 로그인한 사람의 프로파일 데이터 가져오기
-    public MemberProfileRes findLoginUserProfile( long id, String role ){
-        return memberMapper.findUserProfile( id );
+    public ProfileRes findLoginUserProfile(long id){
+        return memberMapper.findUserProfile(id);
     }
 
     // 로그인 유저가 본인 프로파일 정보 수정
@@ -127,7 +127,7 @@ public class MemberService {
         req.setLoginUserId(loginUserId);
         // 프로파일 사진 수정
         //기존 프로파일 사진은 삭제, 기존 파일명을 구해야 함.
-        MemberProfileRes res = memberMapper.findUserProfile( loginUserId );
+        ProfileRes res = memberMapper.findUserProfile( loginUserId );
         String savedPic = res.getPic();
 
         String folderPath = String.format("member/%d", loginUserId);

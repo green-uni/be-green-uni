@@ -26,7 +26,11 @@ public interface MemberMapper {
     MemberFindByCodeRes findByCode(String code);
 
     // 프로파일 화면
-    MemberProfileRes findUserProfile( long id );
+    ProfileRes findUserProfile(long id );
+//    ProfileStudentRes findStudentProfile(long id );
+//    ProfileProfessorRes findProfessorProfile(long id );
+//    ProfileStudentRes findStaffProfile(long id );
+//    ProfileStudentRes findStudentGrade(long id );
 
     // 멤퍼 프로파일 수정
     int modMemberBySelf(MemberEditReq req);

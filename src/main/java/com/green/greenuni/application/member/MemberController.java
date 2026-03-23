@@ -10,8 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,12 +46,13 @@ public class MemberController {
         return new ResultResponse<>("AT 재발행", null);
     }
 
+    // 로그인 유저 프로파일 조회
     @GetMapping("/me")
     public ResultResponse<?> findLoginUserProfile(@AuthenticationPrincipal UserPrincipal userPrincipal){
         long id = userPrincipal.getLoginUserId(); // 현재 로그인한 user Id
-        String role = userPrincipal.getLoginUserRole(); // 현재 로그인한 user role
+//        String role = userPrincipal.getLoginUserRole(); // 현재 로그인한 user role
         log.info("loginUserId: {}",id);
-        MemberProfileRes res = memberService.findLoginUserProfile( id , role );
+        ProfileRes res = memberService.findLoginUserProfile( id );
         return new ResultResponse<>("프로파일 유저정보", res);
     }
 

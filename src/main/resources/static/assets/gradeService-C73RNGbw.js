@@ -1,1 +1,0 @@
-import{k as a}from"./index-CLqwL0fx.js";const s="/lectures";class t{async getGradeList(e){return(await a.get(`${s}/${e}/grades`)).data.result}async updateGrades(e,r){return(await a.patch(`${s}/${e}/grades`,r)).data}async getMyGrades(){return(await a.get("/grade/mygrades")).data.result}}const o=new t;export{o as G};

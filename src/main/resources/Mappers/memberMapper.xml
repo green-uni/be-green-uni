@@ -181,6 +181,8 @@
         , a.`status` AS stfStatus
         , s.major_id AS stdMajorId
         , p.major_id AS profMajorId
+        , SUM(l.credit) AS total_credit <!-- 학생 취득학점 -->
+        , COUNT(pl.lecture_id) AS total_lecture <!-- 교수 개설 강의 -->
         FROM `member` m
         LEFT JOIN `student` s
         ON m.member_id = s.member_id
@@ -194,8 +196,19 @@
         LEFT JOIN `major` pm
         ON p.major_id = pm.major_id
 
+        LEFT JOIN `course` c
+        ON c.member_id = m.member_id
+        LEFT JOIN `lecture` l
+        ON l.lecture_id = c.lecture_id
+
+        LEFT JOIN `lecture` pl
+        ON pl.member_id = m.member_id
+
         WHERE m.`member_id` = #{loginUserId}
     </select>
+
+
+
 
     <update id="updateMemberPic">
         UPDATE `member`
