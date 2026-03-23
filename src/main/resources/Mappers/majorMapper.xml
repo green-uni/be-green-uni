@@ -25,14 +25,17 @@
 <!--        )-->
 <!--    </insert>-->
 
-    <!-- MajorMapper.xml — chair_professor 제외하고 INSERT -->
     <insert id="createMajor" useGeneratedKeys="true" keyProperty="majorId">
         INSERT INTO major (
-        name, active, college, capacity, start_date
+        name, active, college, room, tel, capacity, start_date
         ) VALUES (
-        #{name}, #{active}, #{college}, #{capacity}, #{startDate}
+        #{name}, #{active}, #{college}, #{room}, #{tel}, #{capacity}, #{startDate}
         )
     </insert>
+
+    <select id="getAllRoomIds" resultType="int">
+        SELECT room_id FROM lecture_room
+    </select>
 
     <select id="getMajorList">
         SELECT
@@ -102,7 +105,7 @@
             m.name AS name
         FROM professor p
         JOIN member m ON p.member_id = m.member_id
-        WHERE p.status = '재직'
+        WHERE p.status = 'employment'
         ORDER BY m.name
     </select>
 
@@ -125,4 +128,11 @@
             </if>
         </where>
     </select>
+
+    <!--더미 데이터 생성한다고 추가: 전공 먼저 만들어지고 교수가 만들어지고 학과장이 업데이트되도록-->
+    <update id="updateChairProfessor">
+        UPDATE major
+        SET chair_professor = #{chairProfessorId}
+        WHERE major_id = #{majorId}
+    </update>
 </mapper>

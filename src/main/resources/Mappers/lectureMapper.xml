@@ -311,4 +311,23 @@
         WHERE lecture_id = #{lectureId}
         AND member_id = #{loginUserId}
     </delete>
+
+    <!--더미 데이터 생성한다고 추가-->
+    <select id="getAllRoomIds" resultType="int">
+        SELECT room_id FROM lecture_room
+    </select>
+    <select id="getApprovedLectureIds" resultType="long">
+        SELECT lecture_id
+        FROM lecture
+        WHERE lecture_id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND status = 'approved'
+    </select>
+    <select id="getLectureById" resultType="com.green.greenuni.application.lectures.model.LectureDetailRes">
+        SELECT year, semester
+        FROM lecture
+        WHERE lecture_id = #{lectureId}
+    </select>
 </mapper>

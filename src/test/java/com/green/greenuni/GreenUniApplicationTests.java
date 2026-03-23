@@ -2,7 +2,7 @@ package com.green.greenuni;
 
 import com.green.greenuni.application.course.CourseMapper;
 import com.green.greenuni.application.lectures.LectureMapper;
-import com.green.greenuni.application.lectures.model.LectureDto;
+import com.green.greenuni.application.lectures.model.LectureDetailRes;
 import com.green.greenuni.fixture.CourseFixture;
 import com.green.greenuni.fixture.LectureFixture;
 import com.green.greenuni.fixture.MajorFixture;
@@ -87,8 +87,11 @@ class GreenUniApplicationTests {
     @Test @Order(3)
     @DisplayName("교수 30명 생성")
     void insertProfessors() {
-        assumeTrue(majorIds != null, "Order(1) 먼저 실행 필요");  // 추가
+        assumeTrue(majorIds != null, "Order(1) 먼저 실행 필요");
         professorIds = memberFixture.insertProfessors(30, majorIds);
+
+        // ← 교수 생성 후 학과장 배정
+        majorFixture.updateChairProfessors(majorIds, professorIds);
     }
 
     // ─────────────────────────────────────────────────────
@@ -160,7 +163,7 @@ class GreenUniApplicationTests {
             if (courseMap.isEmpty()) continue;
 
             // 강의 연도·학기로 학기 시작일 결정
-            LectureDto lecture = lectureMapper.getLectureById(lectureId);
+            LectureDetailRes lecture = lectureMapper.getLectureById(lectureId);
             LocalDate semesterStart = lecture.getSemester() == 1
                     ? LocalDate.of(lecture.getYear(), 3, 3)   // 1학기 3월 첫째 주
                     : LocalDate.of(lecture.getYear(), 9, 1);  // 2학기 9월 첫째 주

@@ -44,7 +44,7 @@
         SELECT IFNULL(SUM(l.credit), 0)
         FROM course c
         JOIN lecture l ON c.lecture_id = l.lecture_id
-        WHERE c.member_id = #{memberId}
+        WHERE c.member_id = #{memberId} AND l.year = YEAR(CURDATE())
     </select>
 
     <select id="getMyCourseList">
@@ -73,7 +73,7 @@
         LEFT JOIN major mj ON l.major_id = mj.major_id
         LEFT JOIN lecture_schedule ls ON l.lecture_id = ls.lecture_id
         LEFT JOIN lecture_room lr ON ls.room_id = lr.room_id
-        WHERE c.member_id = #{memberId}
+        WHERE c.member_id = #{memberId} AND l.year = YEAR(CURDATE())
         ORDER BY l.name
     </select>
 
@@ -159,10 +159,10 @@
         WHERE lecture_id = #{lectureId}
     </select>
 
-    <!-- CourseMapper.xml에 추가 -->
-<!--    <select id="getCourseMap" resultType="map">
+    <!--더미 데이터 생성한다고 추가-->
+    <select id="getCourseMap" resultType="map">
         SELECT member_id, course_id
         FROM course
         WHERE lecture_id = #{lectureId}
-    </select> -->
+    </select>
 </mapper>

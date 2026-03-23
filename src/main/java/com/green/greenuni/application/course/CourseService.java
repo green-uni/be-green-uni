@@ -61,6 +61,8 @@ public class CourseService {
         if ("전공".equals(lecture.getLectureType()) && lecture.getMajorId() != student.getMajorId()) {
             throw new RuntimeException("해당 전공 학생만 신청 가능한 과목입니다.");
         }
+        // [체크 4] 중복된 수업 시간일 경우 제한
+
         // 모든 조건 통과 시 수강 신청 진행
         int result = courseMapper.saveCourse(req);
 
