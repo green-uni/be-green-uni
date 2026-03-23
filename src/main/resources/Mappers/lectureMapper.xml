@@ -253,7 +253,19 @@
             resultType="com.green.greenuni.application.lectures.model.LectureStudentInfoReq">
         SELECT ma.`name` AS majorName, m.`code` AS studentCode,
             m.`name` AS studentName, s.academic_year AS academicYear,
-            c.grade_letter AS gradeLetter, c.lecture_id AS lectureId
+            c.grade_letter AS gradeLetter, c.lecture_id AS lectureId,
+            (SELECT COUNT(*) FROM attendance a
+                WHERE a.lecture_id = c.lecture_id
+                AND a.member_id = c.member_id
+                AND a.status = 'attend') AS attendCount,
+            (SELECT COUNT(*) FROM attendance a
+                WHERE a.lecture_id = c.lecture_id
+                AND a.member_id = c.member_id
+                AND a.status = 'late') AS lateCount,
+            (SELECT COUNT(*) FROM attendance a
+                WHERE a.lecture_id = c.lecture_id
+                AND a.member_id = c.member_id
+                AND a.status = 'absent') AS absentCount
         FROM course c
         JOIN student s ON c.member_id = s.member_id
         JOIN major ma  ON s.major_id = ma.major_id

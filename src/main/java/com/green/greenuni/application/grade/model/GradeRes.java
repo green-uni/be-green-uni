@@ -16,4 +16,6 @@ public class GradeRes {
     private int attendScore; //출석점수
     private int totalScore; //총점
     private String gradeLetter; //최종등급
+    private int lateCount; //지각 카운트
+    private int absentCount; //결석 카운트
 }
