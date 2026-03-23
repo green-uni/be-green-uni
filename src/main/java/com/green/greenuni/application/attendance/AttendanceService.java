@@ -33,9 +33,24 @@ public class AttendanceService {
 
     //저장버튼 클릭 시 INSERT + UPDATE까지 같이 실행
     public void updateAttendList(String lectureId, List<AttendUpdateReq> reqList) {
-        attendanceMapper.setAttendList(lectureId, reqList.get(0).getAttendDate() ); //INSERT부분
+        String attendDate = reqList.get(0).getAttendDate();
+
+        //1. INSERT먼저 진행(없는 학생만)
+        attendanceMapper.setAttendList(lectureId, attendDate);
+
+        //2. 새로 INSERT된 데이터 포함해서 전체 조회
+        List<AttendListRes> attendList = attendanceMapper.getStudentAttendList(lectureId, attendDate);
+
+        //3. attendId 매핑 후 UPDATE
         for (AttendUpdateReq req : reqList) {
-            attendanceMapper.updateAttend(req); //update부분
+            //attendId가 null이면 방금 INSERT된 데이터에서 찾기
+            if (req.getAttendId() == null) {
+                attendList.stream()
+                    .filter(a -> a.getCode().equals(req.getCode()))
+                    .findFirst()
+                    .ifPresent(a -> req.setAttendId(a.getAttendId()));
+            }
+            attendanceMapper.updateAttend(req);
         }
     }
 
