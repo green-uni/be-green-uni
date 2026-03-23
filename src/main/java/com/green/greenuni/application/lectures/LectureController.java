@@ -129,9 +129,4 @@ public class LectureController {
         return new ResultResponse<>("강의삭제완료", null);
     }
 
-    @GetMapping("/rooms/all")
-    public ResultResponse<?> getAllRoomNumbers() {
-        return lectureService.getAllRoomNumbers();
-    }
-
 }

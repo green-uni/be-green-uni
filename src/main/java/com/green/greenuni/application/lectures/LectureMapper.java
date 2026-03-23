@@ -11,8 +11,7 @@ import java.util.Map;
 @Mapper
 public interface LectureMapper {
     int createLecture(LectureCreateReq req);
-    int createSchedule(LectureCreateReq req);            // 서비스용
-    int createScheduleByRoomId(LectureScheduleReq req);  // 더미용
+    int createSchedule(LectureCreateReq req);
 
     String getProName(@Param("loginUserId") Long loginUserId);
     List<String> getBuildings();
@@ -54,9 +53,4 @@ public interface LectureMapper {
     void deleteLecture(LectureDetailReq req);
     int countStudentsByLectureId(LectureDetailReq req);
 
-    List<String> getAllRoomNumbers();
-    List<Long> getApprovedLectureIds(@Param("lectureIds") List<Long> lectureIds); //더미용
-    LectureDto getLectureById(@Param("lectureId") Long lectureId); //더미용
-
-    List<Integer> getAllRoomIds();
 }
