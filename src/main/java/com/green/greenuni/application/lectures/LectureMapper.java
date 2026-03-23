@@ -18,6 +18,7 @@ public interface LectureMapper {
     List<LectureRoom> getRoomsByBuilding(String building);
     //중복체크
     Map<String, Object> checkScheduleConflict(@Param("roomNumber") String roomNumber,
+                                              @Param("building")   String building,
                                               @Param("dayOfWeek") String dayOfWeek,
                                               @Param("startPeriod") Integer startPeriod,
                                               @Param("endPeriod") Integer endPeriod,

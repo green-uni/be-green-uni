@@ -10,7 +10,6 @@ import lombok.ToString;
 
 public class LectureCreateReq {
     private Long loginUserId;
-    private String code;
     private String loginUserName;
     private String isOpen;
     private Integer majorId;
@@ -28,6 +27,7 @@ public class LectureCreateReq {
     private String startDate;
     private String endDate;
     private String roomNumber;
+    private String building;
     private String dayOfWeek;
     private Integer startPeriod;
     private Integer endPeriod;
