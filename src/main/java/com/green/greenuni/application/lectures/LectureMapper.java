@@ -53,4 +53,9 @@ public interface LectureMapper {
     void deleteLecture(LectureDetailReq req);
     int countStudentsByLectureId(LectureDetailReq req);
 
+    //더미 데이터 생성한다고 추가
+    List<Integer> getAllRoomIds();
+    LectureDetailRes getLectureById(Long lectureId);
+    List<Long> getApprovedLectureIds(List<Long> lectureIds);
+    void createScheduleByRoomId(LectureScheduleReq schedReq);
 }

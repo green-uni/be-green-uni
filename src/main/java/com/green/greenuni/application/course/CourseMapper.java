@@ -30,5 +30,8 @@ public interface CourseMapper {
 
     Long getCourseId(@Param("lectureId") long lectureId, @Param("memberId") long memberId);
     List<Long> getEnrolledStudentIds(@Param("lectureId") long lectureId);
+
+    //더미 데이터 생성한다고 추가
+    List<Map<String, Object>> getCourseMap(Long lectureId);
     // List<Map<String, Object>> getCourseMap(@Param("lectureId") Long lectureId);
 }

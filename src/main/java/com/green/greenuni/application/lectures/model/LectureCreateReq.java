@@ -11,7 +11,7 @@ import lombok.ToString;
 public class LectureCreateReq {
     private Long loginUserId;
     private String loginUserName;
-
+    private String isOpen;
     private Integer majorId;
     private String majorName;
     private Integer year;

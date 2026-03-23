@@ -77,4 +77,12 @@
             , reason = #{reason}
         WHERE attend_id = #{attendId}
     </update>
+
+    <insert id="setAttendListByReq">
+        INSERT IGNORE INTO attendance(
+        lecture_id, course_id, member_id, attend_date, status
+        ) VALUES (
+        #{lectureId}, #{courseId}, #{memberId}, #{attendDate}, #{status}
+        )
+    </insert>
 </mapper>
