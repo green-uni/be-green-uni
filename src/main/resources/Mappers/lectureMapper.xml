@@ -5,13 +5,14 @@
     <!-- lecture INSERT 후 생성된 ID 반환 -->
     <insert id="createLecture" useGeneratedKeys="true" keyProperty="lectureId">
         INSERT INTO lecture
-        ( member_id, code, major_id, year, semester, name, credit, type, ref_books, goal, weekly_plan, academic_year, max_std, rem_std, start_date, end_date )
+        ( member_id, major_id, year, semester, name, credit, type, ref_books, goal, weekly_plan, academic_year, max_std, rem_std, start_date, end_date )
         VALUES (
-        #{loginUserId}, #{code}, #{majorId}, #{year}, #{semester}, #{lectureName},
+        #{loginUserId}, #{majorId}, #{year}, #{semester}, #{lectureName},
         #{credit}, #{lectureType}, #{refBooks}, #{goal}, #{weeklyPlan},
         #{academicYear}, #{maxStd}, #{maxStd}, #{startDate}, #{endDate}
         )
     </insert>
+
 
     <insert id="createScheduleByRoomId">
         INSERT INTO lecture_schedule (lecture_id, room_id, day_of_week, start_period, end_period)
@@ -23,7 +24,9 @@
         INSERT INTO lecture_schedule (lecture_id, room_id, day_of_week, start_period, end_period)
         VALUES (
         #{lectureId},
-        (SELECT room_id FROM lecture_room WHERE room_number = #{roomNumber} LIMIT 1),
+        (SELECT room_id FROM lecture_room WHERE room_number = #{roomNumber}
+        AND building = #{building}
+        LIMIT 1),
         #{dayOfWeek}, #{startPeriod}, #{endPeriod}
         )
     </insert>
@@ -56,7 +59,8 @@
         SELECT
         (SELECT COUNT(*) FROM lecture_schedule ls
         JOIN lecture l ON ls.lecture_id = l.lecture_id
-        WHERE ls.room_id = (SELECT room_id FROM lecture_room WHERE room_number = #{roomNumber} LIMIT 1)
+        WHERE ls.room_id = (SELECT room_id FROM lecture_room WHERE room_number = #{roomNumber}
+        AND building = #{building} LIMIT 1)
         AND ls.day_of_week = #{dayOfWeek}
         AND l.year = #{year}
         AND l.semester = #{semester}
@@ -86,7 +90,9 @@
 
         (SELECT CASE WHEN capacity &lt; #{maxStd} THEN 1 ELSE 0 END
         FROM lecture_room
-        WHERE room_number = #{roomNumber} LIMIT 1
+        WHERE room_number = #{roomNumber}
+        AND building = #{building}
+        LIMIT 1
         ) AS capacityOver
     </select>
 

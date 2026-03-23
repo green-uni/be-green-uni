@@ -46,7 +46,7 @@ public class LectureService {
     // 공통 검증 로직
     private void validateLecture(LectureCreateReq req,Long lectureId) {
         Map<String, Object> conflictMap = lectureMapper.checkScheduleConflict(
-                req.getRoomNumber(), req.getDayOfWeek(),
+                req.getRoomNumber(), req.getBuilding(), req.getDayOfWeek(),
                 req.getStartPeriod(), req.getEndPeriod(),
                 req.getYear(), req.getSemester(), lectureId, req.getLoginUserId(), req.getMaxStd()
         );
