@@ -4,9 +4,9 @@
     <!-- lecture INSERT 후 생성된 ID 반환 -->
     <insert id="createLecture" useGeneratedKeys="true" keyProperty="lectureId">
         INSERT INTO lecture
-        ( member_id, major_id, year, semester, name, credit, type, ref_books, goal, weekly_plan, academic_year, max_std, rem_std, start_date, end_date )
+        ( member_id, code, major_id, year, semester, name, credit, type, ref_books, goal, weekly_plan, academic_year, max_std, rem_std, start_date, end_date )
         VALUES (
-        #{loginUserId}, #{majorId}, #{year}, #{semester}, #{lectureName},
+        #{loginUserId}, #{code}, #{majorId}, #{year}, #{semester}, #{lectureName},
         #{credit}, #{lectureType}, #{refBooks}, #{goal}, #{weeklyPlan},
         #{academicYear}, #{maxStd}, #{maxStd}, #{startDate}, #{endDate}
         )
@@ -174,7 +174,7 @@
         ORDER BY l.lecture_id DESC
     </select>
 
-    <select id="findById">
+    <select id="findById" resultType="com.green.greenuni.application.lectures.model.LectureDetailRes">
         select
         l.member_id AS memberId, mem.name AS proName, l.lecture_id, l.name AS lectureName, l.year, l.semester, l.type AS lectureType, l.credit, l.max_std AS maxStd, l.academic_year AS academicYear, l.ref_books AS refBooks, l.goal, l.weekly_plan AS weeklyPlan, lr.building, lr.room_number AS roomNumber, ls.day_of_week AS dayOfWeek,         ls.end_period AS endPeriod,
         ls.start_period AS startPeriod, l.status, l.major_id AS majorId, m.name AS majorName

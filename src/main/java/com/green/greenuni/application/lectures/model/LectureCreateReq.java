@@ -10,6 +10,7 @@ import lombok.ToString;
 
 public class LectureCreateReq {
     private Long loginUserId;
+    private String code;
     private String loginUserName;
 
     private Integer majorId;
