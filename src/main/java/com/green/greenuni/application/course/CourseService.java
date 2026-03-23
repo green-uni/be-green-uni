@@ -62,6 +62,10 @@ public class CourseService {
             throw new RuntimeException("해당 전공 학생만 신청 가능한 과목입니다.");
         }
         // [체크 4] 중복된 수업 시간일 경우 제한
+        int conflict = courseMapper.checkScheduleConflict(req.getMemberId(), req.getLectureId());
+        if (conflict > 0) {
+            throw new RuntimeException("이미 수강 중인 강의와 시간이 겹칩니다.");
+        }
 
         // 모든 조건 통과 시 수강 신청 진행
         int result = courseMapper.saveCourse(req);

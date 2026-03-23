@@ -14,6 +14,7 @@ public class MajorDetailRes {
     private String room;
     private String tel;
     private String chairProfessorName;
+    private long chairProfessorId;
     private Integer capacity;
     private LocalDate startDate;
     private String info;

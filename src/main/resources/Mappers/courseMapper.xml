@@ -165,4 +165,21 @@
         FROM course
         WHERE lecture_id = #{lectureId}
     </select>
+
+    <!--강의 시간 중복 제약-->
+    <select id="checkScheduleConflict" resultType="int">
+        SELECT COUNT(*)
+        FROM lecture_schedule ls_new
+        JOIN lecture_schedule ls_mine
+        ON ls_new.day_of_week = ls_mine.day_of_week
+        AND (
+        ls_new.start_period BETWEEN ls_mine.start_period AND ls_mine.end_period
+        OR ls_new.end_period BETWEEN ls_mine.start_period AND ls_mine.end_period
+        OR ls_mine.start_period BETWEEN ls_new.start_period AND ls_new.end_period
+        )
+        JOIN course c ON ls_mine.lecture_id = c.lecture_id
+        WHERE ls_new.lecture_id = #{lectureId}      -- 신청하려는 강의
+        AND c.member_id = #{memberId}               -- 내가 이미 신청한 강의들
+        AND ls_mine.lecture_id != #{lectureId}      -- 자기 자신 제외
+    </select>
 </mapper>
