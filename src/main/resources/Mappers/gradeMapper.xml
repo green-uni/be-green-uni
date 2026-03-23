@@ -10,7 +10,15 @@
         s.academic_year AS academicYear, c.mid_score AS midScore,
         c.fin_score AS finScore, c.assignment_score AS assignmentScore,
         c.attend_score AS attendScore, c.total_score AS totalScore,
-        c.grade_letter AS gradeLetter
+        c.grade_letter AS gradeLetter,
+        (SELECT COUNT(*) FROM attendance a
+            WHERE a.lecture_id = c.lecture_id
+            AND a.member_id = c.member_id
+            AND a.status = 'late')   AS lateCount,
+        (SELECT COUNT(*) FROM attendance a
+            WHERE a.lecture_id = c.lecture_id
+            AND a.member_id = c.member_id
+            AND a.status = 'absent') AS absentCount
         FROM course c
         LEFT JOIN student s
           ON c.member_id = s.member_id
@@ -20,15 +28,17 @@
         ORDER BY m.name ASC
     </select>
 
-    <!--성적수정-->
+    <!--성적수정 <, >, <=, >= 같은 특수문자는 그대로 쓰면 xml파싱 오류가 나기때문에 CDATA로 감싸줌-->
     <update id="updateGrade">
         UPDATE course
+        <![CDATA[
         SET mid_score = #{midScore}
             , fin_score  = #{finScore}
             , assignment_score = #{assignmentScore}
             , attend_score = #{attendScore}
             , total_score = #{midScore} + #{finScore} + #{assignmentScore} + #{attendScore}
             , grade_letter = CASE
+                WHEN #{attendScore} <= 0 THEN 'F'
                 WHEN #{midScore} + #{finScore} + #{assignmentScore} + #{attendScore} >= 90 THEN 'A'
                 WHEN #{midScore} + #{finScore} + #{assignmentScore} + #{attendScore} >= 80 THEN 'B'
                 WHEN #{midScore} + #{finScore} + #{assignmentScore} + #{attendScore} >= 70 THEN 'C'
@@ -36,6 +46,7 @@
                 ELSE 'F'
             END
         WHERE course_id = #{courseId}
+        ]]>
     </update>
 
 </mapper>

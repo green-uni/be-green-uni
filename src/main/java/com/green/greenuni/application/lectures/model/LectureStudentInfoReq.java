@@ -10,4 +10,7 @@ public class LectureStudentInfoReq {
     private int academicYear; //학년
     private String gradeLetter; //점수(등급)
     private Long lectureId; //강의ID
+    private int attendCount; //출석 횟수
+    private int lateCount; //지각 횟수
+    private int absentCount; //결석 횟수
 }
