@@ -20,4 +20,10 @@ public interface MajorMapper {
     //더미 데이터 생성한다고 추가
     void updateChairProfessor(@Param("majorId") long majorId,
                               @Param("chairProfessorId") long chairProfessorId);
+
+    //학과 등록 시 제한 추가
+    int checkMajorNameDuplicate(String name);
+    int checkMajorOfficeDuplicate(String room);
+    int checkMajorPhoneDuplicate(String tel);
+    int checkMajorProfessorDuplicate(@Param("chairProfessorId") long chairProfessorId);
 }

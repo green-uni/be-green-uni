@@ -33,5 +33,8 @@ public interface CourseMapper {
 
     //더미 데이터 생성한다고 추가
     List<Map<String, Object>> getCourseMap(Long lectureId);
-    // List<Map<String, Object>> getCourseMap(@Param("lectureId") Long lectureId);
+
+    //강의 시간 중복 제약
+    int checkScheduleConflict(@Param("memberId") long memberId,
+                              @Param("lectureId") long lectureId);
 }

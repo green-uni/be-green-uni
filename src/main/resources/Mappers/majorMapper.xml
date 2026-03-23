@@ -27,9 +27,9 @@
 
     <insert id="createMajor" useGeneratedKeys="true" keyProperty="majorId">
         INSERT INTO major (
-        name, active, college, room, tel, capacity, start_date
+        name, active, college, room, tel, chair_professor, capacity, start_date
         ) VALUES (
-        #{name}, #{active}, #{college}, #{room}, #{tel}, #{capacity}, #{startDate}
+        #{name}, #{active}, #{college}, #{room}, #{tel}, #{chairProfessorId}, #{capacity}, #{startDate}
         )
     </insert>
 
@@ -135,4 +135,18 @@
         SET chair_professor = #{chairProfessorId}
         WHERE major_id = #{majorId}
     </update>
+
+    <!--학과 등록 시 제한 추가-->
+    <select id="checkMajorNameDuplicate" resultType="int">
+        SELECT COUNT(*) FROM major WHERE name = #{name}
+    </select>
+    <select id="checkMajorOfficeDuplicate" resultType="int">
+        SELECT COUNT(*) FROM major WHERE room = #{room}
+    </select>
+    <select id="checkMajorPhoneDuplicate" resultType="int">
+        SELECT COUNT(*) FROM major WHERE tel = #{tel}
+    </select>
+    <select id="checkMajorProfessorDuplicate" resultType="int">
+        SELECT COUNT(*) FROM major WHERE chair_professor = #{chairProfessorId}
+    </select>
 </mapper>
