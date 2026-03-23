@@ -101,7 +101,7 @@ public class MemberService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디, 비밀번호를 확인해주세요.");
         } // 로그인 code를 DB에서 조회 후 결과가 없으면 오류 처리
         if(!passwordEncoder.matches( req.getPassword(), res.getPassword() ) ){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디, 비밀번호를 확인해주세요.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디또는 비밀번호가 일치하지 않습니다.");
         } // DB에 저장된 비밀번호와 입력한 비밀번호가 다를시 오류 처리
         return MemberLoginRes.builder()
                 .loginUserId( res.getMemberId() )
