@@ -1,0 +1,1 @@
+import{p as t}from"./index-DzyHbV2D.js";const l="majorCreateDraft",s=(o,a)=>{localStorage.setItem(o,JSON.stringify(a)),t().showAlert("임시저장 되었습니다.","info")},c=o=>{const a=localStorage.getItem(o);return a?JSON.parse(a):null},m=o=>{localStorage.removeItem(o)};export{l as D,m as c,c as l,s};
