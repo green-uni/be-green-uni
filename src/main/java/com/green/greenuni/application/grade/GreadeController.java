@@ -25,7 +25,11 @@ public class GreadeController {
     @PatchMapping("/{lectureId}/grades")
     public ResultResponse<?> updateGrades(@PathVariable Long lectureId,
                                           @RequestBody List<GradeUpdateReq> req) {
-        gradeService.updateGrades(req);
-        return new ResultResponse<>("성적 저장 성공", null);
+        try{
+            gradeService.updateGrades(req);
+            return new ResultResponse<>("성적 저장 성공", null);
+        } catch (IllegalArgumentException e) {
+            return new ResultResponse<>(e.getMessage(), null);
+        }
     }
 }
