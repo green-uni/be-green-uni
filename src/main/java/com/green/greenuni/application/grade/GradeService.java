@@ -24,7 +24,7 @@ public class GradeService {
                 updateList.getFinScore() < 0 || updateList.getFinScore() > 100 ||
                 updateList.getAssignmentScore() < 0 || updateList.getAssignmentScore() > 100 ||
                 updateList.getAttendScore() < 0 || updateList.getAttendScore() > 100) {
-                throw new IllegalArgumentException("점수는 0~100 사이여야 합니다.");
+                throw new IllegalArgumentException("등록 가능한 점수를 초과하였습니다.");
             }
 
             //총점 100점 초과 체크
