@@ -5,8 +5,10 @@ import com.green.greenuni.application.course.model.*;
 import com.green.greenuni.application.lectures.model.LectureDetailRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -45,28 +47,35 @@ public class CourseService {
 
     @Transactional
     public long postCourse(CoursePostReq req) {
-        // 1. 강의 정보 조회 (정원, 대상학년, 개설전공 확인용)
+        // 1. 강의 정보 조회
         LectureDetailRes lecture = courseMapper.getLectureDetail(req.getLectureId());
-        // 2. 학생 정보 조회 (학생의 학년, 전공 확인용)
+        if (lecture == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 강의입니다.");
+        }
+        // 2. 학생 정보 조회
         CourseStudentReq student = courseMapper.getStudentDetail(req.getMemberId());
+        if (student == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "학생 정보를 찾을 수 없습니다.");
+        }
         // [체크 1] 정원 초과 여부
         if (lecture.getRemStd() <= 0) {
-            throw new RuntimeException("수강 정원이 초과되었습니다.");
+            // 409 Conflict 또는 400 Bad Request
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수강 정원이 초과되었습니다.");
         }
         // [체크 2] 학년 일치 여부
         if (lecture.getAcademicYear() != student.getAcademicYear()) {
-            throw new RuntimeException("해당 강의는 " + lecture.getAcademicYear() + "학년 대상 강의입니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "해당 강의는 " + lecture.getAcademicYear() + "학년 대상 강의입니다.");
         }
         // [체크 3] 전공 일치 여부
-        if ("전공".equals(lecture.getLectureType()) && lecture.getMajorId() != student.getMajorId()) {
-            throw new RuntimeException("해당 전공 학생만 신청 가능한 과목입니다.");
+        if ("전공".equals(lecture.getLectureType()) && !lecture.getMajorId().equals(student.getMajorId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "해당 전공 학생만 신청 가능한 과목입니다.");
         }
         // [체크 4] 중복된 수업 시간일 경우 제한
         int conflict = courseMapper.checkScheduleConflict(req.getMemberId(), req.getLectureId());
         if (conflict > 0) {
-            throw new RuntimeException("이미 수강 중인 강의와 시간이 겹칩니다.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 수강 중인 강의와 시간이 겹칩니다.");
         }
-
         // 모든 조건 통과 시 수강 신청 진행
         int result = courseMapper.saveCourse(req);
 

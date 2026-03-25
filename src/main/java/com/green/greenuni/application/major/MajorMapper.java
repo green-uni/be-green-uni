@@ -1,6 +1,5 @@
 package com.green.greenuni.application.major;
 
-import com.green.greenuni.application.course.model.CourseListMaxPageReq;
 import com.green.greenuni.application.major.model.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,8 +21,8 @@ public interface MajorMapper {
                               @Param("chairProfessorId") long chairProfessorId);
 
     //학과 등록 시 제한 추가
-    int checkMajorNameDuplicate(String name);
-    int checkMajorOfficeDuplicate(String room);
-    int checkMajorPhoneDuplicate(String tel);
-    int checkMajorProfessorDuplicate(@Param("chairProfessorId") long chairProfessorId);
+    int checkMajorNameDuplicate(@Param("name") String name, @Param("majorId") Long majorId);
+    int checkMajorOfficeDuplicate(@Param("room") String room, @Param("majorId") Long majorId);
+    int checkMajorPhoneDuplicate(@Param("tel") String tel, @Param("majorId") Long majorId);
+    int checkMajorProfessorDuplicate(@Param("chairProfessorId") Long chairProfessorId, @Param("majorId") Long majorId);
 }
