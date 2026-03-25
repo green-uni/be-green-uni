@@ -25,10 +25,14 @@ public class WebSecurityConfiguration {
                 .formLogin( fl -> fl.disable() )
                 .csrf(csrf -> csrf.disable())
 
-                // 특정 요청이 올 때는 반드시 로그인이 되어있어야 한다.
-                .authorizeHttpRequests( req -> req.requestMatchers(
-                                "/api/lecture/create").authenticated()
-                        .anyRequest().permitAll() //나머지 요청에 대해서는 허용
+                // 로그인 없이 접근 가능한 것만 명시
+                .authorizeHttpRequests(req -> req
+                        .requestMatchers("/api/member/login").permitAll()
+                        .requestMatchers("/api/member/logout").permitAll()
+                        .requestMatchers("/api/email/**").permitAll()    // 메일 인증
+                        .requestMatchers("/api/member/pw").permitAll()   // 비밀번호 재설정
+                        // 나머지는 전부 로그인 필요
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
