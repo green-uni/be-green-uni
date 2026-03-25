@@ -7,24 +7,6 @@
         ORDER BY `name`
     </select>
 
-<!--    <insert id="createMajor" useGeneratedKeys="true" keyProperty="majorId">-->
-<!--        INSERT INTO major (-->
-<!--        name, active, college,-->
-<!--        <if test="room != null">`room`,</if>-->
-<!--        <if test="tel != null">tel,</if>-->
-<!--        <if test="chairProfessorId != null">chair_professor,</if>-->
-<!--        capacity, start_date-->
-<!--        <if test="info != null">, info</if>-->
-<!--        ) VALUES (-->
-<!--        #{name}, #{active}, #{college},-->
-<!--        <if test="room != null">#{room},</if>-->
-<!--        <if test="tel != null">#{tel},</if>-->
-<!--        <if test="chairProfessorId != null">#{chairProfessorId},</if>-->
-<!--        #{capacity}, #{startDate}-->
-<!--        <if test="info != null">, #{info}</if>-->
-<!--        )-->
-<!--    </insert>-->
-
     <insert id="createMajor" useGeneratedKeys="true" keyProperty="majorId">
         INSERT INTO major (
         name, active, college, room, tel, chair_professor, capacity, start_date
@@ -138,15 +120,34 @@
 
     <!--학과 등록 시 제한 추가-->
     <select id="checkMajorNameDuplicate" resultType="int">
-        SELECT COUNT(*) FROM major WHERE name = #{name}
+        SELECT COUNT(*) FROM major
+        WHERE name = #{name}
+        <if test="majorId != null">
+            AND major_id != #{majorId}
+        </if>
     </select>
+
     <select id="checkMajorOfficeDuplicate" resultType="int">
-        SELECT COUNT(*) FROM major WHERE room = #{room}
+        SELECT COUNT(*) FROM major
+        WHERE room = #{room}
+        <if test="majorId != null">
+            AND major_id != #{majorId}
+        </if>
     </select>
+
     <select id="checkMajorPhoneDuplicate" resultType="int">
-        SELECT COUNT(*) FROM major WHERE tel = #{tel}
+        SELECT COUNT(*) FROM major
+        WHERE tel = #{tel}
+        <if test="majorId != null">
+            AND major_id != #{majorId}
+        </if>
     </select>
+
     <select id="checkMajorProfessorDuplicate" resultType="int">
-        SELECT COUNT(*) FROM major WHERE chair_professor = #{chairProfessorId}
+        SELECT COUNT(*) FROM major
+        WHERE chair_professor = #{chairProfessorId}
+        <if test="majorId != null">
+            AND major_id != #{majorId}
+        </if>
     </select>
 </mapper>
