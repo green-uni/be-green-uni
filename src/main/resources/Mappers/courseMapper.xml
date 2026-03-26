@@ -170,16 +170,19 @@
     <select id="checkScheduleConflict" resultType="int">
         SELECT COUNT(*)
         FROM lecture_schedule ls_new
-        JOIN lecture_schedule ls_mine
-        ON ls_new.day_of_week = ls_mine.day_of_week
+        JOIN lecture_schedule ls_mine ON ls_new.day_of_week = ls_mine.day_of_week
+        -- 기존의 시간 중복 체크 로직
         AND (
         ls_new.start_period BETWEEN ls_mine.start_period AND ls_mine.end_period
         OR ls_new.end_period BETWEEN ls_mine.start_period AND ls_mine.end_period
         OR ls_mine.start_period BETWEEN ls_new.start_period AND ls_new.end_period
         )
         JOIN course c ON ls_mine.lecture_id = c.lecture_id
+        -- [수정 핵심] 신청 내역 중 '올해' 강의만 가져오도록 lecture 테이블 조인
+        JOIN lecture l_mine ON c.lecture_id = l_mine.lecture_id
         WHERE ls_new.lecture_id = #{lectureId}      -- 신청하려는 강의
-        AND c.member_id = #{memberId}               -- 내가 이미 신청한 강의들
-        AND ls_mine.lecture_id != #{lectureId}      -- 자기 자신 제외
+        AND c.member_id = #{memberId}             -- 내 신청 내역
+        AND l_mine.year = YEAR(CURDATE())         -- ★ 올해 강의만 비교 대상으로 한정
+        AND ls_mine.lecture_id != #{lectureId}    -- 자기 자신 제외
     </select>
 </mapper>
