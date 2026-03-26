@@ -47,6 +47,7 @@
     <select id="getCourseStudentList"
             resultType="com.green.greenuni.application.attendance.model.AttendListRes">
         SELECT
+        c.lecture_id AS lectureId,
         m.code AS code, m.name AS name, s.academic_year AS academicYear, mj.name AS major,
         'attend' AS status, null AS reason, null AS attendId, #{attendDate} AS attendDate
         FROM course c
