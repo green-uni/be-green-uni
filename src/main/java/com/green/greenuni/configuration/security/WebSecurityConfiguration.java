@@ -20,7 +20,8 @@ public class WebSecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        return httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //시큐리티에서 session 사용 안하겠다
+        return httpSecurity.sessionManagement(session
+                        -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //시큐리티에서 session 사용 안하겠다
                 .httpBasic( hb -> hb.disable() )
                 .formLogin( fl -> fl.disable() )
                 .csrf(csrf -> csrf.disable())
