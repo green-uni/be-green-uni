@@ -21,7 +21,7 @@ public class LectureService {
 
     @Transactional
     public int postLecture(LectureCreateReq req){
-        // 재직 여부 확인
+        // 재직 여부 확인!!!
         String profStatus = lectureMapper.getProfStatus(req.getLoginUserId());
         if (!"employment".equals(profStatus)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "재직 중인 교수만 강의를 개설할 수 있습니다.");
