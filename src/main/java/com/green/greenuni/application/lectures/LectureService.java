@@ -134,12 +134,12 @@ public class LectureService {
         if (!"employment".equals(profStatus)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "재직 중인 교수만 강의를 삭제할 수 있습니다.");
         }
-        // 4. 승인된 강의 체크
+        // 4. 승인된 강의 체크!!!
         if ("approved".equals(lecture.getStatus())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "승인된 강의는 삭제할 수 없습니다.");
         }
 
-        // 5. 수강학생 체크
+        // 5. 수강학생 체크!!!
         int studentCount = lectureMapper.countStudentsByLectureId(req);
         if (studentCount > 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수강 학생이 있는 강의는 삭제할 수 없습니다.");
